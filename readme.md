@@ -1,6 +1,6 @@
 ## 比赛地图
 
-![map](.\static\imgs\image.png)
+![map](static\imgs\image.png)
 
 ## 比赛流程
 
