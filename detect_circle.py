@@ -12,7 +12,7 @@ def calc_the_most_frequent_position_of_points(points):
 
 try:
     while True:
-        ret, frame = cap.read()
+        ret, frame = cap.read()                 
         img_note = frame.copy()
         img_calc = frame.copy()
 
