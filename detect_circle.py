@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-test_file = './test/4.mp4'
+test_file = 'static/videos/ring/1.mp4'
 cap = cv2.VideoCapture(test_file)
 circle_center_points = []
 
