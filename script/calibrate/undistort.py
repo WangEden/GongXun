@@ -16,5 +16,6 @@ def undistort(img_path):
     cv2.destroyAllWindows()
 
 if __name__ == '__main__':
-    for p in sys.argv[1:]:
-        undistort(p)
+    # for p in sys.argv[1:]:
+    #     print(p)
+    undistort("7.jpg")
