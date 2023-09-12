@@ -5,6 +5,7 @@ test_file = '../static/videos/ring/1.mp4'
 cap = cv2.VideoCapture(test_file)
 circle_center_points = []
 
+
 def calc_the_most_frequent_position_of_points(points):
     pass
 
