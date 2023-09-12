@@ -2,9 +2,10 @@ import cv2
 import sys
 import numpy as np
 
-DIM=XXX
-K=np.array(YYY)
-D=np.array(ZZZ)
+DIM=(640, 480)
+K=np.array([[529.0542108650583, 0.0, 328.11243708259155], [0.0, 528.4474102469408, 276.541015762088], [0.0, 0.0, 1.0]])
+D=np.array([[-0.1675384798926949], [-0.5110533326571545], [10.49841774261518], [-41.314556160738114]])
+
 def undistort(img_path):
     img = cv2.imread(img_path)
     h,w = img.shape[:2]

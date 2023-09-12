@@ -1,5 +1,5 @@
 import cv2
-assert cv2.__version__[0] == '3', 'The fisheye module requires opencv version >= 3.0.0'
+#assert cv2.__version__[0] == '3', 'The fisheye module requires opencv version >= 3.0.0'
 import numpy as np
 import os
 import glob
@@ -52,7 +52,7 @@ print("K=np.array(" + str(K.tolist()) + ")")
 print("D=np.array(" + str(D.tolist()) + ")")
 
 with open("KD.txt", 'a+') as file:
-    file.write("Found " + str(N_OK) + " valid images for calibration")
-    file.write("DIM=" + str(_img_shape[::-1]))
-    file.write("K=np.array(" + str(K.tolist()) + ")")
-    file.write("D=np.array(" + str(D.tolist()) + ")")
+    file.write("Found " + str(N_OK) + " valid images for calibration\n")
+    file.write("DIM=" + str(_img_shape[::-1])+"\n")
+    file.write("K=np.array(" + str(K.tolist()) + ")\n")
+    file.write("D=np.array(" + str(D.tolist()) + ")\n")
