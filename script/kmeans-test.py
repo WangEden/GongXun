@@ -1,10 +1,14 @@
 import numpy as np
 import cv2
-import utils.Functions as F
+import Functions as F
 
 
 video_path = '../static/videos/ring/5.mp4'
-cap = cv2.VideoCapture(video_path)
+camera = '/dev/video2'
+cap = cv2.VideoCapture(camera)
+cap.set(3, 640)
+cap.set(4, 480)
+cap.set(6, cv2.VideoWriter.fourcc('M', 'J', 'P', 'G'))
 lis = []
 k = 2
 last_frame = None
@@ -18,7 +22,7 @@ while True:
             cv2.circle(frame, point, 3,(0, 255, 0), 4)
             lis.append([point[0], point[1]])
         cv2.imshow("video", frame)
-        if len(lis) > 99:
+        if lis is not None and len(lis) > 99:
             last_frame = frame
             break
         cv2.waitKey(1)
