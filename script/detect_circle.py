@@ -2,8 +2,13 @@ import cv2
 import numpy as np
 
 test_file = '../static/videos/ring/1.mp4'
-cap = cv2.VideoCapture(test_file)
+#cap = cv2.VideoCapture(test_file)
 circle_center_points = []
+camera = '/dev/video2'
+cap = cv2.VideoCapture(camera)
+cap.set(3, 640)
+cap.set(4, 480)
+cap.set(6, cv2.VideoWriter.fourcc('M', 'J', 'P', 'G'))
 
 
 def calc_the_most_frequent_position_of_points(points):
@@ -30,7 +35,7 @@ try:
         # 拓展图片维度
         erosion_binary_channel3 = np.repeat(erosion_binary[:, :, np.newaxis], repeats=3, axis=2)
 
-        print(erosion_binary_channel3.shape)
+        #print(erosion_binary_channel3.shape)
         cv2.imshow("binary", erosion_binary_channel3)
 
         # 在二值化画面中查找圆形
@@ -42,8 +47,8 @@ try:
                 cv2.rectangle(img_note, (x - 5, y - 5), (x + 5, y + 5), (0, 128, 255), -1)
                 # break
 
-        cv2.imshow("output", np.hstack([frame, erosion_binary_channel3, img_note]))
-        cv2.waitKey(0)
+        cv2.imshow("output", np.hstack([erosion_binary_channel3, img_note]))
+        cv2.waitKey(1)
 
 except KeyboardInterrupt:
     print('end')

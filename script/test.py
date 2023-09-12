@@ -3,18 +3,29 @@ import numpy as np
 import picamera
 import time
 
-cap = cv2.VideoCapture("/dev/camera0")
-cap.set(3, 640)
-cap.set(4, 480)
-cap.set(6, cv2.VideoWriter.fourcc('M', 'J', 'P', 'G'))
+capL = cv2.VideoCapture("/dev/video0")
+capR = cv2.VideoCapture("/dev/video2")
+capL.set(3, 640)
+capR.set(3, 640)
+capL.set(4, 480)
+capR.set(4, 480)
+capL.set(6, cv2.VideoWriter.fourcc('M', 'J', 'P', 'G'))
+capR.set(6, cv2.VideoWriter.fourcc('M', 'J', 'P', 'G'))
 while True:
-    ret, frame = cap.read()
-    if ret:
-        print(frame)
-        cv2.imshow("image", frame)
+    retL, frameL = capL.read()
+    retR, frameR = capR.read()
+    if retL:
+        #print(frame)
+        cv2.imshow("cameraL", frameL)
         cv2.waitKey(1)
         #cv2.imwrite("image.jpg", frame)
         #break
+    else:
+        print("Fail")
+        break
+    if retR:
+        cv2.imshow("cameraR", frameR)
+        cv2.waitKey(1)
     else:
         print("Fail to read image")
         break
