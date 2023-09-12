@@ -12,6 +12,7 @@ last_frame = None
 while True:
     ret, frame = cap.read()
     if ret:
+        frame = F.unDistort(frame)
         ll = F.get_circle_center(frame)
         for point in ll:
             cv2.circle(frame, point, 3,(0, 255, 0), 4)
@@ -20,7 +21,7 @@ while True:
         if len(lis) > 99:
             last_frame = frame
             break
-        cv2.waitKey(0)
+        cv2.waitKey(1)
 
 centers = F.get_kmeans_center(2, lis)
 
