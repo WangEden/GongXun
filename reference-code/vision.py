@@ -88,7 +88,7 @@ def pz1(k):
     cap.release()
 def gd():
     GPIO.output(7,GPIO.LOW)       
-def dwp(a):
+def dwp(a): # 等物品
     global x
     global y
     global xx
@@ -123,7 +123,6 @@ def dwp(a):
     elif a == 4:
         thresh1 = np.array([80,0,180])
         thresh2 = np.array([255,100,255])
-        
     elif a == 5:
         thresh1 = np.array([175, 0, 150])
         thresh2 = np.array([255, 255, 255])
