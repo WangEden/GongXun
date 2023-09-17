@@ -4,12 +4,12 @@ import numpy as np
 import cv2
 
 save_path = '../static/imgs/qrcode_result/'
-camera_path = '/dev/video0'
+camera_path = '/dev/cameraTop'
 
 cap = cv2.VideoCapture(camera_path)
 cap.set(3, 640)
 cap.set(4, 480)
-cap.set(6, cv2.VideoWriter.fourcc('M', 'J', 'P', 'G'))
+cap.set(6, cv2.VideoWriter.fourcc(*'MJPG'))
 
 try:
     while True:
