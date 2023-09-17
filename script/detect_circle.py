@@ -8,7 +8,7 @@ camera = '/dev/video2'
 cap = cv2.VideoCapture(camera)
 cap.set(3, 640)
 cap.set(4, 480)
-cap.set(6, cv2.VideoWriter.fourcc('M', 'J', 'P', 'G'))
+cap.set(6, cv2.VideoWriter.fourcc(*'MJPG'))
 
 
 def calc_the_most_frequent_position_of_points(points):

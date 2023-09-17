@@ -5,7 +5,7 @@ import Functions as F
 cap = cv2.VideoCapture("/dev/video2")
 cap.set(3, 640)
 cap.set(4, 480)
-cap.set(6, cv2.VideoWriter.fourcc('M', 'J', 'P', 'G'))
+cap.set(6, cv2.VideoWriter.fourcc(*'MJPG'))
 
 n = 1
 while n > 0:
