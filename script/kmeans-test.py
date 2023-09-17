@@ -4,7 +4,7 @@ import Functions as F
 
 
 video_path = '../static/videos/ring/5.mp4'
-camera = '/dev/video2'
+camera = '/dev/video0'
 cap = cv2.VideoCapture(camera)
 cap.set(3, 640)
 cap.set(4, 480)
