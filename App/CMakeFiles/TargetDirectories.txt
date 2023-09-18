@@ -1,3 +1,0 @@
-D:/ApplicationData/Anaconda/pyproj/GongXun/App/CMakeFiles/app.dir
-D:/ApplicationData/Anaconda/pyproj/GongXun/App/CMakeFiles/ALL_BUILD.dir
-D:/ApplicationData/Anaconda/pyproj/GongXun/App/CMakeFiles/ZERO_CHECK.dir
