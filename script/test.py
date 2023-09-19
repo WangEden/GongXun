@@ -1,31 +1,53 @@
 import cv2
 import numpy as np
-import picamera
-import time
 
-capL = cv2.VideoCapture("/dev/video0")
-capR = cv2.VideoCapture("/dev/video2")
-capL.set(3, 640)
-capR.set(3, 640)
-capL.set(4, 480)
-capR.set(4, 480)
-capL.set(6, cv2.VideoWriter.fourcc(*'MJPG'))
-capR.set(6, cv2.VideoWriter.fourcc(*'MJPG'))
+cameraTop = "/dev/cameraTop"
+cameraInc = "/dev/cameraInc"
+
+w = 480
+h = 640
+
+cap = cv2.VideoCapture(cameraTop)
+cap.set(3, w)
+cap.set(4, h)
+cap.set(6, cv2.VideoWriter.fourcc(*'MJPG'))
+
+# print("宽度：", cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+# print("高度：", cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+# print("编码：", cap.get(cv2.CAP_PROP_FOURCC))
+
+filename = "./output.mp4"
+
+fourcc = cv2.VideoWriter_fourcc(*'MJPG')
+out = cv2.VideoWriter(filename, fourcc, 30.0, (h, w))
+
+srcPoint = np.uint8([[0, h], [0, 0], [w, 0]])
+desPoint = np.uint8([[0, 0], [h, 0], [h, w]])
+
+M = cv2.getAffineTransform(srcPoint, desPoint)
+pad = np.zeros((2 * h, h, 3), dtype=np.uint8)
+
+ret, frame = cap.read()
+
+# print(pad.shape)
+mask1, mask2 = None
+
+# if ret:
+#     mask1 = np.zeros(frame.shape[0:2], dtype=np.uint8)
+#     mask2 = np.zeros(frame.shape[0:2], dtype=np.uint8)
+
 while True:
-    retL, frameL = capL.read()
-    retR, frameR = capR.read()
-    if retL:
-        #print(frame)
-        cv2.imshow("cameraL", frameL)
-        cv2.waitKey(1)
-        #cv2.imwrite("image.jpg", frame)
-        #break
-    else:
-        print("Fail")
+    ret, frame = cap.read()
+    if not ret:
         break
-    if retR:
-        cv2.imshow("cameraR", frameR)
-        cv2.waitKey(1)
-    else:
-        print("Fail to read image")
-        break
+    srcImg = cv2.resize(frame, (2 * h, h))
+    desImg = cv2.warpAffine(frame, M, (h, w))
+    desImg = cv2.resize(desImg, (2 * h, h))
+
+    cv2.imshow("srcImg", srcImg)
+    cv2.imshow("desImg", desImg)
+
+    cv2.waitKey(0)
+    # mask1 = cv2.
+
+    
