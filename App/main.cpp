@@ -6,6 +6,8 @@
 using namespace std;
 using namespace cv;
 
+
+
 int main(int, char**){
     VideoCapture capture(0);
     Mat mat;
