@@ -1,7 +1,0 @@
-[
-{
-  "directory": "/home/pi/GongXun/test/build",
-  "command": "/usr/bin/clang++   -isystem /usr/local/include/opencv4  -O3 -DNDEBUG   -o CMakeFiles/app.dir/main.cpp.o -c /home/pi/GongXun/test/main.cpp",
-  "file": "/home/pi/GongXun/test/main.cpp"
-}
-]

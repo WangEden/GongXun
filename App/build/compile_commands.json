@@ -1,8 +1,0 @@
-[
-{
-  "directory": "D:/ApplicationData/Anaconda/pyproj/GongXun/App/build",
-  "command": "C:\\Applications\\Qt\\Tools\\mingw810_64\\bin\\g++.exe  @CMakeFiles/app.dir/includes_CXX.rsp -g -o CMakeFiles\\app.dir\\main.cpp.obj -c D:\\ApplicationData\\Anaconda\\pyproj\\GongXun\\App\\main.cpp",
-  "file": "D:/ApplicationData/Anaconda/pyproj/GongXun/App/main.cpp",
-  "output": "CMakeFiles/app.dir/main.cpp.obj"
-}
-]
