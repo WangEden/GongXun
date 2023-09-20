@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<parameter>
+    <!-- 串口收发的消息 -->
+    <message>
+        <arrived>ok</arrived>
+        <turnCpl>turn</turnCpl>
+    </message>
+
+    <!-- 阈值参数 -->
+    <threshold>
+        <color catagory="red">
+            <H>
+                <ceiling></ceiling>
+                <floor></floor>
+            </H>
+            <S>
+                <ceiling></ceiling>
+                <floor></floor>
+            </S>
+            <V>
+                <ceiling></ceiling>
+                <floor></floor>
+            </V>
+        </color>
+        <color catagory="green">
+            <H>
+                <ceiling></ceiling>
+                <floor></floor>
+            </H>
+            <S>
+                <ceiling></ceiling>
+                <floor></floor>
+            </S>
+            <V>
+                <ceiling></ceiling>
+                <floor></floor>
+            </V>
+        </color>
+        <color catagory="blue">
+            <H>
+                <ceiling></ceiling>
+                <floor></floor>
+            </H>
+            <S>
+                <ceiling></ceiling>
+                <floor></floor>
+            </S>
+            <V>
+                <ceiling></ceiling>
+                <floor></floor>
+            </V>
+        </color>
+    </threshold>
+
+</parameter>

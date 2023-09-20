@@ -1,8 +1,42 @@
 import cv2
 import numpy as np
+import queue
+import threading
+from pyzbar.pyzbar import decode
+from pyzbar import pyzbar
 
 
-def get_circle_center(img:np.ndarray) -> [(np.float32, np.float32), ...]:
+class VideoCapture:
+    def __init__(self, camera_id):
+        # "camera_id" is a int type id or string name
+        self.cap = cv2.VideoCapture(camera_id)
+        self.q = queue.Queue(maxsize=3)
+        self.stop_threads = False    # to gracefully close sub-thread
+        th = threading.Thread(target=self._reader)
+        th.daemon = True             # 设置工作线程为后台运行
+        th.start()
+
+    def _reader(self):
+        while not self.stop_threads:
+            ret, frame = self.cap.read()
+            if not ret:
+                break
+            if not self.q.empty():
+                try:
+                    self.q.get_nowait() 
+                except queue.Empty:
+                    pass
+            self.q.put(frame)
+
+    def read(self):
+        return self.q.get()
+    
+    def terminate(self):
+        self.stop_threads = True
+        self.cap.release()
+
+
+def getCircleCenter(img:np.ndarray) -> [(np.float32, np.float32), ...]:
     result = []
     img_calc = cv2.GaussianBlur(img, (5, 5), 0)
     img_gray = cv2.cvtColor(img_calc, cv2.COLOR_BGR2GRAY)
@@ -19,7 +53,7 @@ def get_circle_center(img:np.ndarray) -> [(np.float32, np.float32), ...]:
     return result
 
 
-def get_kmeans_center(k:int, lis:[(np.float32, np.float32), ...]) -> [(int, int), ...]:
+def getKmeansCenter(k:int, lis:[(np.float32, np.float32), ...]) -> [(int, int), ...]:
     lis = np.float32(np.array(lis))
     # 定义终止条件
     criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 10, 1.0)
@@ -43,6 +77,21 @@ def unDistort(img):
     # cv2.waitKey(0)
     # cv2.destroyAllWindows()
     return undistorted_img
+
+
+def getQRCodeResult(img):
+    if img is None:
+        print("QRCode Module Error: img is empty.")
+        return None
+    img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    result = decode(img_gray)
+    # result_list = []
+    if result is not None and len(result) != 0:
+        for item in result:
+            return item.data.decode("utf-8")
+            # result_list.append(item.data.decode("utf-8"))
+    else:
+        print("QRCode Module Output: No QR Code Found.")
 
 
 if __name__ == "__main__":
