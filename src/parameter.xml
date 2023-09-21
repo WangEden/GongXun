@@ -3,7 +3,7 @@
 <parameter>
     <!-- 串口收发的消息 -->
     <message>
-        <arrived>ok</arrived>
+        <arrived>OK</arrived>
         <turnCpl>turn</turnCpl>
     </message>
 

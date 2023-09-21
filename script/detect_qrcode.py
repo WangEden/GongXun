@@ -1,5 +1,4 @@
 from pyzbar.pyzbar import decode
-from pyzbar import pyzbar
 import numpy as np
 import cv2
 
@@ -26,7 +25,7 @@ try:
         cv2.imshow("img", frame)
         cv2.waitKey(1)
 
-        result = pyzbar.decode(img_gray)
+        result = decode(img_gray)
         result_string_list = []
         if len(result) == 0:
             print("qrcode not found")

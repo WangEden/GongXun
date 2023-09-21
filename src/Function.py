@@ -81,7 +81,7 @@ def unDistort(img):
 
 def getQRCodeResult(img):
     if img is None:
-        print("QRCode Module Error: img is empty.")
+        print("QRCode Module Error: img is empty!")
         return None
     img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     result = decode(img_gray)
@@ -91,7 +91,20 @@ def getQRCodeResult(img):
             return item.data.decode("utf-8")
             # result_list.append(item.data.decode("utf-8"))
     else:
-        print("QRCode Module Output: No QR Code Found.")
+        print("No QR Code Found.")
+
+
+def parseItemCatchQueue(qr_result, q1, q2):
+    # 假设载物盘为正三角形
+    # 抓取顺序和放置顺序一样
+    color = {'1': 'r', '2': 'g', '3': 'b'}
+    queue_list = qr_result.split("+")
+    q1s, q2s = queue_list
+    for c in q1s:
+        q1.append(color[c])
+    for c in q2s:
+        q2.append(color[c])
+    # 抓取顺序和放置顺序不一样
 
 
 if __name__ == "__main__":
