@@ -58,7 +58,7 @@ def get_circle_center(img):
 
 if __name__ == "__main__":        
     # 测试自定义VideoCapture类
-    cameraTop = '/dev/cameraInc'
+    cameraTop = '/dev/cameraTop'
     cap = VideoCapture(cameraTop)
 
     while True:
