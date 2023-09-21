@@ -5,7 +5,7 @@ import cv2
 video_path = '../static/videos/ring/3.mp4'
 cameraTop = '/dev/cameraTop'
 cameraInc = '/dev/cameraInc'
-cap = cv2.VideoCapture(cameraTop)
+cap = cv2.VideoCapture(cameraInc)
 
 while True:
     ret, frame = cap.read()

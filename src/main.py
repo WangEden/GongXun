@@ -53,7 +53,7 @@ def task1(): # 任务一、读取二维码
 
 def task2(): # 前往原料区、识别圆盘、校准物块、取物块
     pass
-            
+
 
 if __name__ == "__main__":
     cv2.namedWindow("cameraInc", cv2.WINDOW_NORMAL)

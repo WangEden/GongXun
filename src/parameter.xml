@@ -3,8 +3,23 @@
 <parameter>
     <!-- 串口收发的消息 -->
     <message>
+        <!-- 到达指定区域附近 -->
         <arrived>OK</arrived>
-        <turnCpl>turn</turnCpl>
+        <!-- 二维码识别完成，进行前进 -->
+        <qrComplete>QROK</qrComplete>
+        <!-- 进行微调 -->
+        <tweak>tw</tweak>
+        <!-- 微调动作完成 -->
+        <tweakOk>twok</tweakOk>
+        <!-- 向左转弯 -->
+        <turnLeft>tl</turnLeft>
+        <!-- 向右转弯 -->
+        <turnRight>tr</turnRight>
+        <!-- 进行抓取/放置 -->
+        <manageItem>item</manageItem>
+        <!-- 抓取/放置完成 -->
+        <manageItemOK>mnok</manageItemOK>
+        <!--  -->
     </message>
 
     <!-- 阈值参数 -->
