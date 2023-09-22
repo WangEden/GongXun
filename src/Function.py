@@ -1,7 +1,6 @@
 import cv2
 import numpy as np
-import queue
-import threading
+import queue, threading, struct
 from pyzbar.pyzbar import decode
 from pyzbar import pyzbar
 
@@ -105,6 +104,19 @@ def parseItemCatchQueue(qr_result, q1, q2):
     for c in q2s:
         q2.append(color[c])
     # 抓取顺序和放置顺序不一样
+
+
+def send_data(uart, a, b, c, d, e, f):
+    data = struct.pack("<bbbbbffb", # 四个字符作为命令, 两个浮点作为xy偏差
+                       0x2C, # 帧头
+                       ord(a), # 字符1
+                       ord(b), # 字符2
+                       ord(c), # 字符3
+                       ord(d), # 字符4
+                       float(e), # 浮点数据1
+                       float(f), # 浮点数据2
+                       0x5B) # 帧尾
+    uart.write(data)
 
 
 if __name__ == "__main__":

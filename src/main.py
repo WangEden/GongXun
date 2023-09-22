@@ -1,13 +1,17 @@
 import Function as F
 import os
 from xml.etree import ElementTree as ET
-from serial import Serial
+import serial
 import cv2
 # import numpy as np
 
 
 # 声明串口
-uart = Serial(port="/dev/ttyAMA0", baudrate=115200)
+uart = serial.Serial(port="/dev/ttyAMA0", 
+                     baudrate=115200, 
+                     bytesize=8, 
+                     parity=serial.PARITY_NONE, 
+                     stopbits=1)
 # 参数文件
 paraDomTree = ET.parse("./parameter.xml")
 message = paraDomTree.find('message')

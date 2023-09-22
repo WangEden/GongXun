@@ -3,6 +3,7 @@ import numpy as np
 import Functions as F
 
 cap = cv2.VideoCapture("/dev/cameraInc")
+#cap = cv2.VideoCapture("/dev/cameraTop")
 cap.set(3, 640)
 cap.set(4, 480)
 cap.set(6, cv2.VideoWriter.fourcc(*'MJPG'))
