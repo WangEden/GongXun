@@ -19,6 +19,7 @@ t = n
 while n > 0:
     ret, frame = cap.read()
     if ret:
+        frame = F.unDistort(frame)
         cv2.imshow("q capture", frame)
     if cv2.waitKey(10) & 0xFF == ord("q"):
         cv2.imwrite(f"./{n}.jpg", frame)
