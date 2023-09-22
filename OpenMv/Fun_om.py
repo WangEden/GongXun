@@ -5,8 +5,8 @@ from pyb import UART
 uart = UART(3, 115200)  # 设置串口号和波特率
 uart.init(115200, bits=8, parity=None, stop=1)
 
-#定义数据发送包
-def send_data_packet( a, b, c, d, i, f, g):
+#定义数据包
+def data_packet( a, b, c, d, i, f, g):
     temp = ustruct.pack("<bbhhhhhhhb",  # 格式为俩个字符俩个整型
                         0x2C,      # 帧头1
                         0x3C,      # 帧头2
@@ -28,14 +28,13 @@ def send_data():
         #在此处对data进行赋值
         a=b=c=1
         d=i=f=g=2
-
-        send_data_packet(a,b,c,d,i,f,g)
+        data_packet(a,b,c,d,i,f,g)
         time.sleep_ms(10)
 
 #定义数据接受函数
 def receive_data():
     if uart.any():  # 检查是否有数据可读取
-        receive = uart.read(64)  # 从串口读取8个bit的数据 其中3-7bit为有效位
+        receive = uart.read(136)  # 从串口读取17个byte的数据 其中3-16byte为有效位
         
         if receive is not None:
             print("Received:", receive)
