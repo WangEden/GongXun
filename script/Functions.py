@@ -1,8 +1,41 @@
 import cv2
 import numpy as np
+import queue, threading, struct
+from pyzbar.pyzbar import decode
+from pyzbar import pyzbar
 
 
-def get_circle_center(img:np.ndarray) -> [(np.float32, np.float32), ...]:
+class VideoCapture:
+    def __init__(self, camera_id):
+        # "camera_id" is a int type id or string name
+        self.cap = cv2.VideoCapture(camera_id)
+        self.q = queue.Queue(maxsize=3)
+        self.stop_threads = False    # to gracefully close sub-thread
+        th = threading.Thread(target=self._reader)
+        th.daemon = True             # 设置工作线程为后台运行
+        th.start()
+
+    def _reader(self):
+        while not self.stop_threads:
+            ret, frame = self.cap.read()
+            if not ret:
+                break
+            if not self.q.empty():
+                try:
+                    self.q.get_nowait() 
+                except queue.Empty:
+                    pass
+            self.q.put(frame)
+
+    def read(self):
+        return self.q.get()
+    
+    def terminate(self):
+        self.stop_threads = True
+        self.cap.release()
+
+
+def getCircleCenter(img:np.ndarray) -> [(np.float32, np.float32), ...]:
     result = []
     img_calc = cv2.GaussianBlur(img, (5, 5), 0)
     img_gray = cv2.cvtColor(img_calc, cv2.COLOR_BGR2GRAY)
@@ -10,16 +43,16 @@ def get_circle_center(img:np.ndarray) -> [(np.float32, np.float32), ...]:
                                 cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 15, -10)
     erode_kernel = np.ones((1, 1), dtype=np.uint8)
     erosion_binary = cv2.erode(img_binary, kernel=erode_kernel, iterations=1)
-    cv2.imshow("video in deal", erosion_binary)
+    # cv2.imshow("video in deal", erosion_binary)
     circles = cv2.HoughCircles(erosion_binary, cv2.HOUGH_GRADIENT, 1, 100)
-    if circles is not None and len(circles) != 0:
+    if len(circles) != 0:
         circles = np.round(circles[0, :]).astype('int')
         for (x, y, r) in circles:
             result.append(tuple([x, y]))
     return result
 
 
-def get_kmeans_center(k:int, lis:[(np.float32, np.float32), ...]) -> [(int, int), ...]:
+def getKmeansCenter(k:int, lis:[(np.float32, np.float32), ...]) -> [(int, int), ...]:
     lis = np.float32(np.array(lis))
     # 定义终止条件
     criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 10, 1.0)
@@ -31,7 +64,6 @@ def get_kmeans_center(k:int, lis:[(np.float32, np.float32), ...]) -> [(int, int)
     return result
 
 
-# 640x480 calibration
 def unDistort(img):
     DIM = (640, 480)
     K = np.array(
@@ -44,3 +76,49 @@ def unDistort(img):
     # cv2.waitKey(0)
     # cv2.destroyAllWindows()
     return undistorted_img
+
+
+def getQRCodeResult(img):
+    if img is None:
+        print("QRCode Module Error: img is empty!")
+        return None
+    img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    result = decode(img_gray)
+    # result_list = []
+    if result is not None and len(result) != 0:
+        for item in result:
+            return item.data.decode("utf-8")
+            # result_list.append(item.data.decode("utf-8"))
+    else:
+        print("No QR Code Found.")
+
+
+def parseItemCatchQueue(qr_result, q1, q2):
+    # 假设载物盘为正三角形
+    # 抓取顺序和放置顺序一样
+    color = {'1': 'r', '2': 'g', '3': 'b'}
+    queue_list = qr_result.split("+")
+    q1s, q2s = queue_list
+    for c in q1s:
+        q1.append(color[c])
+    for c in q2s:
+        q2.append(color[c])
+    # 抓取顺序和放置顺序不一样
+
+
+def send_data(uart, a, b, c, d, e, f):
+    data = struct.pack("<bbbbbbffb", # 四个字符作为命令, 两个浮点作为xy偏差
+                    0x2C, # 帧头
+                       0x3C,     # 帧头
+                       ord(a), # 字符1
+                       ord(b), # 字符2
+                       ord(c), # 字符3
+                       ord(d), # 字符4
+                       float(e), # 浮点数据1
+                       float(f), # 浮点数据2
+                       0x4C) # 帧尾
+    uart.write(data)
+
+
+if __name__ == "__main__":
+    pass

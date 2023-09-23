@@ -24,7 +24,7 @@
 
     <!-- 阈值参数 -->
     <threshold tag="ring">
-        <color catagory="red">
+        <color category="red">
             <H>
                 <ceiling>169</ceiling>
                 <floor>146</floor>
@@ -38,7 +38,7 @@
                 <floor>0</floor>
             </V>
         </color>
-        <color catagory="green">
+        <color category="green">
                         <H>
                 <ceiling>103</ceiling>
                 <floor>41</floor>
@@ -52,7 +52,7 @@
                 <floor>0</floor>
             </V>
         </color>
-        <color catagory="blue">
+        <color category="blue">
             <H>
                 <ceiling>122</ceiling>
                 <floor>114</floor>
@@ -69,7 +69,7 @@
     </threshold>
 
     <threshold tag="item">
-        <color catagory="red">
+        <color category="red">
             <H>
                 <ceiling>255</ceiling>
                 <floor>0</floor>
@@ -83,7 +83,7 @@
                 <floor>0</floor>
             </V>
         </color>
-        <color catagory="green">
+        <color category="green">
             <H>
                 <ceiling>255</ceiling>
                 <floor>0</floor>
@@ -97,7 +97,7 @@
                 <floor>0</floor>
             </V>
         </color>
-        <color catagory="blue">
+        <color category="blue">
             <H>
                 <ceiling>255</ceiling>
                 <floor>0</floor>
