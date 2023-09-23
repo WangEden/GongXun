@@ -107,8 +107,9 @@ def parseItemCatchQueue(qr_result, q1, q2):
 
 
 def send_data(uart, a, b, c, d, e, f):
-    data = struct.pack("<bbbbbffb", # 四个字符作为命令, 两个浮点作为xy偏差
-                       0x2C, # 帧头
+    data = struct.pack("<bbbbbbffb", # 四个字符作为命令, 两个浮点作为xy偏差
+                       0x2C,      # 帧头1
+                       0x3C,      # 帧头2
                        ord(a), # 字符1
                        ord(b), # 字符2
                        ord(c), # 字符3
