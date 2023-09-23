@@ -116,7 +116,7 @@ def send_data(uart, a, b, c, d, e, f):
                        ord(d), # 字符4
                        float(e), # 浮点数据1
                        float(f), # 浮点数据2
-                       0x5B) # 帧尾
+                       0x4C) # 帧尾
     uart.write(data)
 
 
