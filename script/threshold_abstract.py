@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 
-filename = '7.jpg'
+filename = '8.jpg'
 
 def callback(event):
     pass
