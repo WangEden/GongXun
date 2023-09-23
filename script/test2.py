@@ -6,7 +6,7 @@ import numpy as np
 通过创建一个椭圆二值图像，和实时检测到的图像相减，计算匹配情况，匹配度高时检测到
 """
 
-imgPath = '4.jpg'
+imgPath = '6.jpg'
 img = cv2.imread(imgPath)
 
 cv2.namedWindow("img")
@@ -34,16 +34,20 @@ cv2.imshow("img", img)
 cv2.setMouseCallback("img", print_point)
 cv2.waitKey(0)
 
+img = cv2.pyrMeanShiftFiltering(img, 15, 20)
+cv2.imshow("img", img)
+cv2.waitKey(0)
+
 # 灰度
 img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 cv2.imshow("img", img)
 cv2.waitKey(0)
 
 # 投影
-# img = cv2.warpPerspective(img, M, (640, 480))
-# cv2.imshow("img", img)
-# cv2.waitKey(0)
-# img_copy = img.copy()
+img = cv2.warpPerspective(img, M, (640, 480))
+cv2.imshow("img", img)
+cv2.waitKey(0)
+img_copy = img.copy()
 
 # img = cv2.resize(img, (320, 240))
 # cv2.imshow("img", img)
