@@ -59,6 +59,10 @@ def task2(): # 前往原料区、识别圆盘、校准物块、取物块
     pass
 
 
+def task3(): # 前往粗加工区、识别色环
+    pass
+
+
 if __name__ == "__main__":
     cv2.namedWindow("cameraInc", cv2.WINDOW_NORMAL)
     task1()
