@@ -5,17 +5,18 @@ from pyb import UART
 uart = UART(3, 115200)  # 设置串口号和波特率
 uart.init(115200, bits=8, parity=None, stop=1)
 
-#定义数据包
+#定义数据包，格式为2个帧头+4个字符数据+2个半整型数据+帧尾（11byte）
+#4个字符传输命令名，2个int传输xy方向的偏差
 def data_packet( a, b, c, d, i, f):
-    temp = ustruct.pack(">bbbbbbhhb",  # 格式为2个帧头+4个字符数据+2个浮点数据+帧尾
+    temp = ustruct.pack(">bbbbbbhhb",
                         0x2C,      # 帧头1
                         0x3C,      # 帧头2
                         ord(str(a)), # 字符1
                         ord(str(b)), # 字符2
                         ord(str(c)), # 字符3
                         ord(str(d)), # 字符4
-                        int(i), # 浮点数据1
-                        int(f), # 浮点数据2
+                        int(i), # 半整型数据1
+                        int(f), # 半整型数据2
                         0x4C)      # 帧尾
     for x in range(5):
         uart.write(temp);  # 调用串口发送命令
