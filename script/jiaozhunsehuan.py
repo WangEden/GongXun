@@ -8,7 +8,9 @@ from xml.etree import ElementTree as ET
 # def parseColor(root, thresholdList):
 #     root.find('threshold[@tag="ring"]').find('color[@category="red"]')
 
-
+def print_point(event,x,y,flags,param):
+    if event == cv2.EVENT_LBUTTONDBLCLK:
+        print("x, y = ", (x, y))
 
 # 声明串口
 # uart = serial.Serial(port="/dev/ttyAMA0", 
@@ -85,36 +87,91 @@ maskRed = cv2.inRange(img_hsv, red_hsv_min, red_hsv_max)
 maskGreen = cv2.inRange(img_hsv, green_hsv_min, green_hsv_max)
 maskBlue = cv2.inRange(img_hsv, blue_hsv_min, blue_hsv_max)
 
-cv2.imshow("maskRed", maskRed)
+# cv2.imshow("maskRed", maskRed)
 cv2.imshow("maskGreen", maskGreen)
-cv2.imshow("maskBlue", maskBlue)
+# cv2.imshow("maskBlue", maskBlue)
 
+cv2.waitKey(0)
 
+maskGreen[324:, :] = 0
+
+maskGreen = cv2.medianBlur(maskRed, 3)
+cv2.imshow("maskRed", maskRed)
+cv2.waitKey(0)
+minx, miny = 0, 0
+maxx, maxy = maskRed.shape[1], maskRed.shape[0]
+
+def mask_find_bboxs(mask):
+    retval, labels, stats, centroids = cv2.connectedComponentsWithStats(mask, connectivity=8) # connectivity参数的默认值为8
+    stats = stats[stats[:,4].argsort()]
+    return stats[:-1]
+
+bbox = mask_find_bboxs(maskRed)
+# print(bbox)
+for box in bbox:
+    x0, y0 = box[0], box[1]
+    x1, y1 = box[0] + box[2], box[1] + box[3]
+    p1, p2 = (x0, y0), (x1, y1)
+    cv2.rectangle(img_bgr, p1, p2, (255, 0 ,0), 1)
+
+# img_bgr = cv2.bitwise_or(img_bgr, img_bgr, maskRed)
+cv2.imshow("maskRed", img_bgr)
+cv2.waitKey(0)
+
+# if len(maskRed[0]) != 0 and len(maskRed[1]) != 0:
+#     minx = np.min(maskRed[1])
+#     maxx = np.max(maskRed[1])
+#     miny = np.min(maskRed[0])
+#     maxy = np.max(maskRed[0])
+
+# rect = [[minx, miny], [maxx, miny], [maxx, maxy], [minx, maxy]]
+# print(rect)
+# cv2.rectangle(img_bgr, rect[0], rect[2], (255, 0, 0), 1)
+# cv2.imshow("asd", img_bgr)
+# cv2.waitKey(0)
 
 """
 将利用阈值提取出来的掩膜，用于提取出那一部分颜色的图片，具体是进行图片的与操作
 截取出那一部分图像，然后在那一部分图像中查找形状，
 """
-kernel = np.ones((3, 3), dtype=np.uint8)
-erode_red_mask = cv2.erode(maskRed, kernel, 1)
-
-def print_point(event,x,y,flags,param):
-    if event == cv2.EVENT_LBUTTONDBLCLK:
-        print("x, y = ", (x, y))
+# kernel = np.ones((3, 3), dtype=np.uint8)
+# erode_red_mask = cv2.erode(maskRed, kernel, 1)
 
 
-erode_red_mask[324:, :] = 0
-kernel = np.ones((5, 5), dtype=np.uint8)
 
-erode_red_mask = cv2.dilate(erode_red_mask, kernel, 5)
 
-cv2.imshow("erode_red_mask", erode_red_mask)
-cv2.setMouseCallback("erode_red_mask", print_point)
+
+# erode_red_mask[324:, :] = 0
+# kernel = np.ones((5, 5), dtype=np.uint8)
+#
+# erode_red_mask = cv2.dilate(erode_red_mask, kernel, 5)
+#
+# cv2.imshow("erode_red_mask", erode_red_mask)
+# cv2.setMouseCallback("erode_red_mask", print_point)
 
 # contours, hierarchy = cv2.findContours(maskRed, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
-# for contour in contours:
-#     # print(contour)
-#     rect = cv2.minAreaRect(contour)
-#     ptrI, (w, h), c = rect
+# # for contour in contours:
+# # print(contours)
+# # merge = np.zeros((maskRed.shape[1], maskRed.shape[0]), dtype=np.uint8)
+# merge = np.vstack([contours[0], contours[1]])
+# for i in range(2, len(contours)):
+#     merge = np.vstack([merge, contours[i]])
+#
+# img = cv2.drawContours(img_bgr, contours, 0, (255, 0, 0), 2)
+# cv2.imshow("merge", img)
+# cv2.waitKey(0)
+#
+# rect = cv2.minAreaRect(merge)
+# box = cv2.boxPoints(rect)
+#
+# img = cv2.drawContours(img_bgr, [box], 0, (255, 0, 0), 2)
+# cv2.imshow("rect", img)
+# merge = np.vstack([contours[0], contours[1]])
+# for
+    # print(contour)
+    # rect = cv2.minAreaRect(contour)
+    # ptrI, (w, h), c = rect
 
 cv2.waitKey(0)
+
+
