@@ -42,7 +42,7 @@ class Dashboard:
         cv2.circle(circle, (int(c_x), int(c_y)), int(r_1), (0, 0, 0), -1)
         # 将遮罩与原图像做差裁剪图像
         bitwiseOr = cv2.bitwise_or(self._image, circle)
-
+        
         # cv2.imshow('image', bitwiseOr)
         # cv2.waitKey()
         self._image = bitwiseOr
