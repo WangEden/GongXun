@@ -117,6 +117,8 @@ def send_data(uart, a, b, c, d, e, f):
                        np.short(e), # 浮点数据1
                        np.short(f), # 浮点数据2
                        0x4C) # 帧尾
+    
+    print(data)
     uart.write(data)
 
 
