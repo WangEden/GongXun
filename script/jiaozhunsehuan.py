@@ -89,12 +89,32 @@ cv2.imshow("maskRed", maskRed)
 cv2.imshow("maskGreen", maskGreen)
 cv2.imshow("maskBlue", maskBlue)
 
-contours, hierarchy = cv2.findContours(maskRed, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
-for contour in contours:
-    # print(contour)
-    rect = cv2.minAreaRect(contour)
-    ptrI, (w, h), c = rect
 
 
+"""
+将利用阈值提取出来的掩膜，用于提取出那一部分颜色的图片，具体是进行图片的与操作
+截取出那一部分图像，然后在那一部分图像中查找形状，
+"""
+kernel = np.ones((3, 3), dtype=np.uint8)
+erode_red_mask = cv2.erode(maskRed, kernel, 1)
+
+def print_point(event,x,y,flags,param):
+    if event == cv2.EVENT_LBUTTONDBLCLK:
+        print("x, y = ", (x, y))
+
+
+erode_red_mask[324:, :] = 0
+kernel = np.ones((5, 5), dtype=np.uint8)
+
+erode_red_mask = cv2.dilate(erode_red_mask, kernel, 5)
+
+cv2.imshow("erode_red_mask", erode_red_mask)
+cv2.setMouseCallback("erode_red_mask", print_point)
+
+# contours, hierarchy = cv2.findContours(maskRed, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+# for contour in contours:
+#     # print(contour)
+#     rect = cv2.minAreaRect(contour)
+#     ptrI, (w, h), c = rect
 
 cv2.waitKey(0)
