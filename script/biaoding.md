@@ -1,3 +1,6 @@
+
+[python+OpenCV 实时测量相机位姿（相机外参）]{https://zhuanlan.zhihu.com/p/621839626}
+
 这个 `calibration` 函数的主要目的是进行相机标定，以确定相机的内部参数和畸变参数，以下是函数中每个小模块的功能和作用的详细解释：
 
 1. `criteria` 定义：
