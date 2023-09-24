@@ -23,49 +23,93 @@
     </message>
 
     <!-- 阈值参数 -->
-    <threshold>
-        <color catagory="red">
+    <threshold tag="ring">
+        <color category="red">
             <H>
-                <ceiling></ceiling>
-                <floor></floor>
+                <ceiling>169</ceiling>
+                <floor>146</floor>
             </H>
             <S>
-                <ceiling></ceiling>
-                <floor></floor>
+                <ceiling>126</ceiling>
+                <floor>36</floor>
             </S>
             <V>
-                <ceiling></ceiling>
-                <floor></floor>
+                <ceiling>255</ceiling>
+                <floor>0</floor>
             </V>
         </color>
-        <color catagory="green">
-            <H>
-                <ceiling></ceiling>
-                <floor></floor>
+        <color category="green">
+                        <H>
+                <ceiling>103</ceiling>
+                <floor>41</floor>
             </H>
             <S>
-                <ceiling></ceiling>
-                <floor></floor>
+                <ceiling>71</ceiling>
+                <floor>33</floor>
             </S>
             <V>
-                <ceiling></ceiling>
-                <floor></floor>
+                <ceiling>255</ceiling>
+                <floor>0</floor>
             </V>
         </color>
-        <color catagory="blue">
+        <color category="blue">
             <H>
-                <ceiling></ceiling>
-                <floor></floor>
+                <ceiling>122</ceiling>
+                <floor>114</floor>
             </H>
             <S>
-                <ceiling></ceiling>
-                <floor></floor>
+                <ceiling>101</ceiling>
+                <floor>46</floor>
             </S>
             <V>
-                <ceiling></ceiling>
-                <floor></floor>
+                <ceiling>255</ceiling>
+                <floor>0</floor>
             </V>
         </color>
     </threshold>
 
+    <threshold tag="item">
+        <color category="red">
+            <H>
+                <ceiling>255</ceiling>
+                <floor>0</floor>
+            </H>
+            <S>
+                <ceiling>255</ceiling>
+                <floor>0</floor>
+            </S>
+            <V>
+                <ceiling>255</ceiling>
+                <floor>0</floor>
+            </V>
+        </color>
+        <color category="green">
+            <H>
+                <ceiling>255</ceiling>
+                <floor>0</floor>
+            </H>
+            <S>
+                <ceiling>255</ceiling>
+                <floor>0</floor>
+            </S>
+            <V>
+                <ceiling>255</ceiling>
+                <floor>0</floor>
+            </V>
+        </color>
+        <color category="blue">
+            <H>
+                <ceiling>255</ceiling>
+                <floor>0</floor>
+            </H>
+            <S>
+                <ceiling>255</ceiling>
+                <floor>0</floor>
+            </S>
+            <V>
+                <ceiling>255</ceiling>
+                <floor>0</floor>
+            </V>
+        </color>
+    </threshold>
 </parameter>

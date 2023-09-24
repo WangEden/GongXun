@@ -1,47 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <parameter>
     <!-- 阈值参数 -->
-    <threshold>
-        <color catagory="red">
+    <threshold tag="ring">
+        <color category="red">
             <H>
-                <ceiling></ceiling>
-                <floor></floor>
+                <ceiling>173</ceiling>
+                <floor>149</floor>
             </H>
             <S>
-                <ceiling></ceiling>
-                <floor></floor>
+                <ceiling>169</ceiling>
+                <floor>40</floor>
             </S>
             <V>
-                <ceiling></ceiling>
-                <floor></floor>
+                <ceiling>255</ceiling>
+                <floor>0</floor>
             </V>
         </color>
-        <color catagory="green">
+        <color category="green">
             <H>
-                <ceiling></ceiling>
-                <floor></floor>
+                <ceiling>102</ceiling>
+                <floor>81</floor>
             </H>
             <S>
-                <ceiling></ceiling>
-                <floor></floor>
+                <ceiling>82</ceiling>
+                <floor>27</floor>
             </S>
             <V>
-                <ceiling></ceiling>
-                <floor></floor>
+                <ceiling>255</ceiling>
+                <floor>0</floor>
             </V>
         </color>
-        <color catagory="blue">
+        <color category="blue">
             <H>
-                <ceiling></ceiling>
-                <floor></floor>
+                <ceiling>124</ceiling>
+                <floor>113</floor>
             </H>
             <S>
-                <ceiling></ceiling>
-                <floor></floor>
+                <ceiling>101</ceiling>
+                <floor>44</floor>
             </S>
             <V>
-                <ceiling></ceiling>
-                <floor></floor>
+                <ceiling>255</ceiling>
+                <floor>0</floor>
             </V>
         </color>
     </threshold>

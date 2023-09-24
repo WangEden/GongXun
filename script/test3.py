@@ -16,4 +16,4 @@ cv2.imshow('lab', img_LAB)
 cv2.imshow('hsv', img_HSV)
 cv2.waitKey(0)
 
-img_mean =
+# img_mean =

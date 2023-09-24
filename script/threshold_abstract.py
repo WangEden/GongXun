@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 
-filename = 'test.jpg'
+filename = '8.jpg'
 
 def callback(event):
     pass
@@ -18,7 +18,8 @@ def Choose_Color():
     global filename
     image0 = cv2.imread(filename, 1)
 
-    img = cv2.resize(image0, (int(image0.shape[1] / 8), int(image0.shape[0] / 8)))
+    img = cv2.resize(image0, (640, 480))
+    # img = cv2.resize(image0, (int(image0.shape[1] / 8), int(image0.shape[0] / 8)))
 
     img = prepare_process(img)
 

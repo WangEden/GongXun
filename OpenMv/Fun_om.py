@@ -6,35 +6,39 @@ uart = UART(3, 115200)  # 设置串口号和波特率
 uart.init(115200, bits=8, parity=None, stop=1)
 
 #定义数据包
-def data_packet( a, b, c, d, e, f, g):
-    temp = ustruct.pack("<bbhhhhhhhb",  # 格式为2个帧头+7个整型数据+帧尾
+def data_packet( a, b, c, d, i, f):
+    temp = ustruct.pack(">bbbbbbhhb",  # 格式为2个帧头+4个字符数据+2个浮点数据+帧尾
                         0x2C,      # 帧头1
                         0x3C,      # 帧头2
-                        int(a),    # up sample by 2    #数据1
-                        int(b),    # up sample by 2    #数据2
-                        int(c),
-                        int(d),
-                        int(e),
-                        int(f),
-                        int(g),
+                        ord(str(a)), # 字符1
+                        ord(str(b)), # 字符2
+                        ord(str(c)), # 字符3
+                        ord(str(d)), # 字符4
+                        int(i), # 浮点数据1
+                        int(f), # 浮点数据2
                         0x4C)      # 帧尾
     for x in range(5):
         uart.write(temp);  # 调用串口发送命令
         time.sleep_ms(100)
 
+#声明数据包使用的全局变量
+global a1,b1,c1,d1
+global i1,f1 
+
+
+
+a1,b1,c1,d1,i1,f1='a','b','c',4,125,1026
+
 #定义数据发送函数
-def send_data(a, b, c, d, e, f, g):
+def send_data():
     for x in range(1):
-        #在此处对data进行赋值
-        a=b=c=1
-        d=e=f=g=2
-        data_packet(a,b,c,d,e,f,g)
+        data_packet(a1,b1,c1,d1,i1,f1)
         time.sleep_ms(10)
 
 #定义数据接受函数
 def receive_data():
     if uart.any():  # 检查是否有数据可读取
-        receive = uart.read(136)  # 从串口读取17个byte的数据 其中3-16byte为有效位
+        receive = uart.read(88)  # 从串口读取15个byte的数据 其中3-14byte为有效位
         
         if receive is not None:
             print("Received:", receive)
