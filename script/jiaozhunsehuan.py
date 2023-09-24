@@ -88,25 +88,25 @@ maskGreen = cv2.inRange(img_hsv, green_hsv_min, green_hsv_max)
 maskBlue = cv2.inRange(img_hsv, blue_hsv_min, blue_hsv_max)
 
 # cv2.imshow("maskRed", maskRed)
-cv2.imshow("maskGreen", maskGreen)
-# cv2.imshow("maskBlue", maskBlue)
+# cv2.imshow("maskGreen", maskGreen)
+cv2.imshow("maskBlue", maskBlue)
 
 cv2.waitKey(0)
 
-maskGreen[324:, :] = 0
+maskBlue[324:, :] = 0
 
-maskGreen = cv2.medianBlur(maskRed, 3)
-cv2.imshow("maskRed", maskRed)
+maskBlue = cv2.medianBlur(maskBlue, 3)
+cv2.imshow("maskBlue", maskBlue)
 cv2.waitKey(0)
 minx, miny = 0, 0
-maxx, maxy = maskRed.shape[1], maskRed.shape[0]
+maxx, maxy = maskBlue.shape[1], maskBlue.shape[0]
 
 def mask_find_bboxs(mask):
     retval, labels, stats, centroids = cv2.connectedComponentsWithStats(mask, connectivity=8) # connectivity参数的默认值为8
     stats = stats[stats[:,4].argsort()]
     return stats[:-1]
 
-bbox = mask_find_bboxs(maskRed)
+bbox = mask_find_bboxs(maskBlue)
 # print(bbox)
 for box in bbox:
     x0, y0 = box[0], box[1]
