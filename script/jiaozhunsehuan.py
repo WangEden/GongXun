@@ -118,3 +118,5 @@ cv2.setMouseCallback("erode_red_mask", print_point)
 #     ptrI, (w, h), c = rect
 
 cv2.waitKey(0)
+
+
