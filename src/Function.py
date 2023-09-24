@@ -106,19 +106,6 @@ def parseItemCatchQueue(qr_result, q1, q2):
     # 抓取顺序和放置顺序不一样
 
 
-def send_data(uart, a, b, c, d, e, f):
-    data = struct.pack("<bbbbbbhhb", # 四个字符作为命令, 两个浮点作为xy偏差
-                    0x2C, # 帧头
-                       0x3C,     # 帧头
-                       ord(a), # 字符1
-                       ord(b), # 字符2
-                       ord(c), # 字符3
-                       ord(d), # 字符4
-                       np.short(e), # 浮点数据1
-                       np.short(f), # 浮点数据2
-                       0x4C) # 帧尾
-    
-    print(data)
 #定义数据包，格式为2个帧头+4个字符数据+2个半整型数据+帧尾（11byte）
 #4个字符传输命令名，2个int传输xy方向的偏差
 def send_data(uart, a, b, c, d, i, f):
