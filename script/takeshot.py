@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-import Functions as F
+import script.Function as F
 
 #cap = cv2.VideoCapture("/dev/cameraInc")
 cap = cv2.VideoCapture("/dev/cameraTop")
