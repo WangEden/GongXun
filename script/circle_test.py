@@ -1,4 +1,4 @@
-from Functions import get_circle_center
+from script.Function import get_circle_center
 import numpy as np
 import cv2
 

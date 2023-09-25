@@ -1,6 +1,6 @@
 import numpy as np
 import cv2
-import Functions as F
+import script.Function as F
 
 
 video_path = '../static/videos/ring/5.mp4'
