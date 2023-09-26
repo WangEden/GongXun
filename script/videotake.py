@@ -14,7 +14,15 @@ fourcc = cv2.VideoWriter_fourcc(*'mp4v')
 width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
 height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 # 创建对象，用于视频的写出
-videoWrite = cv2.VideoWriter('./video.mp4', fourcc, 25, (width,height))
+n = 0
+with open( "video.txt", "r") as file:
+    s = file.read()
+    n = int(s)
+    print(s)
+
+t = n
+path = './video'+str(n)+'.mp4'
+videoWrite = cv2.VideoWriter(path, fourcc, 25, (width,height))
  
 while cap.isOpened():
     ret, frame = cap.read()
@@ -30,3 +38,6 @@ while cap.isOpened():
 videoWrite.release()
 cap.release()
 cv2.destroyAllWindows()
+
+with open( "video.txt", "w") as file:
+    file.write(str(t+1))
