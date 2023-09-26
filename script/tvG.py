@@ -8,17 +8,20 @@ with open( "T.txt", "r") as file:
     n = int(s)
     print(s)
 
-t = n
-
 while n > 0:
     ret, frame = cap.read()
     if ret:
         cv2.imshow("q capture", frame) # 生成摄像头窗口
 
-    if cv2.waitKey(10) & 0xFF == ord("q"):
+    if cv2.waitKey(10) & 0xFF == ord("t"):
         cv2.imwrite(f"./a{n}.jpg", frame) # 保存路径
         print(f"take {n} photo")
-        n = 0
+        n+=1
+
+    if cv2.waitKey(10) & 0xFF == ord("q"):
+    	break
+
+t = n
 
 with open( "T.txt", "w") as file:
     file.write(str(t+1))

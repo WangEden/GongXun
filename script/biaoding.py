@@ -28,7 +28,7 @@ def calibration():
     objpoints = []  # 在世界坐标系中的三维点
     imgpoints = []  # 在图像平面的二维点
 
-    images = glob.glob('D:/OneDrive/OneDrive - mail.scut.edu.cn/volume/calibration/8mm/*.jpg')
+    images = glob.glob('a*.jpg')
     for fname in images:
         img = cv_imread(fname)
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -36,6 +36,7 @@ def calibration():
         ret, corners = cv2.findChessboardCorners(gray, (w, h))
         # 如果找到足够点对，将其存储起来
         if ret == True:
+            print("find point")
             # 精确找到角点坐标
             corners = cv2.cornerSubPix(gray, corners, (11, 11), (-1, -1), criteria)
 
@@ -52,7 +53,7 @@ def calibration():
     ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(objpoints, imgpoints, gray.shape[::-1], None, None)
 
     # 去畸变
-    img2 = cv2.imread('D:/OneDrive/OneDrive - mail.scut.edu.cn/volume/calibration/5mm/2023-03-13_09_17_14_069.jpg')
+    img2 = cv2.imread('a1.jpg')
     h, w = img2.shape[:2]
     newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w, h), 0, (w, h))  # 自由比例参数
     dst = cv2.undistort(img2, mtx, dist, None, newcameramtx)
