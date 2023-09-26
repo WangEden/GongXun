@@ -28,7 +28,7 @@ while n > 0:
         cv2.imshow("q capture", frame) # 生成摄像头窗口
 
     if cv2.waitKey(10) & 0xFF == ord("q"):
-        cv2.imwrite(f"./biaoding/a{n}.jpg", frame) # 保存路径
+        cv2.imwrite(f".~/GongXun/script/biaoding/a+{n}.jpg", frame) # 保存路径
         print(f"take {n} photo")
         n = 0
 
