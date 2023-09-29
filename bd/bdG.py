@@ -14,10 +14,10 @@ h=8
 objp = np.zeros(((w-1) * (h-1), 3), np.float32)  #格子数为10行8列，内角点为9*7的棋盘格图片
 objp[:, :2] = np.mgrid[0:(h-1), 0:(w-1)].T.reshape(-1, 2)  # 将世界坐标系建在标定板上，所有点的Z坐标全部为0，所以只需要赋值x和y
 
-obj_points = []  # 存储3D点
-img_points = []  # 存储2D点
+obj_points = []  # 用于存储3D点
+img_points = []  # 用于存储2D点
 
-images = glob.glob("./bd2/*.jpg")
+images = glob.glob("./bd81020/*.jpg")
 for fname in images:
     img = cv2.imread(fname)
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -50,7 +50,7 @@ cv2.destroyAllWindows()
 # 标定
 ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(obj_points, img_points, size, None, None)
 
-print ("ret:\n", ret)
+#print ("ret:\n", ret)
 print ("\nmtx:\n", mtx)  # 内参数矩阵
 #print ("\ndist:\n", dist)  # 畸变系数   distortion cofficients = (k_1,k_2,p_1,p_2,k_3)
 #print ("\nrvecs:\n", rvecs)  # 旋转向量  # 外参数
