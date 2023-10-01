@@ -48,7 +48,7 @@ def getCircleCenter(img:np.ndarray) -> [(np.float32, np.float32), ...]:
     if len(circles) != 0:
         circles = np.round(circles[0, :]).astype('int')
         for (x, y, r) in circles:
-            result.append(tuple([x, y]))
+            result.append(tuple([x, y, r]))
     return result
 
 

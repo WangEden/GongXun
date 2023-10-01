@@ -1,5 +1,5 @@
 import cv2
-# import Functions as F
+import Function as F
 import numpy as np
 from xml.etree import ElementTree as ET
 # import serial
@@ -174,4 +174,17 @@ cv2.waitKey(0)
 
 cv2.waitKey(0)
 
+cameraTop = '/dev/cameraTop'
+cameraInc = '/dev/cameraInc'
+
+def task3():
+    capTop = F.VideoCapture(cameraTop)
+    capInc = F.VideoCapture(cameraInc)
+
+
+
+
+if __name__ == '__main__':
+    task3()
+    
 

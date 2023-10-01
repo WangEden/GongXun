@@ -1,6 +1,6 @@
 import cv2 
 import numpy as np
-import Functions as F
+import script.Function as F
 
 cap = cv2.VideoCapture("/dev/video0")
 #ret,frame = cap.read()
