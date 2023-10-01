@@ -1,0 +1,4 @@
+python3 tvG.py 
+
+[ WARN:0@27.267] global cap_v4l.cpp:1119 tryIoctl VIDEOIO(V4L2:/dev/video0): select() timeout.
+
