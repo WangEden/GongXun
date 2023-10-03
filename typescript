@@ -1,116 +1,0 @@
-Script started on 2023-09-21 23:27:00+08:00 [TERM="xterm-256color" TTY="/dev/pts/0" COLUMNS="80" LINES="24"]
-]0;fish /home/pi/GongXun[30m(B[m[2m⏎(B[m                                                                               ⏎ [KWelcome to fish, the friendly interactive shell
-Type `help` for instructions on how to use fish
-[?2004h]7;file://raspi/home/pi/GongXun]0;fish /home/pi/GongXun[30m(B[m[92mpi(B[m@(B[mraspi(B[m [32m~/GongXun(B[m (main)(B[m> [Kl[38;2;255;0;0ml[30m(B[m[38;2;85;85;85ms[30m(B[m[38;2;255;0;0ms[30m(B[m[38;2;0;95;215mls[30m(B[m
-[30m(B[m[?2004l]0;ls /home/pi/GongXun[30m(B[mreadme.md        scheme.md  [0m[01;34msrc[0m/     typescript
-[01;34mreference-code[0m/  [01;34mscript[0m/    [01;34mstatic[0m/  [01;34mutils[0m/
-[2m⏎(B[m                                                                               ⏎ [K[?2004h]0;fish /home/pi/GongXun[30m(B[m[92mpi(B[m@(B[mraspi(B[m [32m~/GongXun(B[m (main)(B[m> [Ks[38;2;255;0;0ms[30m(B[m[38;2;85;85;85mcript[30m(B[m[38;2;255;0;0mu[30m(B[m[K[38;2;85;85;85mdo reboot[9D[30m(B[m[38;2;0;95;215msu[38;2;85;85;85mdo reboot[9D[30m(B[m[38;2;0;95;215md[38;2;85;85;85mo reboot[30m(B[m[38;2;255;0;0msud[38;2;85;85;85mo reboot[30m(B[m[38;2;255;0;0mo[38;2;85;85;85m reboot[30m(B[m[38;2;0;95;215msudo[38;2;85;85;85m reboot[30m(B[m[38;2;0;95;215m [38;2;85;85;85mreboot[30m(B[m [38;2;85;85;85mreboot[30m(B[mv[K[38;2;0;175;255mv[30m(B[m[38;2;85;85;85mim /etc/bash.bashrc[19D[30m(B[m[38;2;0;175;255mi[38;2;85;85;85mm /etc/bash.bashrc[18D[30m(B[m[38;2;0;175;255mm[38;2;85;85;85m /etc/bash.bashrc[17D[30m(B[m[38;2;0;175;255m [38;2;85;85;85m/etc/bash.bashrc[16D[30m(B[m [38;2;85;85;85m/etc/bash.bashrc[16D[30m(B[m[K[K[K[K[K[K[38;2;255;0;0msud[30m(B[m[K[38;2;0;95;215msu[30m(B[m[K[38;2;255;0;0ms[30m(B[m[Kc[38;2;85;85;85md script/[9D[30m(B[m[38;2;255;0;0mc[38;2;85;85;85md script/[9D[30m(B[m[38;2;255;0;0md[38;2;85;85;85m script/[30m(B[m[38;2;0;95;215mcd[38;2;85;85;85m script/[30m(B[m[38;2;0;95;215m [38;2;85;85;85mscript/[30m(B[m [38;2;85;85;85mscript/[30m(B[ms[38;2;85;85;85mcript/[30m(B[m[38;2;0;175;255m[4ms[38;2;85;85;85m[24mcript/[30m(B[m[38;2;0;175;255m[4mc[38;2;85;85;85m[24mript/[30m(B[m[38;2;0;175;255m[4mript/[30m(B[m[38;2;0;175;255m[4m'[30m(B[m[38;2;255;0;0m'[30m(B[m[K
-[30m(B[m[?2004l]0;cd /home/pi/GongXun[30m(B[m]7;file://raspi/home/pi/GongXun/script[2m⏎(B[m                                                                               ⏎ [K[?2004h]0;fish /home/pi/GongXun/script[30m(B[m[92mpi(B[m@(B[mraspi(B[m [32m~/G/script(B[m (main)(B[m> [Kl[38;2;255;0;0ml[30m(B[m[38;2;85;85;85ms[30m(B[m[38;2;255;0;0ms[30m(B[m[38;2;0;95;215mls[30m(B[m
-[30m(B[m[?2004l]0;ls /home/pi/GongXun/script[30m(B[m[0m[01;35m1.jpg[0m       circle_test.py    frame_test.py   no_lag_frame.py  takeshot.py
-[01;35m21cm.jpg[0m    detect_circle.py  Functions.py    [01;34m__pycache__[0m/     takevideo.py
-[01;34mcalibrate[0m/  detect_qrcode.py  kmeans-test.py  serial-test.py   test.py
-[2m⏎(B[m                                                                               ⏎ [K[?2004h]0;fish /home/pi/GongXun/script[30m(B[m[92mpi(B[m@(B[mraspi(B[m [32m~/G/script(B[m (main)(B[m> [Ks[38;2;255;0;0ms[30m(B[m[38;2;85;85;85mcript[30m(B[m[38;2;255;0;0mu[30m(B[m[K[38;2;0;95;215msu[30m(B[m[38;2;85;85;85mdo reboot[9D[30m(B[m[38;2;0;95;215md[38;2;85;85;85mo reboot[30m(B[m[38;2;255;0;0msud[38;2;85;85;85mo reboot[30m(B[m[38;2;255;0;0mo[38;2;85;85;85m reboot[30m(B[m[38;2;0;95;215msudo[38;2;85;85;85m reboot[30m(B[m[38;2;0;95;215m [38;2;85;85;85mreboot[30m(B[m [38;2;85;85;85mreboot[30m(B[mv[K[38;2;0;175;255mv[30m(B[m[38;2;85;85;85mim /etc/bash.bashrc[19D[30m(B[m[38;2;0;175;255mi[38;2;85;85;85mm /etc/bash.bashrc[18D[30m(B[m[38;2;0;175;255mm[38;2;85;85;85m /etc/bash.bashrc[17D[30m(B[m[38;2;0;175;255m [38;2;85;85;85m/etc/bash.bashrc[16D[30m(B[m [38;2;85;85;85m/etc/bash.bashrc[16D[30m(B[ms[K[38;2;0;175;255m[4ms[30m(B[m[38;2;85;85;85merial-test.py [14D[30m(B[m[Kt[38;2;0;175;255m[4mt[30m(B[m[38;2;85;85;85makeshot.py [11D[30m(B[m[38;2;0;175;255m[4ma[38;2;85;85;85m[24mkeshot.py [10D[30m(B[m[38;2;0;175;255m[4mke[38;2;85;85;85m[24mshot.py [30m(B[m
-[37m[1m[4mtake(B[mshot.py  [37m[1m[4mtake(B[mvideo.py[A[16C[38;2;0;175;255m[4ms[38;2;85;85;85m[24mhot.py [30m(B[m[7C[J[38;2;0;175;255m[4mh[38;2;85;85;85m[24mot.py [30m(B[m[38;2;0;175;255m[4mo[38;2;85;85;85m[24mt.py [30m(B[m[38;2;0;175;255m[4mt[38;2;85;85;85m[24m.py [30m(B[m[38;2;0;175;255m[4m.py [30m(B[m 
-[30m(B[m[?2004l]0;sudo /home/pi/GongXun/script[30m(B[m[sudo] pi 的密码： 
-[?1049h[22;0;0t[>4;2m[?1h=[?2004h[1;24r[?12h[?12l[22;2t[22;1t[27m[23m[29m[m[H[2J[?25l[24;1H"takeshot.py" 19L, 443C[2;1H▽[6n[2;1H  [1;1H[>c]10;?]11;?[1;1H[35mimport[m cv2
-[35mimport[m numpy [38;5;130mas[m np
-[35mimport[m Functions [38;5;130mas[m F
-
-[34m#cap = cv2.VideoCapture("/dev/cameraInc")[m
-cap = cv2.VideoCapture([31m"/dev/cameraTop"[m)
-cap.set([31m3[m, [31m640[m)
-cap.set([31m4[m, [31m480[m)
-cap.set([31m6[m, cv2.VideoWriter.fourcc(*[31m'MJPG'[m))
-
-n = [31m1[m
-[38;5;130mwhile[m n > [31m0[m:
-    ret, frame = cap.read()
-    [38;5;130mif[m ret:[15;9Hcv2.imshow([31m"q capture"[m, frame)
-    [38;5;130mif[m cv2.waitKey([31m10[m) & [31m0xFF[m == [36mord[m([31m"q"[m):[17;9Hcv2.imwrite(f[31m"./{n}.jpg"[m, frame)[18;9H[36mprint[m(f[31m"take {n} photo"[m)[19;9Hn -= [31m1[m
-[94m~                                                                               [21;1H~                                                                               [22;1H~                                                                               [23;1H~                                                                               [m[24;63H1,1[10C全部[1;1H[?25hP+q436f\P+q6b75\P+q6b64\P+q6b72\P+q6b6c\P+q2332\P+q2334\P+q2569\P+q2a37\P+q6b31\[27m[23m[29m[m[H[2J[?25l[1;1H[38;5;81mimport[m cv2
-[38;5;81mimport[m numpy [93mas[m np
-[38;5;81mimport[m Functions [93mas[m F
-
-[96m#cap = cv2.VideoCapture("/dev/cameraInc")[m
-cap = cv2.VideoCapture([95m"/dev/cameraTop"[m)
-cap.set([95m3[m, [95m640[m)
-cap.set([95m4[m, [95m480[m)
-cap.set([95m6[m, cv2.VideoWriter.fourcc(*[95m'MJPG'[m))
-
-n = [95m1[m
-[93mwhile[m n > [95m0[m:
-    ret, frame = cap.read()
-    [93mif[m ret:[15;9Hcv2.imshow([95m"q capture"[m, frame)
-    [93mif[m cv2.waitKey([95m10[m) & [95m0xFF[m == [1m[96mord[m([95m"q"[m):[17;9Hcv2.imwrite(f[95m"./{n}.jpg"[m, frame)[18;9H[1m[96mprint[m(f[95m"take {n} photo"[m)[19;9Hn -= [95m1[m
-[94m~                                                                               [21;1H~                                                                               [22;1H~                                                                               [23;1H~                                                                               [m[24;63H1,1[10C全部"takeshot.py" 19L, 443C[1;1H[?25h[?25l[24;53H^[[1;1H[24;53H  [1;1H[24;53H^[[1;1H[24;53H  [1;1H[?25h[?25l[24;53H:[1;1H[24;1H[K[24;1H:[?2004h[?25hq![?25l[?2004l[23;2t[23;1t[24;1H[K[24;1H[?2004l[?1l>[?25h[>4;m[?1049l[23;0;0t[2m⏎(B[m                                                                               ⏎ [K[?2004h]0;fish /home/pi/GongXun/script[30m(B[m[92mpi(B[m@(B[mraspi(B[m [32m~/G/script(B[m (main)(B[m> [Ksudo vim takeshot.py[20D[38;2;0;95;215msudo[30m(B[m [38;2;0;175;255mvim[30m(B[m [38;2;0;175;255m[4mtakeshot.py[30m(B[m[20D[38;2;0;95;215mls[30m(B[m[K[38;2;0;95;215mcd script/[30m(B[m [38;2;255;0;0mscript/[30m(B[m[10D[38;2;0;95;215mls[30m(B[m[K[K[38;2;255;0;0ml[30m(B[m[Kp[38;2;85;85;85mython3 takeshot.py[18D[30m(B[m[38;2;255;0;0mp[38;2;85;85;85mython3 takeshot.py[18D[30m(B[m[38;2;255;0;0my[38;2;85;85;85mthon3 takeshot.py[17D[30m(B[m[38;2;255;0;0mt[38;2;85;85;85mhon3 takeshot.py[16D[30m(B[m[38;2;255;0;0mh[38;2;85;85;85mon3 takeshot.py[15D[30m(B[m[38;2;255;0;0mo[38;2;85;85;85mn3 takeshot.py[14D[30m(B[m[38;2;255;0;0mn[38;2;85;85;85m3 takeshot.py[13D[30m(B[m[38;2;255;0;0m3[38;2;85;85;85m takeshot.py[12D[30m(B[m[38;2;0;95;215mpython3[38;2;85;85;85m takeshot.py[12D[30m(B[m[38;2;0;95;215m [38;2;85;85;85mtakeshot.py[11D[30m(B[m [38;2;85;85;85mtakeshot.py[11D[30m(B[mt[38;2;85;85;85makeshot.py[10D[30m(B[m[38;2;0;175;255m[4mt[38;2;85;85;85m[24makeshot.py[10D[30m(B[m[38;2;0;175;255m[4ma[38;2;85;85;85m[24mkeshot.py[9D[30m(B[m[38;2;0;175;255m[4mk[38;2;85;85;85m[24meshot.py[30m(B[m[38;2;0;175;255m[4me[38;2;85;85;85m[24mshot.py[30m(B[m[38;2;0;175;255m[4ms[38;2;85;85;85m[24mhot.py[30m(B[m[38;2;0;175;255m[4mh[38;2;85;85;85m[24mot.py[30m(B[m[38;2;0;175;255m[4mot.py [30m(B[m 
-[30m(B[m[?2004l]0;python3 /home/pi/GongXun/script[30m(B[m[ERROR:0@0.266] global cap.cpp:164 open VIDEOIO(CV_IMAGES): raised OpenCV exception:
-
-OpenCV(4.8.0) /io/opencv/modules/videoio/src/cap_images.cpp:253: error: (-5:Bad argument) CAP_IMAGES: can't find starting number (in the name of file): /dev/cameraTop in function 'icvExtractPattern'
-
-
-^Z[2m⏎(B[m                                                                               ⏎ [K[?2004h]0;fish /home/pi/GongXun/script[30m(B[m[92mpi(B[m@(B[mraspi(B[m [32m~/G/script(B[m (main)(B[m> [Kpython3 takeshot.py[19D[38;2;0;95;215mpython3[30m(B[m [38;2;0;175;255m[4mtakeshot.py[30m(B[m[19D[38;2;0;95;215msudo vi[30m(B[mm[38;2;0;175;255m[4m takeshot.py[30m(B[m[16D [38;2;0;175;255mvim[30m(B[m [38;2;0;175;255m[4mtakeshot.py[30m(B[m
-[30m(B[m[?2004l]0;sudo /home/pi/GongXun/script[30m(B[m[?1049h[22;0;0t[>4;2m[?1h=[?2004h[1;24r[?12h[?12l[22;2t[22;1t[27m[23m[29m[m[H[2J[?25l[24;1H"takeshot.py" 19L, 443C[2;1H▽[6n[2;1H  [1;1H[>c]10;?]11;?[1;1H[35mimport[m cv2
-[35mimport[m numpy [38;5;130mas[m np
-[35mimport[m Functions [38;5;130mas[m F
-
-[34m#cap = cv2.VideoCapture("/dev/cameraInc")[m
-cap = cv2.VideoCapture([31m"/dev/cameraTop"[m)
-cap.set([31m3[m, [31m640[m)
-cap.set([31m4[m, [31m480[m)
-cap.set([31m6[m, cv2.VideoWriter.fourcc(*[31m'MJPG'[m))
-
-n = [31m1[m
-[38;5;130mwhile[m n > [31m0[m:
-    ret, frame = cap.read()
-    [38;5;130mif[m ret:[15;9Hcv2.imshow([31m"q capture"[m, frame)
-    [38;5;130mif[m cv2.waitKey([31m10[m) & [31m0xFF[m == [36mord[m([31m"q"[m):[17;9Hcv2.imwrite(f[31m"./{n}.jpg"[m, frame)[18;9H[36mprint[m(f[31m"take {n} photo"[m)[19;9Hn -= [31m1[m
-[94m~                                                                               [21;1H~                                                                               [22;1H~                                                                               [23;1H~                                                                               [m[24;63H1,1[10C全部[1;1H[?25hP+q436f\P+q6b75\P+q6b64\P+q6b72\P+q6b6c\P+q2332\P+q2334\P+q2569\P+q2a37\P+q6b31\[27m[23m[29m[m[H[2J[?25l[1;1H[38;5;81mimport[m cv2
-[38;5;81mimport[m numpy [93mas[m np
-[38;5;81mimport[m Functions [93mas[m F
-
-[96m#cap = cv2.VideoCapture("/dev/cameraInc")[m
-cap = cv2.VideoCapture([95m"/dev/cameraTop"[m)
-cap.set([95m3[m, [95m640[m)
-cap.set([95m4[m, [95m480[m)
-cap.set([95m6[m, cv2.VideoWriter.fourcc(*[95m'MJPG'[m))
-
-n = [95m1[m
-[93mwhile[m n > [95m0[m:
-    ret, frame = cap.read()
-    [93mif[m ret:[15;9Hcv2.imshow([95m"q capture"[m, frame)
-    [93mif[m cv2.waitKey([95m10[m) & [95m0xFF[m == [1m[96mord[m([95m"q"[m):[17;9Hcv2.imwrite(f[95m"./{n}.jpg"[m, frame)[18;9H[1m[96mprint[m(f[95m"take {n} photo"[m)[19;9Hn -= [95m1[m
-[94m~                                                                               [21;1H~                                                                               [22;1H~                                                                               [23;1H~                                                                               [m[24;63H1,1[10C全部"takeshot.py" 19L, 443C[1;1H[?25h[?25l[24;53Hi[1;1H[24;53H [1;1H[24;1H[1m-- 插入 --[m[24;11H[K[24;63H1,1[10C全部[1;1H[?25h[?25l[24;63H2[2;1H[?25h[?25l[24;63H3[3;1H[?25h[?25l[24;63H4[4;1H[?25h[?25l[24;63H5[5;1H[?25h[?25lcap = cv2.VideoCapture([95m"/dev/cameraInc"[m)[5;41H[K[5;1H[?25h[?25l[24;63H6[6;1H[?25h[?25l[96m#cap = cv2.VideoCapture("/dev/cameraTop")[m[24;65H2[6;2H[?25h[24;1H[K[6;1H[?25l[24;53H^[[6;1H[24;53H  [6;2H[24;63H6,1[10C全部[6;1H[?25h[?25l[24;53H:[6;1H[24;53H[K[24;1H:[?2004h[?25hwq[?25l[?2004l"takeshot.py" 19L, 443C 已写入[23;2t[23;1t
-[?2004l[?1l>[?25h[>4;m[?1049l[23;0;0t[2m⏎(B[m                                                                               ⏎ [K[?2004h]0;fish /home/pi/GongXun/script[30m(B[m[92mpi(B[m@(B[mraspi(B[m [32m~/G/script(B[m (main)(B[m> [Ksudo vim takeshot.py[20D[38;2;0;95;215msudo[30m(B[m [38;2;0;175;255mvim[30m(B[m [38;2;0;175;255m[4mtakeshot.py[30m(B[m[20D[38;2;0;95;215mpyth[30m(B[mo[38;2;0;175;255mn3 [30m(B[mt[38;2;0;175;255m[4makeshot.py[30m(B[m[K[15D[38;2;0;95;215mon3[30m(B[m [38;2;0;175;255m[4mtakeshot.py[30m(B[m
-[30m(B[m[?2004l]0;python3 /home/pi/GongXun/script[30m(B[m^Z[2m⏎(B[m                                                                               ⏎ [K[?2004h]0;fish /home/pi/GongXun/script[30m(B[m[92mpi(B[m@(B[mraspi(B[m [32m~/G/script(B[m (main)(B[m> [Kfish: Job 2, “python3 takeshot.py” terminated by signal SIGKILL (Forced quit)[K
-[92mpi(B[m@(B[mraspi(B[m [32m~/G/script(B[m (main)(B[m> [Kl[38;2;255;0;0ml[30m(B[m[38;2;85;85;85ms[30m(B[m[38;2;255;0;0ms[30m(B[m[38;2;0;95;215mls[30m(B[m[38;2;0;95;215m [30m(B[m [38;2;85;85;85m-l /dev/ | grep video[21D[30m(B[m
-1.jpg       circle_test.py    frame_test.py   no_lag_frame.py  takevideo.py
-21cm.jpg    detect_circle.py  Functions.py    serial-test.py   test.py     
-calibrate/  detect_qrcode.py  kmeans-test.py  takeshot.py      __pycache__/[A[A[A[44D-[38;2;85;85;85ml /dev/ | grep video[20D[30m(B[m[20C[J[20D[38;2;0;175;255m-[38;2;85;85;85ml /dev/ | grep video[20D[30m(B[m[38;2;0;175;255ml[38;2;85;85;85m /dev/ | grep video[19D[30m(B[m[38;2;0;175;255m [38;2;85;85;85m/dev/ | grep video[18D[30m(B[m [38;2;85;85;85m/dev/ | grep video[18D[30m(B[m/[38;2;85;85;85mdev/ | grep video[17D[30m(B[m[38;2;0;175;255m[4m/[38;2;85;85;85m[24mdev/ | grep video[17D[30m(B[m[38;2;0;175;255m[4md[38;2;85;85;85m[24mev/ | grep video[16D[30m(B[m[38;2;0;175;255m[4me[38;2;85;85;85m[24mv/ | grep video[15D[30m(B[m[38;2;0;175;255m[4mv[38;2;85;85;85m[24m/ | grep video[14D[30m(B[m[38;2;0;175;255m[4m/[38;2;85;85;85m[24m | grep video[13D[30m(B[m[38;2;0;175;255m[4m [38;2;85;85;85m[24m| grep video[12D[30m(B[m [38;2;85;85;85m| grep video[12D[30m(B[m\[K[38;2;255;0;0m\[30m(B[m[K|[38;2;85;85;85m grep video[11D[30m(B[m[38;2;0;153;0m|[38;2;85;85;85m grep video[11D[30m(B[m[38;2;0;153;0m [38;2;85;85;85mgrep video[10D[30m(B[m [38;2;85;85;85mgrep video[10D[30m(B[mg[38;2;85;85;85mrep video[9D[30m(B[m[38;2;255;0;0mg[38;2;85;85;85mrep video[9D[30m(B[m[38;2;255;0;0mr[38;2;85;85;85mep video[30m(B[m[38;2;255;0;0me[38;2;85;85;85mp video[30m(B[m[38;2;255;0;0mp[38;2;85;85;85m video[30m(B[m[38;2;0;95;215mgrep[38;2;85;85;85m video[30m(B[m[38;2;0;95;215m [38;2;85;85;85mvideo[30m(B[m [38;2;85;85;85mvideo[30m(B[md[K[38;2;0;175;255m[4md[30m(B[m[38;2;85;85;85metect_circle.py [16D[30m(B[m[Kc[38;2;0;175;255m[4mc[30m(B[m[38;2;85;85;85malibrate/[9D[30m(B[m[38;2;0;175;255m[4mi[30m(B[m[K[38;2;85;85;85mrcle_test.py [13D[30m(B[m[K[K[K[38;2;0;95;215m [30m(B[m [38;2;85;85;85mvideo[30m(B[mv[38;2;85;85;85mideo[30m(B[m[38;2;0;175;255mv[38;2;85;85;85mideo[30m(B[m[38;2;0;175;255mi[38;2;85;85;85mdeo[30m(B[m[38;2;0;175;255md[38;2;85;85;85meo[30m(B[m[38;2;0;175;255me[38;2;85;85;85mo[30m(B[m[38;2;0;175;255mo[30m(B[m
-[30m(B[m[?2004l]0;ls /home/pi/GongXun/script[30m(B[mlrwxrwxrwx  1 root root           6 Mar 28 01:54 cameraInc -> [01;31m[Kvideo[m[K0
-lrwxrwxrwx  1 root root           6 Sep 21 23:30 cameraTop -> [01;31m[Kvideo[m[K3
-crw-rw----  1 root [01;31m[Kvideo[m[K    29,   0 Mar 28 01:54 fb0
-crw-rw----  1 root [01;31m[Kvideo[m[K    29,   1 Mar 28 01:54 fb1
-crw-rw----  1 root [01;31m[Kvideo[m[K   508,   0 Mar 28 01:54 media0
-crw-rw----  1 root [01;31m[Kvideo[m[K   508,   1 Mar 28 01:54 media1
-crw-rw----  1 root [01;31m[Kvideo[m[K   508,   2 Mar 28 01:54 media2
-crw-rw----  1 root [01;31m[Kvideo[m[K   508,   3 Sep 21 23:30 media3
-crw-rw----  1 root [01;31m[Kvideo[m[K   510,   0 Mar 28 01:54 rpivid-h264mem
-crw-rw----  1 root [01;31m[Kvideo[m[K   234,   0 Mar 28 01:54 rpivid-hevcmem
-crw-rw----  1 root [01;31m[Kvideo[m[K   511,   0 Mar 28 01:54 rpivid-intcmem
-crw-rw----  1 root [01;31m[Kvideo[m[K   509,   0 Mar 28 01:54 rpivid-vp9mem
-crw-rw----  1 root [01;31m[Kvideo[m[K   236,   0 Mar 28 01:54 vchiq
-crw-rw----  1 root [01;31m[Kvideo[m[K   240,   0 Mar 28 01:54 vcio
-crw-rw----  1 root [01;31m[Kvideo[m[K    10,  60 Mar 28 01:54 vcsm-cma
-crwxrwxrwx+ 1 root [01;31m[Kvideo[m[K    81,   7 Mar 28 01:54 [01;31m[Kvideo[m[K0
-crwxrwxrwx+ 1 root [01;31m[Kvideo[m[K    81,   8 Mar 28 01:54 [01;31m[Kvideo[m[K1
-crw-rw----+ 1 root [01;31m[Kvideo[m[K    81,   4 Mar 28 01:54 [01;31m[Kvideo[m[K10
-crw-rw----+ 1 root [01;31m[Kvideo[m[K    81,   5 Mar 28 01:54 [01;31m[Kvideo[m[K11
-crw-rw----+ 1 root [01;31m[Kvideo[m[K    81,   6 Mar 28 01:54 [01;31m[Kvideo[m[K12
-crw-rw----+ 1 root [01;31m[Kvideo[m[K    81,   0 Mar 28 01:54 [01;31m[Kvideo[m[K13
-crw-rw----+ 1 root [01;31m[Kvideo[m[K    81,   1 Mar 28 01:54 [01;31m[Kvideo[m[K14
-crw-rw----+ 1 root [01;31m[Kvideo[m[K    81,   2 Mar 28 01:54 [01;31m[Kvideo[m[K15
-crw-rw----+ 1 root [01;31m[Kvideo[m[K    81,   3 Mar 28 01:54 [01;31m[Kvideo[m[K16
-crwxrwxrwx+ 1 root [01;31m[Kvideo[m[K    81,   9 Sep 21 23:30 [01;31m[Kvideo[m[K2
-crwxrwxrwx+ 1 root [01;31m[Kvideo[m[K    81,  10 Sep 21 23:30 [01;31m[Kvideo[m[K3
-[2m⏎(B[m                                                                               ⏎ [K[?2004h]0;fish /home/pi/GongXun/script[30m(B[m[92mpi(B[m@(B[mraspi(B[m [32m~/G/script(B[m (main)(B[m> [Kc[38;2;255;0;0mc[30m(B[m[38;2;85;85;85mlear[30m(B[m[38;2;255;0;0ml[38;2;85;85;85mear[30m(B[m[38;2;255;0;0me[38;2;85;85;85mar[30m(B[m[38;2;255;0;0mar[30m(B[m[38;2;0;95;215mclear[30m(B[m
-[30m(B[m[?2004l]0;clear /home/pi/GongXun/script[30m(B[m[H[2J[3J[2m⏎(B[m                                                                               ⏎ [K[?2004h]0;fish /home/pi/GongXun/script[30m(B[m[92mpi(B[m@(B[mraspi(B[m [32m~/G/script(B[m (main)(B[m> [K[19~[38;2;255;0;0m[19~[30m(B[m[K[K[K[38;2;0;95;215m[[30m(B[m[Kp[38;2;255;0;0mp[30m(B[m[38;2;85;85;85mython3 takeshot.py[18D[30m(B[m[38;2;255

@@ -1,11 +1,6 @@
 import cv2
  
-<<<<<<< HEAD
 cap = cv2.VideoCapture("/dev/cameraTop")
-=======
-#cap = cv2.VideoCapture(0)
-cap = cv2.VideoCapture("/dev/video0")
->>>>>>> 2d7c27c4b7f3e749f4f01b9704e0c4a2517ae343
 cap.set(3, 640)
 cap.set(4, 480)
 cap.set(cv2.CAP_PROP_AUTO_WB,1)
