@@ -3,9 +3,9 @@ import cv2
 cap = cv2.VideoCapture("/dev/cameraTop")
 cap.set(3, 640)
 cap.set(4, 480)
-cap.set(cv2.CAP_PROP_AUTO_WB,1)
-cap.set(cv2.CAP_PROP_AUTO_EXPOSURE,1)
-cap.set(cv2.CAP_PROP_EXPOSURE,7)
+# cap.set(cv2.CAP_PROP_AUTO_WB,1)
+# cap.set(cv2.CAP_PROP_AUTO_EXPOSURE,1)
+# cap.set(cv2.CAP_PROP_EXPOSURE,7)
 cap.set(6, cv2.VideoWriter.fourcc(*'MJPG'))
 
 # 设置编码类型为mp4
