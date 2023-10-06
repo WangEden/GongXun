@@ -38,15 +38,18 @@ try:
         #print(erosion_binary_channel3.shape)
         #cv2.imshow("binary", erosion_binary_channel3)
 
+        text = None
         # 在二值化画面中查找圆形
         circles = cv2.HoughCircles(erosion_binary, cv2.HOUGH_GRADIENT, 1, 100)
         if circles is not None:
             circles = np.round(circles[0, :]).astype('int')
             for (x, y, r) in circles:
+                text = "position("+str(x)+", "+str(y)+")"
                 cv2.circle(img_note, (x, y), r, (0, 255, 0), 4)
                 cv2.rectangle(img_note, (x - 5, y - 5), (x + 5, y + 5), (0, 128, 255), -1)
                 # break
 
+        cv2.putText(img_note, text, (5,5), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 0, 255), 2)
         cv2.imshow("output", np.hstack([erosion_binary_channel3, img_note]))
         cv2.waitKey(1)
 
