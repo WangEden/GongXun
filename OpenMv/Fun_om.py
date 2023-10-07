@@ -1,6 +1,9 @@
 import sensor, image, time, ustruct, math
 from pyb import UART
 
+global a1,b1,c1,d1
+global i1,f1 
+
 # 初始化串口
 uart = UART(3, 115200)  # 设置串口号和波特率
 uart.init(115200, bits=8, parity=None, stop=1)
@@ -23,11 +26,6 @@ def data_packet( a, b, c, d, i, f):
         time.sleep_ms(100)
 
 #声明数据包使用的全局变量
-global a1,b1,c1,d1
-global i1,f1 
-
-
-
 a1,b1,c1,d1,i1,f1='a','b','c',4,125,1026
 
 #定义数据发送函数
