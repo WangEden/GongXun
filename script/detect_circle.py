@@ -4,7 +4,8 @@ import numpy as np
 test_file = '../static/videos/ring/1.mp4'
 #cap = cv2.VideoCapture(test_file)
 circle_center_points = []
-camera = '/dev/video0'
+camera = '/dev/cameraInc'
+#camera = '/dev/video0'
 cap = cv2.VideoCapture(camera)
 cap.set(3, 640)
 cap.set(4, 480)
@@ -17,7 +18,10 @@ def calc_the_most_frequent_position_of_points(points):
 
 try:
     while True:
-        ret, frame = cap.read()                 
+        ret, frame = cap.read() 
+        if not ret:
+            print("no img")
+            continue
         img_note = frame.copy()
         img_calc = frame.copy()
 
@@ -38,17 +42,25 @@ try:
         #print(erosion_binary_channel3.shape)
         #cv2.imshow("binary", erosion_binary_channel3)
 
+        text = None
         # 在二值化画面中查找圆形
         circles = cv2.HoughCircles(erosion_binary, cv2.HOUGH_GRADIENT, 1, 100)
         if circles is not None:
             circles = np.round(circles[0, :]).astype('int')
             for (x, y, r) in circles:
+                text = "position("+str(x)+", "+str(y)+")"
                 cv2.circle(img_note, (x, y), r, (0, 255, 0), 4)
                 cv2.rectangle(img_note, (x - 5, y - 5), (x + 5, y + 5), (0, 128, 255), -1)
                 # break
 
-        cv2.imshow("output", np.hstack([erosion_binary_channel3, img_note]))
-        cv2.waitKey(1)
+        cv2.putText(img_note, text, (5,50), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 0, 255), 2)
+        output = np.hstack([erosion_binary_channel3, img_note])
+        output = cv2.resize(output, dsize=None,fx=0.5, fy=0.5, interpolation=cv2.INTER_LINEAR)
+
+        cv2.imshow("output", output)
+        #print(text)
+        if cv2.waitKey(10) & 0xFF == ord("q"):
+            break
 
 except KeyboardInterrupt:
     print('end')
