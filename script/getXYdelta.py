@@ -26,7 +26,7 @@ def getColorThershold(root, tag, max, min):
 
 
 def getXYDelta():
-    
+    pass
 
 
 if __name__ == "__main__":
