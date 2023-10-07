@@ -1,6 +1,6 @@
 import numpy as np
 import cv2
-import Functions as F
+import Function as F
 
 
 video_path = '../static/videos/ring/5.mp4'
@@ -16,8 +16,8 @@ last_frame = None
 while True:
     ret, frame = cap.read()
     if ret:
-        frame = F.unDistort(frame)
-        ll = F.get_circle_center(frame)
+        #frame = F.unDistort(frame)
+        ll = F.getCircleCenter(frame)
         for point in ll:
             cv2.circle(frame, point, 3,(0, 255, 0), 4)
             lis.append([point[0], point[1]])
@@ -27,7 +27,7 @@ while True:
             break
         cv2.waitKey(1)
 
-centers = F.get_kmeans_center(2, lis)
+centers = F.getKmeansCenter(2, lis)
 
 for point in centers:
     p = np.round(point, 0).astype(int)

@@ -1,4 +1,4 @@
-import Functions as F
+import script.Function as F
 import serial
 
 # 声明串口

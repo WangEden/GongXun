@@ -1,35 +1,16 @@
+from Function import send_data
 import serial
-uart2 = serial.Serial(port="/dev/ttyAMA0", baudrate=115200)
-uart2.write("Msg from UART2...".encode("gbk"))
-result = None
+
+# 声明串口
+uart = serial.Serial(port="/dev/ttyAMA0", 
+                     baudrate=115200, 
+                     bytesize=8, 
+                     parity=serial.PARITY_NONE, 
+                     stopbits=1)
+
+send_data(uart, 'c', 't', 'm', 'd', 233, -123)
 while True:
-    result = uart2.read()
-    if result is not None:
-        print(result)
-    else:
-        print("serial not data")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    a = uart.read(7)
+    if a != None:
+        print(a.decode('utf-8'))
+        break

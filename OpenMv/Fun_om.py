@@ -22,7 +22,7 @@ def data_packet( a, b, c, d, i, f):
                         int(f), # 半整型数据2
                         0x4C)      # 帧尾
     for x in range(5):
-        uart.write(temp);  # 调用串口发送命令
+        uart.write(temp)  # 调用串口发送命令
         time.sleep_ms(100)
 
 #声明数据包使用的全局变量

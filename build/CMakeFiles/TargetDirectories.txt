@@ -1,0 +1,3 @@
+/home/pi/GongXun/build/CMakeFiles/rebuild_cache.dir
+/home/pi/GongXun/build/CMakeFiles/edit_cache.dir
+/home/pi/GongXun/build/CMakeFiles/app.dir
