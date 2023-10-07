@@ -4,44 +4,88 @@
     <threshold tag="ring">
         <color category="red">
             <H>
-                <ceiling>173</ceiling>
                 <floor>149</floor>
+                <ceiling>173</ceiling>
             </H>
             <S>
-                <ceiling>169</ceiling>
                 <floor>40</floor>
+                <ceiling>169</ceiling>
             </S>
             <V>
-                <ceiling>255</ceiling>
                 <floor>0</floor>
+                <ceiling>255</ceiling>
             </V>
         </color>
         <color category="green">
             <H>
-                <ceiling>102</ceiling>
                 <floor>81</floor>
+                <ceiling>102</ceiling>
             </H>
             <S>
-                <ceiling>82</ceiling>
                 <floor>27</floor>
+                <ceiling>82</ceiling>
             </S>
             <V>
-                <ceiling>255</ceiling>
                 <floor>0</floor>
+                <ceiling>255</ceiling>
             </V>
         </color>
         <color category="blue">
             <H>
-                <ceiling>124</ceiling>
                 <floor>113</floor>
+                <ceiling>124</ceiling>
             </H>
             <S>
-                <ceiling>101</ceiling>
                 <floor>44</floor>
+                <ceiling>101</ceiling>
             </S>
             <V>
-                <ceiling>255</ceiling>
                 <floor>0</floor>
+                <ceiling>255</ceiling>
+            </V>
+        </color>
+    </threshold>
+    <threshold tag="item">
+        <color category="red">
+            <H>
+                <floor>169</floor>
+                <ceiling>185</ceiling>
+            </H>
+            <S>
+                <floor>181</floor>
+                <ceiling>220</ceiling>
+            </S>
+            <V>
+                <floor>0</floor>
+                <ceiling>255</ceiling>
+            </V>
+        </color>
+        <color category="green">
+            <H>
+                <floor>53</floor>
+                <ceiling>88</ceiling>
+            </H>
+            <S>
+                <floor>61</floor>
+                <ceiling>179</ceiling>
+            </S>
+            <V>
+                <floor>0</floor>
+                <ceiling>255</ceiling>
+            </V>
+        </color>
+        <color category="blue">
+            <H>
+                <floor>106</floor>
+                <ceiling>119</ceiling>
+            </H>
+            <S>
+                <floor>103</floor>
+                <ceiling>217</ceiling>
+            </S>
+            <V>
+                <floor>0</floor>
+                <ceiling>255</ceiling>
             </V>
         </color>
     </threshold>
