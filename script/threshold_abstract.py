@@ -1,14 +1,14 @@
 import cv2
 import numpy as np
 
-
 filename = '10.jpg'
+
 
 def callback(event):
     pass
 
 
-def prepare_process(img):
+def precondition(img):
     result = cv2.pyrMeanShiftFiltering(img, 15, 20)
     result = cv2.GaussianBlur(result, (3, 3), 0)
     return result
@@ -21,12 +21,10 @@ def Choose_Color():
     img = cv2.resize(image0, (640, 480))
     # img = cv2.resize(image0, (int(image0.shape[1] / 8), int(image0.shape[0] / 8)))
 
-    img = prepare_process(img)
-
+    img = precondition(img)
 
     cv2.imshow("img_pyr", img)
     cv2.waitKey(0)
-
 
     img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     # img = image0
@@ -70,4 +68,3 @@ def Choose_Color():
 
 
 Choose_Color()
-

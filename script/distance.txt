@@ -1,0 +1,4 @@
+height=300mm, radius=99or98, even=98.5
+height=150mm, radius=268or270, even=269.0
+
+realRadius=500mm
