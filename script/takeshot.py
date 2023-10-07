@@ -22,22 +22,24 @@ t = n[0]
 
 
 def capture(event, x, y, flags, param):
-    if 5 <= x <= 105 and 50 <= y <= 60:
+    if 5 <= x <= 105 and 20 <= y <= 60:
         n[0] = 0
 
 
-cv2.setMouseCallback("q capture", capture)
+
 while n[0] > 0:
     ret, frame = cap.read()
     if ret:
         img_note = frame.copy()
-        cv2.rectangle(img_note, (5, 50), (105, 60), (0, 0, 255), 0, 2, 0)
+        cv2.rectangle(img_note, (5, 20), (105, 60), (0, 0, 255), 1)
         cv2.putText(img_note, "Capture", (5, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 0, 255), 2)
-        cv2.imshow("q capture", frame)
+        cv2.imshow("q capture", img_note)
+        cv2.setMouseCallback("q capture", capture)
     if cv2.waitKey(10) & 0xFF == ord("q"):
         cv2.imwrite(f"./{n[0]}.jpg", frame)
         print(f"take {n[0]} photo")
         n[0] = 0
 
+print(f"img save:{t}.jpg")
 with open("img.txt", "w") as file:
     file.write(str(t + 1))
