@@ -25,6 +25,10 @@ def getColorThershold(root, tag, max, min):
         min.append(int(floors[i].text))
 
 
+def getXYDelta():
+    
+
+
 if __name__ == "__main__":
     getColorThershold(thresholdNode, 'red', red_hsv_max, red_hsv_min)
     getColorThershold(thresholdNode, 'green', green_hsv_max, green_hsv_min)
