@@ -36,10 +36,9 @@ while n[0] > 0:
         cv2.imshow("q capture", img_note)
         cv2.setMouseCallback("q capture", capture)
     if cv2.waitKey(10) & 0xFF == ord("q"):
-        cv2.imwrite(f"./{n[0]}.jpg", frame)
-        print(f"take {n[0]} photo")
         n[0] = 0
 
 print(f"img save:{t}.jpg")
+cv2.imwrite(f"./{n[0]}.jpg", frame)
 with open("img.txt", "w") as file:
     file.write(str(t + 1))
