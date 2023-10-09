@@ -72,10 +72,6 @@ def task1():  # 任务一、读取二维码
 
 
 def task2():  # 前往原料区、识别圆盘、校准物块、取物块
-    pass
-
-
-def task3():  # 前往粗加工区、识别色环颜色、校准位置、按顺序放置物块
     global uart, messageNode, cameraIncPath
     camera = VideoCapture(cameraIncPath)
     while True:
@@ -131,7 +127,11 @@ def task3():  # 前往粗加工区、识别色环颜色、校准位置、按顺�
             if response == getMessage(messageNode, 'wtok'):
                 print("start wei tiao ...")
                 break
-    print("task3 ok")
+    print("task2 ok")
+
+
+def task3():  # 前往粗加工区、识别色环颜色、校准位置、按顺序放置物块
+    pass
 
 # def show_img(img):
 #     cv2.imshow("hou tai img", img)
@@ -140,4 +140,4 @@ def task3():  # 前往粗加工区、识别色环颜色、校准位置、按顺�
 
 if __name__ == "__main__":
     getColorThreshold(itemThresholdNode, 'blue', blueThreshold)
-    task3()
+    task2()
