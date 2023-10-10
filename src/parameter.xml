@@ -4,17 +4,21 @@
     <!-- 串口收发的消息 -->
     <message>
         <!-- 到达指定区域附近 -->
-        <arrived>OK</arrived>
+        <arrived>OK--</arrived>
+        <!-- 到达原料区附近 -->
+        <arriveYL>wait</arriveYL>
         <!-- 二维码识别完成，进行前进 -->
         <qrComplete>QROK</qrComplete>
-        <!-- 进行微调 -->
-        <tweak>tw</tweak>
+        <!-- 发送微调误差 -->
+        <tweak>tw--</tweak>
         <!-- 微调动作完成 -->
-        <tweakOk>twok</tweakOk>
+        <tweakOk>wtok</tweakOk>
+        <!-- 校准完成 -->
+        <calibrOk>cbok</calibrOk>
         <!-- 向左转弯 -->
-        <turnLeft>tl</turnLeft>
+        <turnLeft>tl--</turnLeft>
         <!-- 向右转弯 -->
-        <turnRight>tr</turnRight>
+        <turnRight>tr--</turnRight>
         <!-- 进行抓取/放置 -->
         <manageItem>item</manageItem>
         <!-- 抓取/放置完成 -->
