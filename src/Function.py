@@ -160,7 +160,9 @@ def getColorThreshold(root, tag, rank):
 
 
 def get_the_most_credible_box(b_box):
-    global XCenter, YCenter
+#    global XCenter, YCenter
+    XCenter = 320
+    YCenter = 240
     if len(b_box) == 0:
         return None
     if len(b_box) == 1:

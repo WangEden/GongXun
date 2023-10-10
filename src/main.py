@@ -5,13 +5,26 @@ import cv2
 import numpy as np
 
 
-# 声明串口
+# 声明串口 
+"""
+port：设备名称或None。如COM1,COM2,COM3,COM4......如果port设置为0对应的为COM1。
+baudrate（int）：设置波特率，如9600或115200等。
+bytesize：数据位，可能的值：FIVEBITS、SIXBITS、SEVENBITS、EIGHTBITS。
+parity：奇偶校验， 启用奇偶校验。PARITY_NONE, PARITY_EVEN, PARITY_ODD, PARITY_MARK, PARITY_SPACE。
+stopbits：停止位，可能的值：STOPBITS_ONE, STOPBITS_ONE_POINT_FIVE, STOPBITS_TWO。
+timeout（float）：设置读取超时值，timeout = None: 长时间等待；timeout = 0: 不阻塞形式 (读完之后就返回)；timeout = x: x秒后超时 (float allowed)。
+xonxoff（bool）：启用软件流控制。
+rtscts（bool）：启用硬件（RTS / CTS）流量控制。
+dsrdtr（bool）：启用硬件（DSR / DTR）流控制。
+write_timeout（float）：设置写超时值。
+inter_byte_timeout（float）：字符间超时，None禁用（默认）。
+"""
 uart = serial.Serial(
     port="/dev/ttyAMA0",
     baudrate=115200,
     bytesize=8,
     parity=serial.PARITY_NONE,
-    stopbits=1,
+    stopbits=1,timeout=0,dsrdtr=True
 )
 # 参数文件
 paraDomTree = ET.parse("./parameter.xml")
@@ -20,7 +33,7 @@ ringThresholdNode = paraDomTree.find('threshold[@tag="ring"]')
 itemThresholdNode = paraDomTree.find('threshold[@tag="item"]')
 # 相机目录
 cameraTopPath = "/dev/cameraTop"
-cameraIncPath = "/dev/cameraInc"
+cameraIncPath = "/dev/video0"
 # cameraInc = F.VideoCapture(cameraIncPath)
 # cameraTop = F.VideoCapture(cameraTopPath)
 # 存储物块领取顺序
@@ -30,6 +43,8 @@ catchQueue2 = []  # 第二趟 ['g', 'b', 'r']
 redThreshold = [None, None]
 greenThreshold = [None, None]
 blueThreshold = [None, None]
+XCenter = 320
+YCenter = 240
 
 # def start():
 #     cv2.namedWindow("main")
@@ -74,11 +89,14 @@ def task1():  # 任务一、读取二维码
 def task2():  # 前往原料区、识别圆盘、校准物块、取物块
     global uart, messageNode, cameraIncPath
     camera = VideoCapture(cameraIncPath)
+    print("start task2")
     while True:
         response = uart.read(4).decode("utf-8")
         print("waiting for start wei tiao command ...")
         print("recv: ", response)
-        if response == getMessage(messageNode, 'arrived'):
+        if response is None:
+            continue
+        if response == getMessage(messageNode, 'arriveYL'):
             print("start wei tiao ...")
             break
     
@@ -88,8 +106,9 @@ def task2():  # 前往原料区、识别圆盘、校准物块、取物块
         if frame is None:
             print("no img !")
             continue
-        # cv2.imshow("wei tiao", frame)
-        # cv2.waitKey(1)
+        print("prepare img ...")
+        cv2.imshow("wei tiao", frame)
+        cv2.waitKey(1)
         print("processing img ...")
         img_bgr = precondition(frame)
         img_hsv = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2HSV)
@@ -119,12 +138,20 @@ def task2():  # 前往原料区、识别圆盘、校准物块、取物块
             cmd = getMessage(messageNode, 'calibrOk').split()
             dx, dy = 0, 0
             flag = False
-        send_data(uart, cmd, dx, dy)
+        cmd_ = ['k', 's', 't', 'z']
+        #for a in cmd:
+        #    cmd_.append(a)
+        print(cmd_)
+        print("dx, dy: ", dx, dy)
+        send_data(uart, cmd_, dx, dy)
         while flag:
             response = uart.read(4).decode("utf-8")
             print("waiting for weitiao complete...")
             print("recv: ", response)
-            if response == getMessage(messageNode, 'wtok'):
+            if response is None:
+                continue
+            #if response == getMessage(messageNode, 'wtok'):
+            if response == "wtok": 
                 print("start wei tiao ...")
                 break
     print("task2 ok")
