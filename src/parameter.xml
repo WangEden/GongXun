@@ -5,6 +5,8 @@
     <message>
         <!-- 到达指定区域附近 -->
         <arrived>OK--</arrived>
+        <!-- 到达原料区附近 -->
+        <arriveYL>wait</arriveYL>
         <!-- 二维码识别完成，进行前进 -->
         <qrComplete>QROK</qrComplete>
         <!-- 发送微调误差 -->
