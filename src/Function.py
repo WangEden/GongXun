@@ -188,6 +188,10 @@ def uDistanceToDx(ud, h):
         return 0
 
 
+def capture(tag):
+    cap = cv2.VideoCapture()
+
+
 # 串口
 """
 port            设备名称或None。如COM1,COM2,COM3,COM4......如果port设置为0对应的为COM1。
