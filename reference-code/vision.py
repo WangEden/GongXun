@@ -47,7 +47,7 @@ def sm():
         img = np.ones((height, width, 4)) * (255, 255, 255, 0)
         text = tt
         cv2.putText(img, text, (0, 200), cv2.FONT_HERSHEY_SIMPLEX, 2.5, (0, 0, 0), 10)
-        cv.imwrite("image.jpg", img);
+        cv.imwrite("image.jpg", img)
         img=Image.open('image.jpg')
         img.show()
         num = ''.join([x for x in tt if x.isdigit()])
