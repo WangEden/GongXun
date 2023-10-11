@@ -131,10 +131,12 @@ def precondition(_img):
 
 
 # 获取命令
-def getMessage(node, tag):
+def getMessage(node, tag, mode=0):    
     _res = node.find(tag).text
-    _res = [_ for _ in _res]
-    return _res
+    if mode == 0:
+    	return _res
+    elif mode == 1:
+        return list(_res)
 
 
 # bbox: [box1, box2, ...]
