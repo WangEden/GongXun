@@ -25,8 +25,8 @@ def xmlReadThreshold(tag, color, rank): # rank: [min:[], max:[]]
         _max.append(int(ceilings[i].text))
     _min = np.array(_min)
     _max = np.array(_max)
-    rank[0] = _min
-    rank[1] = _max
+    rank.append(_min)
+    rank.append(_max)
 
 
 #定义数据包，格式为2个帧头+4个字符数据+2个半整型数据+帧尾（11byte）
