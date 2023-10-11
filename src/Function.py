@@ -133,6 +133,7 @@ def precondition(_img):
 # 获取命令
 def getMessage(node, tag):
     _res = node.find(tag).text
+    _res = [_ for _ in _res]
     return _res
 
 
