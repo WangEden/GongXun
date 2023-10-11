@@ -95,8 +95,7 @@ def task2():  # 前往原料区、识别圆盘、校准物块、取物块
         print("wait kswt command & recv: [", response, "]")
         if response is None:
             continue
-        pat = getMessage(messageNode, 'arriveYL')
-        if response == str(pat):
+        if response == getMessage(messageNode, 'arriveYL', 0):
             print("start wei tiao ...")
             break
     
@@ -133,11 +132,11 @@ def task2():  # 前往原料区、识别圆盘、校准物块、取物块
         cv2.imshow("img_note", img_note)
         cv2.waitKey(1)
         
-        cmd = getMessage(messageNode, 'tweak')
+        cmd = getMessage(messageNode, 'tweak', 1)
         dx = uDistanceToDx(udx, 16)
         dy = uDistanceToDx(udy, 16)
         if abs(udx) < 3 and abs(udy) < 3:
-            cmd = getMessage(messageNode, 'calibrOk')
+            cmd = getMessage(messageNode, 'calibrOk', 1)
             dx, dy = 0, 0
             flag = False
         print(cmd)
@@ -149,8 +148,7 @@ def task2():  # 前往原料区、识别圆盘、校准物块、取物块
             print("waiting weitiao action complete & recv: [", response, "]")
             if response is None:
                 continue
-            #if response == getMessage(messageNode, 'wtok'):
-            if response == "wtok": 
+            if response == getMessage(messageNode, 'wtok', 0):
                 print("start wei tiao ...")
                 break
     print("task2 ok")
