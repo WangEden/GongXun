@@ -93,17 +93,17 @@ def getQRCodeResult(img):
         print("No QR Code Found.")
 
 
-def parseItemCatchQueue(qr_result, q1, q2):
-    # 假设载物盘为正三角形
-    # 抓取顺序和放置顺序一样
-    color = {'1': 'r', '2': 'g', '3': 'b'}
-    queue_list = qr_result.split("+")
-    q1s, q2s = queue_list
-    for c in q1s:
-        q1.append(color[c])
-    for c in q2s:
-        q2.append(color[c])
-    # 抓取顺序和放置顺序不一样
+# def parseItemCatchQueue(qr_result, q1, q2):
+#     # 假设载物盘为正三角形
+#     # 抓取顺序和放置顺序一样
+#     color = {'1': 'r', '2': 'g', '3': 'b'}
+#     queue_list = qr_result.split("+")
+#     q1s, q2s = queue_list
+#     for c in q1s:
+#         q1.append(color[c])
+#     for c in q2s:
+#         q2.append(color[c])
+#     # 抓取顺序和放置顺序不一样
 
 
 #定义数据包，格式为2个帧头+4个字符数据+2个半整型数据+帧尾（11byte）

@@ -36,12 +36,6 @@ blueThreshold = [None, None]
 XCenter = 320
 YCenter = 240
 
-# def start():
-#     cv2.namedWindow("main")
-#     cv2.resizeWindow("main", 1024, 480)
-#     screen = np.ones(480, 1024) * 255
-#     cv2.rectangle(screen)
-
 
 def task1():  # 任务一、读取二维码
     global uart, catchQueue1, catchQueue2, cameraTopPath, messageNode
