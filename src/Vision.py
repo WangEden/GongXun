@@ -4,6 +4,30 @@ from pyzbar.pyzbar import decode
 from pyzbar import pyzbar
 
 
+def capture(dev:int, name):
+    cap = None
+    if dev == 0:
+        cap = cv2.VideoCapture("/dev/cameraInc")
+    elif dev == 1:
+        cap = cv2.VideoCapture("/dev/cameraTop")
+    else:
+        cap = cv2.VideoCapture("/dev/video0")
+    print(cap.set(3, 640))
+    cap.set(4, 480)
+    cap.set(cv2.CAP_PROP_AUTO_WB,1)
+    cap.set(cv2.CAP_PROP_AUTO_EXPOSURE,1)
+    cap.set(6, cv2.VideoWriter.fourcc(*'MJPG'))
+
+    ret, frame = cap.read()
+    if not ret:
+        print("**摄像头打开失败**")
+        return
+    
+    cv2.imwrite(f"/home/pi/GongXun/src/data/{name}.jpg", frame)
+    print("图片保存成功")
+    cap.release()
+
+
 # 获取扫码结果
 def getQRCodeResult(queue:list):
     img = cv2.imread('./data/qrcode.jpg')
@@ -62,3 +86,7 @@ def get_the_most_credible_box(b_box):
     b_box = sorted(b_box, key=lambda box: box[4], reverse=True)
     # print("by area:\n", b_box)
     return b_box[0]
+
+
+if __name__ == '__main__':
+    capture(-1, 'qrcode')

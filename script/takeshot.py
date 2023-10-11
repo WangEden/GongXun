@@ -7,7 +7,7 @@ import Function as F
 cap = cv2.VideoCapture("/dev/video0")
 cap.set(3, 640)
 cap.set(4, 480)
-# cap.set(cv2.CAP_PROP_AUTO_WB,1)
+cap.set(cv2.CAP_PROP_AUTO_WB,1)
 # cap.set(cv2.CAP_PROP_AUTO_EXPOSURE,1)
 # cap.set(cv2.CAP_PROP_EXPOSURE,7)
 cap.set(6, cv2.VideoWriter.fourcc(*'MJPG'))
@@ -40,6 +40,10 @@ while n[0] > 0:
         cv2.putText(img_note, "Capture", (5, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 0, 255), 2)
         cv2.imshow("q capture", img_note)
         cv2.setMouseCallback("q capture", capture, [frame, t])
+        # a = input()
+        # if a == 'q':
+        #     cv2.imwrite(f"./{n[0]}.jpg", frame)
+        #     n[0] = 0
     if cv2.waitKey(10) & 0xFF == ord("q"):
         print(f"img save:{t}.jpg")
         cv2.imwrite(f"./{n[0]}.jpg", frame)
