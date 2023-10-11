@@ -185,5 +185,20 @@ def uDistanceToDx(ud, h):
         return 0
 
 
+# 串口
+"""
+port            设备名称或None。如COM1,COM2,COM3,COM4......如果port设置为0对应的为COM1。
+baudrate(int):  设置波特率, 如9600或115200等。
+bytesize:       数据位, 可能的值: FIVEBITS、SIXBITS、SEVENBITS、EIGHTBITS。
+parity:         奇偶校验,  启用奇偶校验。PARITY_NONE, PARITY_EVEN, PARITY_ODD, PARITY_MARK, PARITY_SPACE。
+stopbits:       停止位, 可能的值:STOPBITS_ONE, STOPBITS_ONE_POINT_FIVE, STOPBITS_TWO。
+timeout(float): 设置读取超时值, timeout = None: 长时间等待; timeout = 0: 不阻塞形式 (读完之后就返回)；timeout = x: x秒后超时 (float allowed)。
+xonxoff(bool):  启用软件流控制。
+rtscts(bool):   启用硬件(RTS / CTS)流量控制。
+dsrdtr(bool):   启用硬件(DSR / DTR)流控制。
+write_timeout(float):       设置写超时值。
+inter_byte_timeout(float):  字符间超时, None禁用(默认)。
+"""
+
 if __name__ == "__main__":
     pass
