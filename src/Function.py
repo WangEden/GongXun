@@ -93,17 +93,17 @@ def getQRCodeResult(img):
         print("No QR Code Found.")
 
 
-def parseItemCatchQueue(qr_result, q1, q2):
-    # 假设载物盘为正三角形
-    # 抓取顺序和放置顺序一样
-    color = {'1': 'r', '2': 'g', '3': 'b'}
-    queue_list = qr_result.split("+")
-    q1s, q2s = queue_list
-    for c in q1s:
-        q1.append(color[c])
-    for c in q2s:
-        q2.append(color[c])
-    # 抓取顺序和放置顺序不一样
+# def parseItemCatchQueue(qr_result, q1, q2):
+#     # 假设载物盘为正三角形
+#     # 抓取顺序和放置顺序一样
+#     color = {'1': 'r', '2': 'g', '3': 'b'}
+#     queue_list = qr_result.split("+")
+#     q1s, q2s = queue_list
+#     for c in q1s:
+#         q1.append(color[c])
+#     for c in q2s:
+#         q2.append(color[c])
+#     # 抓取顺序和放置顺序不一样
 
 
 #定义数据包，格式为2个帧头+4个字符数据+2个半整型数据+帧尾（11byte）
@@ -131,9 +131,12 @@ def precondition(_img):
 
 
 # 获取命令
-def getMessage(node, tag):
+def getMessage(node, tag, mode=0):    
     _res = node.find(tag).text
-    return _res
+    if mode == 0:
+    	return _res
+    elif mode == 1:
+        return list(_res)
 
 
 # bbox: [box1, box2, ...]
@@ -160,7 +163,9 @@ def getColorThreshold(root, tag, rank):
 
 
 def get_the_most_credible_box(b_box):
-    global XCenter, YCenter
+#    global XCenter, YCenter
+    XCenter = 320
+    YCenter = 240
     if len(b_box) == 0:
         return None
     if len(b_box) == 1:
@@ -182,6 +187,25 @@ def uDistanceToDx(ud, h):
     else:
         return 0
 
+
+def capture(tag):
+    cap = cv2.VideoCapture()
+
+
+# 串口
+"""
+port            设备名称或None。如COM1,COM2,COM3,COM4......如果port设置为0对应的为COM1。
+baudrate(int):  设置波特率, 如9600或115200等。
+bytesize:       数据位, 可能的值: FIVEBITS、SIXBITS、SEVENBITS、EIGHTBITS。
+parity:         奇偶校验,  启用奇偶校验。PARITY_NONE, PARITY_EVEN, PARITY_ODD, PARITY_MARK, PARITY_SPACE。
+stopbits:       停止位, 可能的值:STOPBITS_ONE, STOPBITS_ONE_POINT_FIVE, STOPBITS_TWO。
+timeout(float): 设置读取超时值, timeout = None: 长时间等待; timeout = 0: 不阻塞形式 (读完之后就返回)；timeout = x: x秒后超时 (float allowed)。
+xonxoff(bool):  启用软件流控制。
+rtscts(bool):   启用硬件(RTS / CTS)流量控制。
+dsrdtr(bool):   启用硬件(DSR / DTR)流控制。
+write_timeout(float):       设置写超时值。
+inter_byte_timeout(float):  字符间超时, None禁用(默认)。
+"""
 
 if __name__ == "__main__":
     pass
