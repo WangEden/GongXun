@@ -92,11 +92,11 @@ def task2():  # 前往原料区、识别圆盘、校准物块、取物块
     print("start task2")
     while True:
         response = uart.read(4).decode("utf-8")
-        print("waiting for start wei tiao command ...")
-        print("recv: ", response)
+        print("wait kswt command & recv: [", response, "]")
         if response is None:
             continue
-        if response == getMessage(messageNode, 'arriveYL'):
+        pat = getMessage(messageNode, 'arriveYL')
+        if response == str(pat):
             print("start wei tiao ...")
             break
     
@@ -109,6 +109,7 @@ def task2():  # 前往原料区、识别圆盘、校准物块、取物块
         print("prepare img ...")
         cv2.imshow("wei tiao", frame)
         cv2.waitKey(1)
+        
         print("processing img ...")
         img_bgr = precondition(frame)
         img_hsv = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2HSV)
@@ -131,23 +132,21 @@ def task2():  # 前往原料区、识别圆盘、校准物块、取物块
             cv2.line(img_note, (320, 240), (cx, cy), (255, 0, 0), 2)
         cv2.imshow("img_note", img_note)
         cv2.waitKey(1)
-        cmd = getMessage(messageNode, 'tweak').split()
+        
+        cmd = getMessage(messageNode, 'tweak')
         dx = uDistanceToDx(udx, 16)
         dy = uDistanceToDx(udy, 16)
         if abs(udx) < 3 and abs(udy) < 3:
-            cmd = getMessage(messageNode, 'calibrOk').split()
+            cmd = getMessage(messageNode, 'calibrOk')
             dx, dy = 0, 0
             flag = False
-        cmd_ = ['k', 's', 't', 'z']
-        #for a in cmd:
-        #    cmd_.append(a)
-        print(cmd_)
+        print(cmd)
         print("dx, dy: ", dx, dy)
-        send_data(uart, cmd_, dx, dy)
+        send_data(uart, cmd, dx, dy)
+        
         while flag:
             response = uart.read(4).decode("utf-8")
-            print("waiting for weitiao complete...")
-            print("recv: ", response)
+            print("waiting weitiao action complete & recv: [", response, "]")
             if response is None:
                 continue
             #if response == getMessage(messageNode, 'wtok'):
