@@ -37,24 +37,12 @@ def task2():
     # while flag:
     # 拍照用于微调，拍的时候物块不能是运动的，解决办法：等一段两倍转盘运动时间
     time.sleep(0.3)
-
-    # 拍照
-    if not capture(0, 'yl'): 
-        return False # 拍照不成功
     
-    fineTuneItem(uart)
+    # 进行微调
+    flg = fineTuneItem(uart)
+    if flg:
+        flg = catchItem()
     
-
-    
-
-        
-        
-        
-
-
-        
-        
-        
 
 
 

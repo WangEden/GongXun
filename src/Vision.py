@@ -104,7 +104,7 @@ def getItemRect():
 
 
 # 微调物块：一两秒内需要完成
-def fineTuneItem():
+def fineTuneItem(uart):
     XCenter, YCenter = 320, 240
 
     img = cv2.imread("./data/yl.jpg")
@@ -118,41 +118,88 @@ def fineTuneItem():
         xmlReadThreshold("item", c, Threshold[i])      
 
     # 查找物块, 三种颜色轮流尝试, 判断依据为物块是否处于预定义的中间区域
-    ROI = [XCenter-150, YCenter-150, 300, 300] # 待确定
+    ROI = [XCenter-160, YCenter-160, 320, 320] # 待确定
     img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     mask = None
     box = None
     # debug
     img_note = img.copy()
-    n = 0
+    n = 0 # 用于标记匹配到的颜色是哪一个
     for cth in Threshold:
         mask = cv2.inRange(img_hsv, cth[0], cth[1])
         mask = cv2.medianBlur(mask, 3)
         bbox = mask_find_b_boxs(mask)
-
         box = get_the_most_credible_box(bbox)
         if box is not None: # 通常不会为None
             if compRect(roi=ROI, box=box):
                 break
         n+=1
 
-    if n == 0: # 匹配上了红色
-        pass
-    elif n == 1: # 匹配上了绿色
-        pass
-    elif n == 2: # 匹配上了蓝色
-        pass
-    else: # 三种颜色都没匹配上, 一般不可能发生
+    if n == 3: # 三种颜色都没匹配上, 一般不可能发生
+        print("没有找到任何一个颜色")
         return False
-    
+            
+    flag = True
+    while flag:
+        p1 = tuple([box[0], box[1]])
+        p2 = tuple([box[0] + box[2], box[1] + box[3]])
+        cx = int((p1[0] + p2[0]) / 2)
+        cy = int((p1[1] + p2[1]) / 2)
+
+        udx = cx - XCenter
+        udy = cy - YCenter
+
+        k = 0
+        cmd = xmlReadCommand('tweak', 1)
+        dx = uDistanceToDx(udx, 16)
+        dy = uDistanceToDx(udy, 16)
+
+        # 中心偏移小于10都可以进行抓取
+        if abs(udx) < 10 and abs(udy) < 10: 
+            cmd = xmlReadCommand('calibrOk', 1)
+            dx, dy = 0, 0
+            flag = False
+
+        print("当前要发送的命令是：", cmd, "dx, dy:", dx, dy)
+        send_data(uart, cmd, dx, dy)
+
+        cv2.rectangle(img_note, p1, p2, (255, 0, 0), 1)
+        # cv2.putText(img_note, f"({cx}, {cy})", p1, cv2.FONT_HERSHEY_SIMPLEX, 0.75, (255, 255, 255), 1)
+        cv2.circle(img_note, (cx, cy), 4, (64, 128, 255), -1)   
+        cv2.putText(img_note, f"({udx}, {udy})", (cx, cy), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (255, 255, 255), 1)
+        cv2.line(img_note, (320, 240), (cx, cy), (255, 0, 0), 2)
+        cv2.imwrite(f"./data/img_note{k}.jpg", img_note)
+        k+=1
+        if flag:
+            # 拍照
+            if not capture(0, 'yl'): 
+                return False # 拍照不成功
+            img = cv2.imread("./data/yl.jpg")
+            mask = cv2.inRange(img_hsv, Threshold[n][0], Threshold[n][1])
+            mask = cv2.medianBlur(mask, 3)
+            bbox = mask_find_b_boxs(mask)
+            box = get_the_most_credible_box(bbox)
+    return True
 
 
+def catchItem():
     
+    pass
 
 
 # 判断一个矩形是否被另一个矩形包围
 def compRect(roi, box):
     return (roi[0] < box[0] and roi[1] < box[1] and roi[2] > box[2] and roi[3] > box[3])
+
+
+# 根据不同高度转换像素距离和实际距离
+def uDistanceToDx(ud, h):
+    if h == 16:
+        return int(ud * 25 / 120 * 10)
+    elif h == 30:
+        return 0
+    else:
+        return 0
 
 
 if __name__ == "__main__":
