@@ -174,8 +174,11 @@ def fineTuneItem(threshold: list):
             cmd = xmlReadCommand('calibrOk', 1)
             dx, dy = 0, 0
             flag = False
+        else:
+            print("还没调准                                         ", end='\r')
 
-        print("当前要发送的命令是：", cmd, "dx, dy:", dx, dy)
+
+        print("当前要发送的命令是：", cmd, "udx, udy:", udx, udy, "dx, dy:", dx, dy)
         send_data(cmd, dx, dy)
 
         cv2.rectangle(img_note, p1, p2, (255, 0, 0), 1)
@@ -189,8 +192,9 @@ def fineTuneItem(threshold: list):
         while True:
             response = recv_data()
             print("等待调完信号, 当前接收: (", response, ")", end='\r')
+            print(" ", end='\r')
             if response == xmlReadCommand("tweakOk", 0):
-                print("当次微调动作完成")
+                print("\n当次微调动作完成")
                 break
             
 
