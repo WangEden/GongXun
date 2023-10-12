@@ -5,6 +5,9 @@ from pyzbar import pyzbar
 from Communication import *
 
 
+# 拍一张照片，路径存储于 ./data/<name>.jpg
+# dev=0: Inc, dev=1: Top
+# mode=1 进行预处理
 def capture(dev: int, name, mode=0):
     cap = None
     if dev == 0:
@@ -13,6 +16,7 @@ def capture(dev: int, name, mode=0):
         cap = cv2.VideoCapture("/dev/cameraTop")
     else:
         cap = cv2.VideoCapture("/dev/video0")
+    
     print(cap.set(3, 640))
     cap.set(4, 480)
     cap.set(cv2.CAP_PROP_AUTO_WB, 1)
@@ -35,18 +39,20 @@ def capture(dev: int, name, mode=0):
 
 # 获取扫码结果
 def getQRCodeResult(queue: list):
+
+    if not capture(0, 'qrcode', 1): return False # 拍照不成功
     img = cv2.imread("./data/qrcode.jpg")
 
     if img is None:
         print("**图片读取失败**")
-        return None
+        return False
 
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     result = decode(gray)
 
     if result is None or len(result) == 0:
         print("**二维码识别失败**")
-        return None
+        return False
 
     data: str = result[0].data.decode("utf-8")
     print("识别结果: ", data)
@@ -57,6 +63,7 @@ def getQRCodeResult(queue: list):
         l = list(i)  # l : ['1', '2', '3']
         for j in l:
             queue.append(int(j))  # queue: [1, 2, 3, 3, 2, 1]
+    return True
 
 
 # 图像预处理
@@ -83,7 +90,7 @@ def get_the_most_credible_box(b_box):
     XCenter = 320
     YCenter = 240
     if len(b_box) == 0:
-        return None
+        return False
     if len(b_box) == 1:
         return b_box[0]
     b_box = sorted(b_box, key=lambda box: abs(box[0] + box[2] / 2 - XCenter))
@@ -95,52 +102,44 @@ def get_the_most_credible_box(b_box):
     return b_box[0]
 
 
-# 获取物块的外接矩形
-def getItemRect():
-    pass
-
-
-
-
-
 # 微调物块：一两秒内需要完成
-def fineTuneItem(uart):
+def fineTuneItem(threshold: list):
     XCenter, YCenter = 320, 240
-
-    img = cv2.imread("./data/yl.jpg")
-    if img is None:
-        return False  # 没有读到图像
-
-    # 获取三个阈值
-    Threshold = [None, None, None] # -> [[min, max], [min, max], [min, max]]
-    color = ['red', 'green', 'blue']
-    for i, c in enumerate(color):
-        xmlReadThreshold("item", c, Threshold[i])      
-
-    # 查找物块, 三种颜色轮流尝试, 判断依据为物块是否处于预定义的中间区域
     ROI = [XCenter-160, YCenter-160, 320, 320] # 待确定
-    img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-    mask = None
-    box = None
-    # debug
-    img_note = img.copy()
+    mask, box, img_note = None, None, None
     n = 0 # 用于标记匹配到的颜色是哪一个
-    for cth in Threshold:
-        mask = cv2.inRange(img_hsv, cth[0], cth[1])
-        mask = cv2.medianBlur(mask, 3)
-        bbox = mask_find_b_boxs(mask)
-        box = get_the_most_credible_box(bbox)
-        if box is not None: # 通常不会为None
-            if compRect(roi=ROI, box=box):
-                break
-        n+=1
 
-    if n == 3: # 三种颜色都没匹配上, 一般不可能发生
-        print("没有找到任何一个颜色")
-        return False
-            
+    while True:
+        if not capture(0, 'yl', 1): return False # 拍照不成功
+        img = cv2.imread("./data/yl.jpg")
+        if img is None: return False  # 没有读到图像
+
+        # 查找物块, 三种颜色轮流尝试, 判断依据为物块是否处于预定义的中间区域
+        img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+
+        # debug用的一些输出图像
+        img_note = img.copy()
+
+        f = True
+        for cth in threshold:
+            mask = cv2.inRange(img_hsv, cth[0], cth[1])
+            mask = cv2.medianBlur(mask, 3)
+            bbox = mask_find_b_boxs(mask)
+            box = get_the_most_credible_box(bbox)
+            if box is not None: # 通常不会为None
+                if compRect(roi=ROI, box=box):
+                    f = False
+                    break
+            n+=1
+        if not f: break
+
+        if n == 3: # 三种颜色都没匹配上, 一般不可能发生
+            print("没有找到任何一个颜色")
+
+
     flag = True
     while flag:
+        if not compRect(ROI, box): continue # 
         p1 = tuple([box[0], box[1]])
         p2 = tuple([box[0] + box[2], box[1] + box[3]])
         cx = int((p1[0] + p2[0]) / 2)
@@ -161,7 +160,7 @@ def fineTuneItem(uart):
             flag = False
 
         print("当前要发送的命令是：", cmd, "dx, dy:", dx, dy)
-        send_data(uart, cmd, dx, dy)
+        send_data(cmd, dx, dy)
 
         cv2.rectangle(img_note, p1, p2, (255, 0, 0), 1)
         # cv2.putText(img_note, f"({cx}, {cy})", p1, cv2.FONT_HERSHEY_SIMPLEX, 0.75, (255, 255, 255), 1)
@@ -172,19 +171,62 @@ def fineTuneItem(uart):
         k+=1
         if flag:
             # 拍照
-            if not capture(0, 'yl'): 
-                return False # 拍照不成功
+            if not capture(0, 'yl', 1): return False # 拍照不成功
             img = cv2.imread("./data/yl.jpg")
-            mask = cv2.inRange(img_hsv, Threshold[n][0], Threshold[n][1])
+            if img is None: return False # 图片读取不成功
+            img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+            mask = cv2.inRange(img_hsv, threshold[n][0], threshold[n][1])
             mask = cv2.medianBlur(mask, 3)
             bbox = mask_find_b_boxs(mask)
             box = get_the_most_credible_box(bbox)
     return True
 
 
-def catchItem():
-    
-    pass
+def catchItem(threshold: list, queue: list):
+    XCenter, YCenter = 320, 240
+    ROI = [XCenter-160, YCenter-160, 320, 320] # 待确定
+    color = ['红色', '绿色', '蓝色']
+
+    mask, box, img_note = None, None, None
+    ptr = 0 # 作为指针指向抓取顺序列表中的元素
+
+    while True:
+        if not capture(0, 'yl', 1): return False # 拍照不成功
+        img = cv2.imread("./data/yl.jpg")
+        if img is None: return False # 图片读取不成功
+
+        img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+
+
+        c = queue[ptr] - 1 # ps: 1 red -> 0 redthreshold
+        mask = cv2.inRange(img_hsv, threshold[c][0], threshold[c][1])
+        mask = cv2.medianBlur(mask, 3)
+        bbox = mask_find_b_boxs(mask)
+        box = get_the_most_credible_box(bbox)
+        if not box or not compRect(ROI, box) or box[2] * box[3] < 7000:
+            print("等待中, 当前颜色不匹配")
+            continue
+
+        cmd = xmlReadCommand("catch", 1)
+        
+        print("识别到", color[c], "颜色正确, 进行抓取")
+        send_data(cmd, 0, 0)
+        ptr += 1
+
+        while True:
+            response = recv_data()
+            print("等待抓取动作完成, 当前接收命令:", response)
+            if response is not None:
+                if response == xmlReadCommand("mngOK", 0):
+                    print("抓取动作执行完毕, 进行下一步")
+                    break
+
+
+        if ptr == 3:
+            cmd = xmlReadCommand("task2OK", 1)
+            print("三个物块都抓取完毕, 进行下一步")
+            send_data(cmd, 0, 0)
+            break
 
 
 # 判断一个矩形是否被另一个矩形包围

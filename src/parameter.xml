@@ -10,6 +10,8 @@
 
         <!-- 二维码识别完成，进行前进 -->
         <qrComplete>QROK</qrComplete>
+        <!-- 三个物块都抓取完成 -->
+        <task2OK>t2OK</task2OK>
 
         <!-- 发送微调误差 -->
         <tweak>kstz</tweak>
@@ -18,15 +20,19 @@
         <!-- 校准完成 -->
         <calibrOk>cbok</calibrOk>
 
+        
+
         <!-- 向左转弯 -->
         <turnLeft>tl--</turnLeft>
         <!-- 向右转弯 -->
         <turnRight>tr--</turnRight>
         
-        <!-- 进行抓取/放置 -->
-        <manageItem>item</manageItem>
-        <!-- 抓取/放置完成 -->
-        <manageItemOK>mnok</manageItemOK>
+        <!-- 进行抓取 -->
+        <catch>ctch</catch>
+        <!-- 进行放置 -->
+        <set>st--</set>
+        <!-- 抓取/放置动作完成 -->
+        <mngOK>mnok</mngOK>
         <!--  -->
     </message>
 

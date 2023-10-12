@@ -3,6 +3,17 @@ from xml.etree import ElementTree as ET
 import numpy as np
 
 
+uart = serial.Serial( # 声明串口
+    port="/dev/ttyAMA0",
+    baudrate=115200,
+    bytesize=8,
+    parity=serial.PARITY_NONE,
+    stopbits=1,
+    timeout=0,
+    dsrdtr=True,
+)
+
+
 def xmlReadCommand(tag, mode):
     paraDomTree = ET.parse("./parameter.xml")
     messageNode = paraDomTree.find("message")
@@ -31,7 +42,7 @@ def xmlReadThreshold(tag, color, rank): # rank: [min:[], max:[]]
 
 #定义数据包，格式为2个帧头+4个字符数据+2个半整型数据+帧尾（11byte）
 #4个字符传输命令名，2个int传输xy方向的偏差
-def send_data(uart, cmd:list, i, f):
+def send_data(cmd:list, i, f):
     a, b, c, d = cmd
     data = struct.pack("<bbbbbbhhb", # 四个字符作为命令, 两个浮点作为xy偏差
                         0x2C,      # 帧头1      ','
@@ -45,3 +56,6 @@ def send_data(uart, cmd:list, i, f):
                         0x3E)      # 帧尾       '>'
     uart.write(data)
 
+
+def recv_data():
+    return uart.read(4).decode('utf-8')
