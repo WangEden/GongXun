@@ -40,19 +40,21 @@ def capture(dev: int, name, mode=0):
 # 获取扫码结果
 def getQRCodeResult(queue: list):
 
-    if not capture(0, 'qrcode', 1): return False # 拍照不成功
-    img = cv2.imread("./data/qrcode.jpg")
+    while True:
+        if not capture(1, 'qrcode', 1): return False # 拍照不成功
+        img = cv2.imread("./data/qrcode.jpg")
 
-    if img is None:
-        print("**图片读取失败**")
-        return False
+        if img is None:
+            print("**图片读取失败**")
+            return False
 
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-    result = decode(gray)
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        result = decode(gray)
 
-    if result is None or len(result) == 0:
-        print("**二维码识别失败**")
-        return False
+        if result is None or len(result) == 0:
+            print("**二维码识别失败**")
+        else:
+            break
 
     data: str = result[0].data.decode("utf-8")
     print("识别结果: ", data)
