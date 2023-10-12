@@ -11,7 +11,7 @@ def task1():
     
     while True:
         response = recv_data()
-        print("等待命令: 到达二维码区, 目前接受到: [", response, "]")
+        print("等待命令: 到达二维码区, 目前接受到: [", response, "]", end='\r')
         if response is not None:
             if response == xmlReadCommand('arriveQR', 0):
                 print("开始读取识别二维码")
@@ -37,7 +37,7 @@ def task2():
     # 等待小车到达原料区域
     while True:
         response = recv_data()
-        print("等待命令: 到达原料区, 目前接受到: [", response, "]")
+        print("等待命令: 到达原料区, 目前接受到: [", response, "]", end='\r')
         if response is not None:
             if response == xmlReadCommand('arriveYL', 0):
                 print("开始微调")

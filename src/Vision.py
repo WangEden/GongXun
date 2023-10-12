@@ -188,7 +188,7 @@ def fineTuneItem(threshold: list):
 
         while True:
             response = recv_data()
-            print("等待调完信号, 当前接收:[", response, "]")
+            print("等待调完信号, 当前接收: (", response, ")", end='\r')
             if response == xmlReadCommand("tweakOk", 0):
                 print("当次微调动作完成")
                 break
