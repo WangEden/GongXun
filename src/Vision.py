@@ -170,7 +170,7 @@ def fineTuneItem(threshold: list):
         dy = uDistanceToDx(udy, 16)
 
         # 中心偏移小于10都可以进行抓取
-        if abs(udx) < 10 and abs(udy) < 10: 
+        if abs(udx) < 20 and abs(udy) < 20: 
             cmd = xmlReadCommand('calibrOk', 1)
             dx, dy = 0, 0
             flag = False
@@ -188,15 +188,16 @@ def fineTuneItem(threshold: list):
         cv2.line(img_note, (320, 240), (cx, cy), (255, 0, 0), 2)
         cv2.imwrite(f"/home/pi/GongXun/src/data/fineTune{debug}/img_note.jpg", img_note)
         k+=1
+            
 
-        while True:
+        while flag:
             response = recv_data()
             print("等待调完信号, 当前接收: (", response, ")", end='\r')
             print(" ", end='\r')
             if response == xmlReadCommand("tweakOk", 0):
                 print("\n当次微调动作完成")
                 break
-            
+
 
         if flag:
             # 拍照
@@ -210,6 +211,10 @@ def fineTuneItem(threshold: list):
             cv2.imwrite(f"/home/pi/GongXun/src/data/fineTune{debug}/mask2.jpg", mask)
             bbox = mask_find_b_boxs(mask)
             box = get_the_most_credible_box(bbox)
+
+
+
+
 
     # debug # # # # # # # # # # # # # # # # # #
     with open("debug.txt", "w") as file:
