@@ -92,7 +92,7 @@ def get_the_most_credible_box(b_box):
     XCenter = 320
     YCenter = 240
     if len(b_box) == 0:
-        return False
+        return None
     if len(b_box) == 1:
         return b_box[0]
     b_box = sorted(b_box, key=lambda box: abs(box[0] + box[2] / 2 - XCenter))
@@ -142,8 +142,7 @@ def fineTuneItem(threshold: list):
             box = get_the_most_credible_box(bbox)
             print(box)
             if box is not None: # 通常不会为None
-                r = compRect(roi=ROI, box=box)
-                if r:
+                if compRect(roi=ROI, box=box):
                     f = False
                     break
             n+=1
@@ -155,8 +154,7 @@ def fineTuneItem(threshold: list):
 
     flag = True
     while flag:
-        r = compRect(ROI, box)
-        if not r: continue # 
+        if not compRect(ROI, box): continue # 
         p1 = tuple([box[0], box[1]])
         p2 = tuple([box[0] + box[2], box[1] + box[3]])
         cx = int((p1[0] + p2[0]) / 2)
@@ -229,7 +227,7 @@ def catchItem(threshold: list, queue: list):
         mask = cv2.medianBlur(mask, 3)
         bbox = mask_find_b_boxs(mask)
         box = get_the_most_credible_box(bbox)
-        if not box or not compRect(ROI, box) or box[2] * box[3] < 7000:
+        if not compRect(ROI, box) or box[2] * box[3] < 7000:
             print("等待中, 当前颜色不匹配")
             continue
 
@@ -257,7 +255,16 @@ def catchItem(threshold: list, queue: list):
 
 # 判断一个矩形是否被另一个矩形包围
 def compRect(roi, box):
-    return True if (roi[0] < box[0] and roi[1] < box[1] and roi[2] > box[2] and roi[3] > box[3]) else False
+    # print("roi: ", roi, "box: ", box)
+    if box is None:
+        return False
+    if roi[0] < box[0] and \
+        roi[1] < box[1] and \
+        (roi[0] + roi[2]) > (box[0] + box[2]) and \
+        (roi[1] + roi[3]) > (box[1] + box[3]):
+        return True
+    else: 
+        return False
 
 
 # 根据不同高度转换像素距离和实际距离
