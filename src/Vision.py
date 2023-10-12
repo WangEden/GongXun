@@ -106,6 +106,15 @@ def get_the_most_credible_box(b_box):
 
 # 微调物块：一两秒内需要完成
 def fineTuneItem(threshold: list):
+    # debug # # # # # # # # # # # # # # # # # #
+    debug = 0
+    with open("debug.txt", "r") as file:
+        s = file.read()
+        debug = int(s)
+        print(f"第{debug}次测试")
+    # # # # # # # # # # # # # # # # # # # # # #
+
+
     XCenter, YCenter = 320, 240
     ROI = [XCenter-160, YCenter-160, 320, 320] # 待确定
     mask, box, img_note = None, None, None
@@ -118,6 +127,8 @@ def fineTuneItem(threshold: list):
 
         # 查找物块, 三种颜色轮流尝试, 判断依据为物块是否处于预定义的中间区域
         img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+        cv2.imwrite(f"./data/fineTune{debug}/img_hsv.jpg", img_hsv)
+
 
         # debug用的一些输出图像
         img_note = img.copy()
@@ -126,6 +137,7 @@ def fineTuneItem(threshold: list):
         for cth in threshold:
             mask = cv2.inRange(img_hsv, cth[0], cth[1])
             mask = cv2.medianBlur(mask, 3)
+            cv2.imwrite(f"./data/fineTune{debug}/mask.jpg", mask)
             bbox = mask_find_b_boxs(mask)
             box = get_the_most_credible_box(bbox)
             print(box)
@@ -172,7 +184,7 @@ def fineTuneItem(threshold: list):
         cv2.circle(img_note, (cx, cy), 4, (64, 128, 255), -1)   
         cv2.putText(img_note, f"({udx}, {udy})", (cx, cy), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (255, 255, 255), 1)
         cv2.line(img_note, (320, 240), (cx, cy), (255, 0, 0), 2)
-        cv2.imwrite(f"./data/img_note{k}.jpg", img_note)
+        cv2.imwrite(f"./data/fineTune{debug}/img_note.jpg", img_note)
         k+=1
         if flag:
             # 拍照
@@ -180,10 +192,19 @@ def fineTuneItem(threshold: list):
             img = cv2.imread("./data/yl.jpg")
             if img is None: return False # 图片读取不成功
             img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+            cv2.imwrite(f"./data/fineTune{debug}/img_hsv2.jpg", img_hsv)
             mask = cv2.inRange(img_hsv, threshold[n][0], threshold[n][1])
             mask = cv2.medianBlur(mask, 3)
+            cv2.imwrite(f"./data/fineTune{debug}/mask2.jpg", mask)
             bbox = mask_find_b_boxs(mask)
             box = get_the_most_credible_box(bbox)
+
+    # debug # # # # # # # # # # # # # # # # # #
+    with open("debug.txt", "w") as file:
+            file.write(str(debug + 1))
+    # # # # # # # # # # # # # # # # # # # # # #
+
+
     return True
 
 

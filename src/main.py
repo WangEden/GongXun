@@ -3,7 +3,7 @@ from Communication import *
 import time
 
 
-queue = [] # 物块抓取顺序
+queue = [3, 2, 1] # 物块抓取顺序
 
 # 任务一：读取二维码
 def task1():
