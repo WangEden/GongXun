@@ -41,7 +41,7 @@ def capture(dev: int, name, mode=0):
 def getQRCodeResult(queue: list):
 
     while True:
-        if not capture(1, 'qrcode', 1): return False # 拍照不成功
+        if not capture(1, 'qrcode', 0): return False # 拍照不成功
         img = cv2.imread("./data/qrcode.jpg")
 
         if img is None:
@@ -128,8 +128,10 @@ def fineTuneItem(threshold: list):
             mask = cv2.medianBlur(mask, 3)
             bbox = mask_find_b_boxs(mask)
             box = get_the_most_credible_box(bbox)
+            print(box)
             if box is not None: # 通常不会为None
-                if compRect(roi=ROI, box=box):
+                r = compRect(roi=ROI, box=box)
+                if r:
                     f = False
                     break
             n+=1
@@ -141,7 +143,8 @@ def fineTuneItem(threshold: list):
 
     flag = True
     while flag:
-        if not compRect(ROI, box): continue # 
+        r = compRect(ROI, box)
+        if not r: continue # 
         p1 = tuple([box[0], box[1]])
         p2 = tuple([box[0] + box[2], box[1] + box[3]])
         cx = int((p1[0] + p2[0]) / 2)
@@ -233,7 +236,7 @@ def catchItem(threshold: list, queue: list):
 
 # 判断一个矩形是否被另一个矩形包围
 def compRect(roi, box):
-    return (roi[0] < box[0] and roi[1] < box[1] and roi[2] > box[2] and roi[3] > box[3])
+    return True if (roi[0] < box[0] and roi[1] < box[1] and roi[2] > box[2] and roi[3] > box[3]) else False
 
 
 # 根据不同高度转换像素距离和实际距离
