@@ -32,7 +32,7 @@ def capture(dev: int, name, mode=0):
         frame = precondition(frame)
 
     cv2.imwrite(f"/home/pi/GongXun/src/data/{name}.jpg", frame)
-    print("图片保存成功")
+    print("拍照完成, 图片保存成功")
     cap.release()
     return True
 
@@ -137,7 +137,7 @@ def fineTuneItem(threshold: list):
         for cth in threshold:
             mask = cv2.inRange(img_hsv, cth[0], cth[1])
             mask = cv2.medianBlur(mask, 3)
-            cv2.imwrite(f"./data/fineTune{debug}/mask.jpg", mask)
+            cv2.imwrite(f"/home/pi/GongXun/src/data/fineTune{debug}/mask.jpg", mask)
             bbox = mask_find_b_boxs(mask)
             box = get_the_most_credible_box(bbox)
             print(box)
@@ -148,8 +148,9 @@ def fineTuneItem(threshold: list):
             n+=1
         if not f: break
 
-        if n == 3: # 三种颜色都没匹配上, 一般不可能发生
+        if n == 3: # 三种颜色都没匹配上
             print("没有找到任何一个颜色")
+            n = 0
 
 
     flag = True
@@ -182,18 +183,27 @@ def fineTuneItem(threshold: list):
         cv2.circle(img_note, (cx, cy), 4, (64, 128, 255), -1)   
         cv2.putText(img_note, f"({udx}, {udy})", (cx, cy), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (255, 255, 255), 1)
         cv2.line(img_note, (320, 240), (cx, cy), (255, 0, 0), 2)
-        cv2.imwrite(f"./data/fineTune{debug}/img_note.jpg", img_note)
+        cv2.imwrite(f"/home/pi/GongXun/src/data/fineTune{debug}/img_note.jpg", img_note)
         k+=1
+
+        while True:
+            response = recv_data()
+            print("等待调完信号, 当前接收:[", response, "]")
+            if response == xmlReadCommand("tweakOk", 0):
+                print("当次微调动作完成")
+                break
+            
+
         if flag:
             # 拍照
             if not capture(0, 'yl', 1): return False # 拍照不成功
             img = cv2.imread("./data/yl.jpg")
             if img is None: return False # 图片读取不成功
             img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-            cv2.imwrite(f"./data/fineTune{debug}/img_hsv2.jpg", img_hsv)
+            cv2.imwrite(f"/home/pi/GongXun/src/data/fineTune{debug}/img_hsv2.jpg", img_hsv)
             mask = cv2.inRange(img_hsv, threshold[n][0], threshold[n][1])
             mask = cv2.medianBlur(mask, 3)
-            cv2.imwrite(f"./data/fineTune{debug}/mask2.jpg", mask)
+            cv2.imwrite(f"/home/pi/GongXun/src/data/fineTune{debug}/mask2.jpg", mask)
             bbox = mask_find_b_boxs(mask)
             box = get_the_most_credible_box(bbox)
 

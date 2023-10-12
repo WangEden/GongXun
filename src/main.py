@@ -3,7 +3,7 @@ from Communication import *
 import time
 
 
-queue = [3, 2, 1] # 物块抓取顺序
+queue = [] # 物块抓取顺序
 
 # 任务一：读取二维码
 def task1():
@@ -62,6 +62,5 @@ def task2():
 
 if __name__ == '__main__':
     if not uart.isOpen(): print("串口没打开")
-    # task1()
+    task1()
     task2()
-    pass

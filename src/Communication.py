@@ -59,3 +59,10 @@ def send_data(cmd:list, i, f):
 
 def recv_data():
     return uart.read(4).decode('utf-8')
+
+
+if __name__ == "__main__":
+    # while True:
+        # r = recv_data()
+        # print("recv", r)
+    send_data(['Q', 'R', 'O', 'K'], 0, 0)
