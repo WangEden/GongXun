@@ -116,7 +116,8 @@ def fineTuneItem(threshold: list):
 
 
     XCenter, YCenter = 320, 240
-    ROI = [XCenter-160, YCenter-160, 320, 320] # 待确定
+    # ROI = [XCenter-160, YCenter-160, 320, 320] # 待确定
+    ROI = [0, 0, 640, 480]
     mask, box, img_note = None, None, None
     n = 0 # 用于标记匹配到的颜色是哪一个
 
@@ -127,7 +128,7 @@ def fineTuneItem(threshold: list):
 
         # 查找物块, 三种颜色轮流尝试, 判断依据为物块是否处于预定义的中间区域
         img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-        cv2.imwrite(f"./data/fineTune{debug}/img_hsv.jpg", img_hsv)
+        cv2.imwrite(f"./data/fineTune/img_hsv{debug}.jpg", img_hsv)
 
 
         # debug用的一些输出图像
@@ -137,7 +138,7 @@ def fineTuneItem(threshold: list):
         for cth in threshold:
             mask = cv2.inRange(img_hsv, cth[0], cth[1])
             mask = cv2.medianBlur(mask, 3)
-            cv2.imwrite(f"/home/pi/GongXun/src/data/fineTune{debug}/mask.jpg", mask)
+            cv2.imwrite(f"/home/pi/GongXun/src/data/fineTune/mask{debug}.jpg", mask)
             bbox = mask_find_b_boxs(mask)
             box = get_the_most_credible_box(bbox)
             print(box)
@@ -166,8 +167,9 @@ def fineTuneItem(threshold: list):
 
         k = 0
         cmd = xmlReadCommand('tweak', 1)
-        dx = uDistanceToDx(udx, 16)
-        dy = uDistanceToDx(udy, 16)
+        # 图像距离转实际距离，因为抓物块时，画面相对于车头是横着的
+        dx = uDistanceToDx(-udy, 16)
+        dy = uDistanceToDx(udx, 16)
 
         # 中心偏移小于10都可以进行抓取
         if abs(udx) < 20 and abs(udy) < 20: 
@@ -186,7 +188,7 @@ def fineTuneItem(threshold: list):
         cv2.circle(img_note, (cx, cy), 4, (64, 128, 255), -1)   
         cv2.putText(img_note, f"({udx}, {udy})", (cx, cy), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (255, 255, 255), 1)
         cv2.line(img_note, (320, 240), (cx, cy), (255, 0, 0), 2)
-        cv2.imwrite(f"/home/pi/GongXun/src/data/fineTune{debug}/img_note.jpg", img_note)
+        cv2.imwrite(f"/home/pi/GongXun/src/data/fineTune/img_note{debug}.jpg", img_note)
         k+=1
             
 
@@ -205,10 +207,10 @@ def fineTuneItem(threshold: list):
             img = cv2.imread("./data/yl.jpg")
             if img is None: return False # 图片读取不成功
             img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-            cv2.imwrite(f"/home/pi/GongXun/src/data/fineTune{debug}/img_hsv2.jpg", img_hsv)
+            cv2.imwrite(f"/home/pi/GongXun/src/data/fineTune/img_hsv2{debug}.jpg", img_hsv)
             mask = cv2.inRange(img_hsv, threshold[n][0], threshold[n][1])
             mask = cv2.medianBlur(mask, 3)
-            cv2.imwrite(f"/home/pi/GongXun/src/data/fineTune{debug}/mask2.jpg", mask)
+            cv2.imwrite(f"/home/pi/GongXun/src/data/fineTune/mask2{debug}.jpg", mask)
             bbox = mask_find_b_boxs(mask)
             box = get_the_most_credible_box(bbox)
 
