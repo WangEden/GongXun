@@ -1,15 +1,15 @@
 import cv2
 import numpy as np
 
-test_file = '../static/videos/ring/1.mp4'
-#cap = cv2.VideoCapture(test_file)
-circle_center_points = []
-camera = '/dev/cameraInc'
-#camera = '/dev/video0'
-cap = cv2.VideoCapture(camera)
-cap.set(3, 640)
-cap.set(4, 480)
-cap.set(6, cv2.VideoWriter.fourcc(*'MJPG'))
+# test_file = '../static/videos/ring/1.mp4'
+# #cap = cv2.VideoCapture(test_file)
+# circle_center_points = []
+# camera = '/dev/cameraInc'
+# #camera = '/dev/video0'
+# cap = cv2.VideoCapture(camera)
+# cap.set(3, 640)
+# cap.set(4, 480)
+# cap.set(6, cv2.VideoWriter.fourcc(*'MJPG'))
 
 
 def calc_the_most_frequent_position_of_points(points):
@@ -18,10 +18,12 @@ def calc_the_most_frequent_position_of_points(points):
 
 try:
     while True:
-        ret, frame = cap.read() 
-        if not ret:
-            print("no img")
-            continue
+        # ret, frame = cap.read() 
+        frame = cv2.imread("匹配时mask3.jpg")
+        frame = cv2.cvtColor(frame, cv2.COLOR_HSV2BGR)
+        # if not ret:
+        #     print("no img")
+        #     continue
         img_note = frame.copy()
         img_calc = frame.copy()
 
@@ -46,6 +48,7 @@ try:
         # 在二值化画面中查找圆形
         circles = cv2.HoughCircles(erosion_binary, cv2.HOUGH_GRADIENT, 1, 100)
         if circles is not None:
+            print("有圆形")
             circles = np.round(circles[0, :]).astype('int')
             for (x, y, r) in circles:
                 text = "position("+str(x)+", "+str(y)+")"
@@ -57,7 +60,9 @@ try:
         output = np.hstack([erosion_binary_channel3, img_note])
         output = cv2.resize(output, dsize=None,fx=0.5, fy=0.5, interpolation=cv2.INTER_LINEAR)
 
-        cv2.imshow("output", output)
+        # cv2.imshow("output", output)
+        cv2.imwrite("结果.jpg", output)
+        break
         #print(text)
         if cv2.waitKey(10) & 0xFF == ord("q"):
             break
