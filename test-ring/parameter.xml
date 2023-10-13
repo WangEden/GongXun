@@ -7,8 +7,6 @@
         <arriveQR>OK--</arriveQR>
         <!-- 到达原料区附近 -->
         <arriveYL>wait</arriveYL>
-        <!-- 到达粗加工区附近 -->
-        <arriveCJ>cjgq</arriveCJ>
 
         <!-- 二维码识别完成，进行前进 -->
         <qrComplete>QROK</qrComplete>
@@ -128,13 +126,4 @@
             </V>
         </color>
     </threshold>
-
-    <!-- 单位: mm -->
-    <size>
-        <item tag="normal">50</item>
-        <item tag="ring">150</item>
-
-        <item tag="yuanzhu">0</item>
-        <item tag="yuantai">0</item>
-    </size>
 </parameter>

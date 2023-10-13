@@ -1,6 +1,4 @@
 import serial, struct
-from xml.etree import ElementTree as ET
-import numpy as np
 
 
 uart = serial.Serial( # 声明串口
@@ -12,32 +10,6 @@ uart = serial.Serial( # 声明串口
     timeout=0,
     dsrdtr=True,
 )
-
-
-def xmlReadCommand(tag, mode):
-    paraDomTree = ET.parse("./parameter.xml")
-    messageNode = paraDomTree.find("message")
-    _ = messageNode.find(tag).text
-    if mode == 0:
-        return _ # -> str
-    elif mode == 1:
-        return list(_) # -> ['a', 'b', 'c', 'd']
-    
-
-def xmlReadThreshold(tag, color, rank): # rank: [min:[], max:[]]
-    _min, _max = [], []
-    paraDomTree = ET.parse("./parameter.xml")
-    threshold_node = paraDomTree.find(f'threshold[@tag="{tag}"]')
-    colorNode = threshold_node.find(f'color[@category="{color}"]')
-    floors = colorNode.findall('./*/floor')
-    ceilings = colorNode.findall('./*/ceiling')
-    for i in range(3):
-        _min.append(int(floors[i].text))
-        _max.append(int(ceilings[i].text))
-    _min = np.array(_min)
-    _max = np.array(_max)
-    rank.append(_min)
-    rank.append(_max)
 
 
 #定义数据包，格式为2个帧头+4个字符数据+2个半整型数据+帧尾（11byte）
@@ -62,7 +34,8 @@ def recv_data():
 
 
 if __name__ == "__main__":
-    # while True:
-        # r = recv_data()
-        # print("recv", r)
-    send_data(['Q', 'R', 'O', 'K'], 0, 0)
+    pass
+    # color = ['red', 'green', 'blue']
+    # threshold = [[], [], []] # -> [[min, max], [min, max], [min, max]]
+    # for i, c in enumerate(color):
+    #     xmlReadThreshold("item", c, threshold[i])
