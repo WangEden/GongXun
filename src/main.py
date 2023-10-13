@@ -26,8 +26,6 @@ def task1():
     pass
 
 
-
-
 # 任务二：拾取物块
 # 1. 对准物块，无论什么颜色
 # 2. 定时抓拍，判断颜色，确定抓取
@@ -58,6 +56,10 @@ def task2():
     # 按顺序进行抓取
     flg = catchItem(threshold, queue)
     if not flg: return False
+
+
+def task3():
+    pass
 
 
 if __name__ == '__main__':

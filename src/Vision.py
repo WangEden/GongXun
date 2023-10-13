@@ -115,11 +115,12 @@ def fineTuneItem(threshold: list):
     # # # # # # # # # # # # # # # # # # # # # #
 
 
-    XCenter, YCenter = 320, 240
+    XCenter, YCenter = 320, 220
     # ROI = [XCenter-160, YCenter-160, 320, 320] # 待确定
     ROI = [0, 0, 640, 480]
     mask, box, img_note = None, None, None
     n = 0 # 用于标记匹配到的颜色是哪一个
+    AREA = 20000
 
     while True:
         if not capture(0, 'yl', 1): return False # 拍照不成功
@@ -128,22 +129,23 @@ def fineTuneItem(threshold: list):
 
         # 查找物块, 三种颜色轮流尝试, 判断依据为物块是否处于预定义的中间区域
         img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-        cv2.imwrite(f"./data/fineTune/img_hsv{debug}.jpg", img_hsv)
+        cv2.imwrite(f"./data/fineTune/匹配时hsv{debug}.jpg", img_hsv)
 
 
         # debug用的一些输出图像
         img_note = img.copy()
 
+        # 匹配颜色
         f = True
         for cth in threshold:
             mask = cv2.inRange(img_hsv, cth[0], cth[1])
             mask = cv2.medianBlur(mask, 3)
-            cv2.imwrite(f"/home/pi/GongXun/src/data/fineTune/mask{debug}.jpg", mask)
+            cv2.imwrite(f"/home/pi/GongXun/src/data/fineTune/匹配时mask{debug}.jpg", mask)
             bbox = mask_find_b_boxs(mask)
             box = get_the_most_credible_box(bbox)
             print(box)
             if box is not None: # 通常不会为None
-                if compRect(roi=ROI, box=box):
+                if compRect(roi=ROI, box=box) and box[4] > AREA:
                     f = False
                     break
             n+=1
@@ -153,7 +155,7 @@ def fineTuneItem(threshold: list):
             print("没有找到任何一个颜色")
             n = 0
 
-
+    # 开始校准
     flag = True
     while flag:
         if not compRect(ROI, box): continue # 
@@ -180,7 +182,7 @@ def fineTuneItem(threshold: list):
             print("还没调准                                         ", end='\r')
 
 
-        print("当前要发送的命令是：", cmd, "udx, udy:", udx, udy, "dx, dy:", dx, dy)
+        print("当前要发送的命令是：", cmd, "udx, udy:", udx, udy, "dx, dy: (x10mm)", dx, dy)
         send_data(cmd, dx, dy)
 
         cv2.rectangle(img_note, p1, p2, (255, 0, 0), 1)
@@ -188,42 +190,38 @@ def fineTuneItem(threshold: list):
         cv2.circle(img_note, (cx, cy), 4, (64, 128, 255), -1)   
         cv2.putText(img_note, f"({udx}, {udy})", (cx, cy), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (255, 255, 255), 1)
         cv2.line(img_note, (320, 240), (cx, cy), (255, 0, 0), 2)
-        cv2.imwrite(f"/home/pi/GongXun/src/data/fineTune/img_note{debug}.jpg", img_note)
+        cv2.imwrite(f"/home/pi/GongXun/src/data/fineTune/校准时结果{debug}+{k}.jpg", img_note)
         k+=1
-            
 
+        # 发送完误差信号后等待调整动作完成
         while flag:
             response = recv_data()
             print("等待调完信号, 当前接收: (", response, ")", end='\r')
-            print(" ", end='\r')
+            # print(" ", end='\r')
             if response == xmlReadCommand("tweakOk", 0):
-                print("\n当次微调动作完成")
+                print("\n当次微调动作完成                        ", end='\r')
                 break
 
-
+        # 继续捕获图像进行微调
         if flag:
             # 拍照
             if not capture(0, 'yl', 1): return False # 拍照不成功
             img = cv2.imread("./data/yl.jpg")
             if img is None: return False # 图片读取不成功
             img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-            cv2.imwrite(f"/home/pi/GongXun/src/data/fineTune/img_hsv2{debug}.jpg", img_hsv)
+            cv2.imwrite(f"/home/pi/GongXun/src/data/fineTune/校准时hsv{debug}+{k}.jpg", img_hsv)
             mask = cv2.inRange(img_hsv, threshold[n][0], threshold[n][1])
             mask = cv2.medianBlur(mask, 3)
-            cv2.imwrite(f"/home/pi/GongXun/src/data/fineTune/mask2{debug}.jpg", mask)
+            cv2.imwrite(f"/home/pi/GongXun/src/data/fineTune/校准时mask{debug}+{k}.jpg", mask)
             bbox = mask_find_b_boxs(mask)
             box = get_the_most_credible_box(bbox)
-
-
-
+            img_note = img.copy()
 
 
     # debug # # # # # # # # # # # # # # # # # #
     with open("debug.txt", "w") as file:
             file.write(str(debug + 1))
     # # # # # # # # # # # # # # # # # # # # # #
-
-
     return True
 
 
@@ -260,12 +258,11 @@ def catchItem(threshold: list, queue: list):
 
         while True:
             response = recv_data()
-            print("等待抓取动作完成, 当前接收命令:", response)
+            print("等待抓取动作完成, 当前接收命令:", response, end='\r')
             if response is not None:
                 if response == xmlReadCommand("mngOK", 0):
                     print("抓取动作执行完毕, 进行下一步")
                     break
-
 
         if ptr == 3:
             cmd = xmlReadCommand("task2OK", 1)
@@ -299,5 +296,5 @@ def uDistanceToDx(ud, h):
 
 
 if __name__ == "__main__":
-    print(cv2.__version__)
-    capture(-1, "screen")
+    # print(cv2.__version__)
+    capture(0, "测试照片2")
