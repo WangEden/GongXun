@@ -20,7 +20,7 @@ try:
     while True:
         # ret, frame = cap.read() 
         frame = cv2.imread("匹配时mask3.jpg")
-        frame = cv2.cvtColor(frame, cv2.COLOR_HSV2BGR)
+        # frame = cv2.cvtColor(frame, cv2.COLOR_HSV2BGR)
         # if not ret:
         #     print("no img")
         #     continue
