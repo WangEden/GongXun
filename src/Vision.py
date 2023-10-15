@@ -54,7 +54,7 @@ def fineTuneItem(threshold: list, category):
     ROI = [0, 0, 640, 480]
     mask, box, img_note = None, None, None
     n = 0  # 用于标记匹配到的颜色是哪一个
-    AREA = 20000
+    AREA = 2000
 
     while True:
         if not capture(0, 'yl', 1): return False  # 拍照不成功
@@ -154,7 +154,7 @@ def fineTuneItem(threshold: list, category):
             bbox = mask_find_b_boxs(mask)
             box = get_the_most_credible_box(bbox)
             img_note = img.copy()
-            time.sleep(0.01)
+            time.sleep(0.1)
 
     # debug # # # # # # # # # # # # # # # # # #
     with open("debug.txt", "w") as file:
@@ -164,13 +164,16 @@ def fineTuneItem(threshold: list, category):
 
 
 def catchItem(threshold: list, queue: list):
-    XCenter, YCenter = 320, 240
-    ROI = [XCenter - 160, YCenter - 160, 320, 320]  # 待确定
+    print("抓取顺序:", queue)
+    XCenter, YCenter = 320, 220
+    # ROI = [XCenter - 160, YCenter - 160, 320, 320]  # 待确定
+    ROI = [0, 0, 640, 480]
     color = ['红色', '绿色', '蓝色']
 
     mask, box, img_note = None, None, None
     ptr = 0  # 作为指针指向抓取顺序列表中的元素
 
+    w = 1
     while True:
         if not capture(0, 'yl', 1): return False  # 拍照不成功
         img = cv2.imread("./data/yl.jpg")
@@ -184,7 +187,9 @@ def catchItem(threshold: list, queue: list):
         bbox = mask_find_b_boxs(mask)
         box = get_the_most_credible_box(bbox)
         if not compRect(ROI, box) or box[2] * box[3] < 7000:
-            print("等待中, 当前颜色不匹配")
+            cv2.imwrite(f"/home/pi/GongXun/src/data/是否抓取{w}.jpg", mask)
+            w+=1
+            print("等待中, 当前颜色不匹配", box)
             continue
 
         cmd = xmlReadCommand("catch", 1)
@@ -202,10 +207,23 @@ def catchItem(threshold: list, queue: list):
                     break
 
         if ptr == 3:
-            cmd = xmlReadCommand("task2OK", 1)
+            cmd = xmlReadCommand("task2OK", 1) # t2ok
             print("三个物块都抓取完毕, 进行下一步")
             send_data(cmd, 0, 0)
             break
+
+
+def fineTuneRing(threshold):
+    XCenter, YCenter = 320, 220
+    
+    if not capture(0, 'sh', 1): return False
+    img = cv2.read("./data/sh.jpg")
+    if img is None: return False
+
+    # 
+    # img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+    
+    
 
 
 if __name__ == "__main__":

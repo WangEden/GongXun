@@ -44,7 +44,7 @@ def task2():
                 break
 
     # 拍照用于微调，拍的时候物块不能是运动的，解决办法：等一段两倍转盘运动时间
-    time.sleep(0.3)
+    time.sleep(0.5)
 
     # 获取三个物块的阈值
     threshold = [[], [], []]  # -> [[min, max], [min, max], [min, max]]
@@ -85,7 +85,10 @@ def task3():
     for i, c in enumerate(['red', 'green', 'blue']):
         xmlReadThreshold("ring", c, threshold[i])
 
-    #
+    # 校准色环
+    fineTuneRing(threshold)
+
+    
 
 
 if __name__ == '__main__':

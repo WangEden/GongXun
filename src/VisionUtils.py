@@ -100,5 +100,10 @@ def f(mask, box, tag):
         pass
 
 
+def getCirCleCenter(img):
+    result = [] # 存下不同位置的三个点
+    
+
+
 if __name__ == '__main__':
     pass
