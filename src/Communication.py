@@ -34,7 +34,9 @@ def recv_data():
 
 
 if __name__ == "__main__":
-    pass
+    while True:
+        send_data(['a','b','c','d'], 0, 0)
+
     # color = ['red', 'green', 'blue']
     # threshold = [[], [], []] # -> [[min, max], [min, max], [min, max]]
     # for i, c in enumerate(color):
