@@ -1,7 +1,8 @@
 import cv2
 import numpy as np
 
-filename = '10.jpg'
+filename = '../src/data/img_note0.jpg'
+# filename = '10.jpg'
 
 
 def callback(event):
@@ -18,8 +19,8 @@ def Choose_Color():
     global filename
     image0 = cv2.imread(filename, 1)
 
-    img = cv2.resize(image0, (640, 480))
-    # img = cv2.resize(image0, (int(image0.shape[1] / 8), int(image0.shape[0] / 8)))
+    # img = cv2.resize(image0, (640, 480))
+    img = cv2.resize(image0, (int(image0.shape[1] / 1), int(image0.shape[0] / 1)))
 
     img = precondition(img)
 

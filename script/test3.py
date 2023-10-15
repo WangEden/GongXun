@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-filePath = 'test.jpg'
+filePath = 'test-item.jpg'
 
 img = cv2.imread(filePath)
 img = cv2.resize(img, (int(img.shape[1] / 8), (int(img.shape[0] / 8))))
