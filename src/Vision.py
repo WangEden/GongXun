@@ -169,6 +169,7 @@ def catchItem(threshold: list, queue: list):
     # ROI = [XCenter - 160, YCenter - 160, 320, 320]  # 待确定
     ROI = [0, 0, 640, 480]
     color = ['红色', '绿色', '蓝色']
+    colorCMD = ['catchR', 'catchG', 'catchB']
 
     mask, box, img_note = None, None, None
     ptr = 0  # 作为指针指向抓取顺序列表中的元素
@@ -192,15 +193,19 @@ def catchItem(threshold: list, queue: list):
             print("等待中, 当前颜色不匹配", box)
             continue
 
-        cmd = xmlReadCommand("catch", 1)
+        
+        # 根据颜色发不同的抓取命令
+        cmd = xmlReadCommand(colorCMD[c], 1)
 
         print("识别到", color[c], "颜色正确, 进行抓取")
+        print("将发送的命令为：", cmd)
         send_data(cmd, 0, 0)
         ptr += 1
 
         while True:
             response = recv_data()
-            print("等待抓取动作完成, 当前接收命令:", response, end='\r')
+            # print("等待抓取动作完成, 当前接收命令:", response, end='\r')
+            print("等待抓取动作完成, 当前接收命令:", response)
             if response is not None:
                 if response == xmlReadCommand("mngOK", 0):
                     print("抓取动作执行完毕, 进行下一步")
@@ -213,7 +218,7 @@ def catchItem(threshold: list, queue: list):
             break
 
 
-def fineTuneRing(threshold):
+def fineTuneRing(threshold:list):
     XCenter, YCenter = 320, 220
     
     if not capture(0, 'sh', 1): return False
@@ -222,8 +227,9 @@ def fineTuneRing(threshold):
 
     # 
     # img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-    
-    
+
+def mountByQueue(threshold:list, queue: list):
+    pass
 
 
 if __name__ == "__main__":

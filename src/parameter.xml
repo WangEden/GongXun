@@ -30,7 +30,11 @@
         <turnRight>tr--</turnRight>
         
         <!-- 进行抓取 -->
-        <catch>ctch</catch>
+        <catchR>cthr</catchR>
+        <!-- 进行抓取 -->
+        <catchG>cthg</catchG>
+        <!-- 进行抓取 -->
+        <catchB>cthb</catchB>
         <!-- 进行放置 -->
         <set>st--</set>
         <!-- 抓取/放置动作完成 -->
