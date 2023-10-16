@@ -39,7 +39,12 @@
         <set>st--</set>
         <!-- 抓取/放置动作完成 -->
         <mngOK>mnok</mngOK>
-        <!--  -->
+
+        <!-- 色环间切换 -->
+        <moveRing>move</moveRing>
+        <!-- 到达指定色环 -->
+        <arriveSH>ddsh</arriveSH>
+
     </message>
 
     <!-- 阈值参数 -->

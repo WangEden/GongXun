@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 from Communication import *
+from XmlProcess import *
 
 
 def mask_find_bboxs(mask):

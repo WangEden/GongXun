@@ -6,36 +6,40 @@ import time
 queue = []  # 物块抓取顺序
 
 
-def make_print_to_file(path='./'):
-    '''
+def make_print_to_file(path="./"):
+    """
     path， it is a path for save your log about fuction print
     example:
     use  make_print_to_file()   and the   all the information of funtion print , will be write in to a log file
     :return:
-    '''
+    """
     import sys
     import os
     import sys
     import datetime
- 
+
     class Logger(object):
         def __init__(self, filename="Default.log", path="./"):
             self.terminal = sys.stdout
-            self.path= os.path.join(path, filename)
-            self.log = open(self.path, "a", encoding='utf8',)
+            self.path = os.path.join(path, filename)
+            self.log = open(
+                self.path,
+                "a",
+                encoding="utf8",
+            )
             print("save:", os.path.join(self.path, filename))
- 
+
         def write(self, message):
             self.terminal.write(message)
             self.log.write(message)
- 
+
         def flush(self):
             pass
- 
-    fileName = datetime.datetime.now().strftime('day'+'%Y_%m_%d')
-    sys.stdout = Logger(fileName + '.log', path=path)
 
-    print(fileName.center(60,'*'))
+    fileName = datetime.datetime.now().strftime("day" + "%Y_%m_%d")
+    sys.stdout = Logger(fileName + ".log", path=path)
+
+    print(fileName.center(60, "*"))
 
 
 # 任务一：读取二维码
@@ -44,9 +48,9 @@ def task1():
 
     while True:
         response = recv_data()
-        print("等待命令: 到达二维码区, 目前接受到: [", response, "]", end='\r')
+        print("等待命令: 到达二维码区, 目前接受到: [", response, "]", end="\r")
         if response is not None:
-            if response == xmlReadCommand('arriveQR', 0):
+            if response == xmlReadCommand("arriveQR", 0):
                 print("开始读取识别二维码")
                 break
 
@@ -69,9 +73,9 @@ def task2():
     # 等待小车到达原料区域
     while True:
         response = recv_data()
-        print("等待命令: 到达原料区, 目前接受到: [", response, "]", end='\r')
+        print("等待命令: 到达原料区, 目前接受到: [", response, "]", end="\r")
         if response is not None:
-            if response == xmlReadCommand('arriveYL', 0):
+            if response == xmlReadCommand("arriveYL", 0):
                 print("开始微调")
                 break
 
@@ -80,7 +84,7 @@ def task2():
 
     # 获取三个物块的阈值
     threshold = [[], [], []]  # -> [[min, max], [min, max], [min, max]]
-    for i, c in enumerate(['red', 'green', 'blue']):
+    for i, c in enumerate(["red", "green", "blue"]):
         xmlReadThreshold("item", c, threshold[i])
 
     # 进行微调
@@ -107,28 +111,26 @@ def task3():
     # 小车应停在原料区绿色色环位置，之后伸出机械臂，视野范围内，必须要有至少两个色环（用于标定距离）
     while True:
         response = recv_data()
-        print("等待命令: 到达粗加工区, 目前接受到: [", response, "]", end='\r')
+        print("等待命令: 到达粗加工区, 目前接受到: [", response, "]", end="\r")
         if response is not None:
-            if response == xmlReadCommand('arriveCJ', 0):
+            if response == xmlReadCommand("arriveCJ", 0):
                 print("开始微调")
                 break
 
     # 获取三个色环阈值
     threshold = [[], [], []]  # -> [[min, max], [min, max], [min, max]]
-    for i, c in enumerate(['red', 'green', 'blue']):
+    for i, c in enumerate(["red", "green", "blue"]):
         xmlReadThreshold("ring", c, threshold[i])
 
     # 校准色环
-    fineTuneRing(threshold)
+    fineTuneRing(threshold, queue)
 
     # 根据顺序放置三个物块
     mountByQueue(threshold, queue)
 
-    
 
-
-if __name__ == '__main__':
-    make_print_to_file(path='./')
+if __name__ == "__main__":
+    make_print_to_file(path="./")
 
     if not uart.isOpen():
         print("串口没打开")
