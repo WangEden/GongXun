@@ -71,7 +71,8 @@ def task2():
 def task3():
     global queue
 
-    # 等待小车到达原料区域
+    # 等待小车到达原料区域，并伸出机械臂
+    # 小车应停在原料区绿色色环位置，之后伸出机械臂，视野范围内，必须要有至少两个色环（用于标定距离）
     while True:
         response = recv_data()
         print("等待命令: 到达粗加工区, 目前接受到: [", response, "]", end='\r')
@@ -85,7 +86,9 @@ def task3():
     for i, c in enumerate(['red', 'green', 'blue']):
         xmlReadThreshold("ring", c, threshold[i])
 
-    #
+    # 到达原料区后等待
+    
+
 
 
 if __name__ == '__main__':
