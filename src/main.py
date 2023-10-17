@@ -129,13 +129,6 @@ def task3():
     # 按顺序抓取物块: 移动、抓取、记录位置
     catchByQueue(queue)
 
-    # crntColor = queue[2]
-    # # 红色色环位置车的理论光流坐标为（10500, y）y根据机械臂伸出去的多少确定
-    # rX = 10500
-    # realX = rX + (crntColor - 1) * 1500 #
-
-
-
 
 if __name__ == "__main__":
     make_print_to_file(path="./")

@@ -40,6 +40,9 @@
         <set>st--</set>
         <!-- 色环间切换 -->
         <moveRing>move</moveRing>
+
+        <!-- 光流数据更新 -->
+        <update>updt</update>
     </message>
     <!-- 阈值参数 -->
     <threshold tag="ring">

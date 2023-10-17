@@ -126,14 +126,57 @@ def mountByQueue(threshold: list, queue: list):
     # 三个物块都放完了, 发送信号让小车切换到下一个任务
     time.sleep(0.3)
     cmd = xmlReadCommand("set3OK", 1)
-    print("jiang")
-
+    print("将要发送的命令为: ", cmd)
+    send_data(cmd, 0, 0)
     # return currentColor # 返回当前所在色环的位置
 
 
 def catchByQueue(queue: list):
-    pass 
+    # XCenter, YCenter = 320, 220
+    COLOR = {1: "R", 2: "G", 3: "B"}
+
+    crntColor = queue[2]
+    for ptr in range(3):
+        targetColor = queue[ptr]
+
+        # 移动到对应的颜色区, 机械臂高度位置不变
+        moveX = (targetColor - crntColor) * 1500 # moveX < 0 时向东走
+        cmd = xmlReadCommand("moveRing", 1)
+        print("当前要发送的命令为: ", cmd, "moveX: ", moveX, 0)
+        send_data(cmd, moveX, 0)
+        while True:
+            response = recv_data()
+            print(f"等待接收到达 {COLOR[targetColor]}色环的信号, 当前接收: [", response, "]", end='\r')
+            if response == xmlReadCommand("arriveSH", 0):
+                print(f"当前已到达 {COLOR[targetColor]}色环, 接下来进行抓取")
+                break
+
+        # 不微调，抓取
+        time.sleep(0.3)
+        cmd = xmlReadCommand(f"catch{COLOR[targetColor]}", 1)
+        print("进行放置, 发送命令: ", cmd, 0, 0)
+        send_data(cmd, 0, 0)
+        while True:
+            response = recv_data()
+            print("等待抓取动作完成的信号, 当前接收: [", response, "]", end='\r')
+            if response == xmlReadCommand("tweakOk", 0):
+                print("抓取动作完成, 进行下一步")
+                break
+        
+        crntColor = targetColor
+        # for循环结束
     
+    time.sleep(0.3)
+    # 3个物块都回收完毕，修正光流坐标
+    # 红色色环位置车的理论光流坐标为（10500, y）y根据机械臂伸出去的多少确定
+    rX = 10500
+    realX = rX + (crntColor - 1) * 1500
+    realY = -1 # 待定
+    cmd = xmlReadCommand("update", 1)
+    print("将要发送的命令为: ", cmd, "修正光流坐标为: (", realX, realY, ")")
+    send_data(cmd, realX, realY)
+
+
 
 if __name__ == "__main":
     pass
