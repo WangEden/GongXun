@@ -37,7 +37,7 @@ def make_print_to_file(path="./"):
         def flush(self):
             pass
 
-    fileName = datetime.datetime.now().strftime("day" + "%Y_%m_%d")
+    fileName = datetime.datetime.now().strftime("day" + "%Y_%m_%d_%H_%M")
     sys.stdout = Logger(fileName + ".log", path=path)
 
     print(fileName.center(60, "*"))
@@ -124,7 +124,8 @@ def task3():
         xmlReadThreshold("ring", c, threshold[i])
 
     # 计算位置, 根据顺序, 校准并放置三个物块
-    mountByQueue(threshold, queue)
+    orient = 0  # 0: 北, 1: 西
+    mountByQueue(threshold, queue, orient)
 
     # 按顺序抓取物块: 移动、抓取、记录位置
     catchByQueue(queue)

@@ -66,6 +66,8 @@ def get_the_most_credible_box(b_box):
     # print("by dx:\n", b_box)
     b_box = sorted(b_box, key=lambda box: abs(box[1] + box[3] / 2 - YCenter))
     # print("by dy:\n", b_box)
+    # b_box = sorted(b_box, key=lambda box: box[1], reverse=True)
+    # print("by y:\n", b_box)
     b_box = sorted(b_box, key=lambda box: box[4], reverse=True)
     # print("by area:\n", b_box)
     return b_box[0]
@@ -113,7 +115,7 @@ def getCircleCenter(img:np.ndarray):
     # circles = cv2.HoughCircles(erosion_binary, cv2.HOUGH_GRADIENT, 1, 100)
     
     circles = cv2.HoughCircles(img_gray, cv2.HOUGH_GRADIENT, 1, 100)
-    if len(circles) != 0:
+    if circles is not None and len(circles) != 0:
         circles = np.round(circles[0, :]).astype('int')
         for (x, y, r) in circles:
             result.append(tuple([x, y, r]))

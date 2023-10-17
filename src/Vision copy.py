@@ -54,7 +54,7 @@ def fineTuneItem(threshold: list, category):
     ROI = [0, 0, 640, 480]
     mask, box, img_note = None, None, None
     n = 0  # 用于标记匹配到的颜色是哪一个
-    AREA = 2000
+    AREA = 700
 
     g = 0
     while True:
@@ -226,8 +226,8 @@ def catchItem(threshold: list, queue: list):
 
         while True:
             response = recv_data()
-            print("等待抓取动作完成, 当前接收命令: [", response, "]", end='\r')
-            # print("等待抓取动作完成, 当前接收命令:", response)
+            # print("等待抓取动作完成, 当前接收命令:", response, end='\r')
+            print("等待抓取动作完成, 当前接收命令:", response)
             if response is not None:
                 if response == xmlReadCommand("mngOK", 0):
                     print("抓取动作执行完毕, 进行下一步")

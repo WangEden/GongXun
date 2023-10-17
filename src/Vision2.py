@@ -24,14 +24,16 @@ def mountByQueue(threshold: list, queue: list, orient: int):
         if img is None: 
             print(f"第{k}读取色环图片失败, 重试")
             continue
-        
         circlePerList = getCircleCenter(img)
+        if len(circlePerList) == 0:
+            continue
         img_note = img.copy()
         for circle in circlePerList:
             cx, cy, r = circle
             cv2.circle(img_note, (cx, cy), 5, (64, 128, 256), -1)
             circles.append([cx, cy])
         cv2.imwrite(f"./data/t31ceju/算距离时采集{k}.jpg", img_note)
+        time.sleep(0.01)
         k+=1
 
     result = getKmeansCenter(k=2, lis=circles) # 获取不同位置的两个点
@@ -77,6 +79,8 @@ def mountByQueue(threshold: list, queue: list, orient: int):
 
             circlesL = getCircleCenter(img)
             circle = get_the_most_credible_circle(circlesL)
+            if circle == None:
+                continue
             cx, cy, r = circle
             udx = XCenter - cx
             udy = YCenter - cy
