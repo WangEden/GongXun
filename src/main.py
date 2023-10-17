@@ -130,6 +130,12 @@ def task3():
     catchByQueue(queue)
 
 
+def task4():
+    global queue
+
+    
+
+
 if __name__ == "__main__":
     make_print_to_file(path="./")
 

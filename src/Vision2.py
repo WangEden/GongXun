@@ -6,7 +6,7 @@ from XmlProcess import *
 from VisionUtils import *
 
 
-def mountByQueue(threshold: list, queue: list):
+def mountByQueue(threshold: list, queue: list, orient: int):
     XCenter, YCenter = 320, 220
     COLOR = {1: "红色", 2: "绿色", 3: "蓝色"}
 
@@ -109,7 +109,8 @@ def mountByQueue(threshold: list, queue: list):
 
         # 放置
         time.sleep(0.3)
-        cmd = xmlReadCommand("set", 1)
+        CLR = {1: 'R', 2: 'G', 3: 'B'}
+        cmd = xmlReadCommand(f"set{CLR[targetColor]}", 1)
         print("进行放置, 发送命令: ", cmd, 0, 0)
         send_data(cmd, 0, 0)
         while True:
