@@ -30,14 +30,14 @@
         <set3OK>stOK</set3OK>
         <!-- 任务三完成 -->
         <task3OK>t3OK</task3OK>
-        <!-- 进行抓取 -->
+        <!-- 进行抓取 红/绿/蓝 -->
         <catchR>cthr</catchR>
-        <!-- 进行抓取 -->
         <catchG>cthg</catchG>
-        <!-- 进行抓取 -->
         <catchB>cthb</catchB>
-        <!-- 进行放置 -->
-        <set>st--</set>
+        <!-- 进行放置 红/绿/蓝 -->
+        <setR>setR</setR> 
+        <setG>setG</setG>
+        <setB>setB</setB>
         <!-- 色环间切换 -->
         <moveRing>move</moveRing>
 
