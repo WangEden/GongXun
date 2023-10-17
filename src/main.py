@@ -1,6 +1,7 @@
-from Vision import *
 from Communication import *
 from XmlProcess import *
+from Vision import *
+from Vision2 import *
 import time
 
 queue = []  # 物块抓取顺序
@@ -122,11 +123,18 @@ def task3():
     for i, c in enumerate(["red", "green", "blue"]):
         xmlReadThreshold("ring", c, threshold[i])
 
-    # 校准色环
-    fineTuneRing(threshold, queue)
-
-    # 根据顺序放置三个物块
+    # 计算位置, 根据顺序, 校准并放置三个物块
     mountByQueue(threshold, queue)
+
+    # 按顺序抓取物块: 移动、抓取、记录位置
+    catchByQueue(queue)
+
+    # crntColor = queue[2]
+    # # 红色色环位置车的理论光流坐标为（10500, y）y根据机械臂伸出去的多少确定
+    # rX = 10500
+    # realX = rX + (crntColor - 1) * 1500 #
+
+
 
 
 if __name__ == "__main__":

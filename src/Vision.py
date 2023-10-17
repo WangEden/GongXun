@@ -65,7 +65,7 @@ def fineTuneItem(threshold: list, category):
 
         # 查找物块, 三种颜色轮流尝试, 判断依据为物块是否处于预定义的中间区域
         img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-        cv2.imwrite(f"./data/fineTune/匹配时hsv{debug}.jpg", img_hsv)
+        cv2.imwrite(f"./data/t21fineTuneItem/匹配时hsv{debug}.jpg", img_hsv)
 
         # debug用的一些输出图像
         img_note = img.copy()
@@ -75,7 +75,7 @@ def fineTuneItem(threshold: list, category):
         for cth in threshold:
             mask = cv2.inRange(img_hsv, cth[0], cth[1])
             mask = cv2.medianBlur(mask, 3)
-            cv2.imwrite(f"/home/pi/GongXun/src/data/fineTune/匹配时mask{debug}.jpg", mask)
+            cv2.imwrite(f"/home/pi/GongXun/src/data/t21fineTuneItem/匹配时mask{debug}.jpg", mask)
             bbox = mask_find_b_boxs(mask)
             box = get_the_most_credible_box(bbox)
             print(box)
@@ -140,7 +140,7 @@ def fineTuneItem(threshold: list, category):
         )
         cv2.line(img_note, (320, 240), (cx, cy), (255, 0, 0), 2)
         cv2.imwrite(
-            f"/home/pi/GongXun/src/data/fineTune/校准时结果{debug}+{k}.jpg", img_note
+            f"/home/pi/GongXun/src/data/t21fineTuneItem/校准时结果{debug}+{k}.jpg", img_note
         )
         k += 1
 
@@ -163,12 +163,12 @@ def fineTuneItem(threshold: list, category):
                 return False  # 图片读取不成功
             img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
             cv2.imwrite(
-                f"/home/pi/GongXun/src/data/fineTune/校准时hsv{debug}+{k}.jpg", img_hsv
+                f"/home/pi/GongXun/src/data/t21fineTuneItem/校准时hsv{debug}+{k}.jpg", img_hsv
             )
             mask = cv2.inRange(img_hsv, threshold[n][0], threshold[n][1])
             mask = cv2.medianBlur(mask, 3)
             cv2.imwrite(
-                f"/home/pi/GongXun/src/data/fineTune/校准时mask{debug}+{k}.jpg", mask
+                f"/home/pi/GongXun/src/data/t21fineTuneItem/校准时mask{debug}+{k}.jpg", mask
             )
             bbox = mask_find_b_boxs(mask)
             box = get_the_most_credible_box(bbox)
@@ -209,7 +209,7 @@ def catchItem(threshold: list, queue: list):
         bbox = mask_find_b_boxs(mask)
         box = get_the_most_credible_box(bbox)
         if not compRect(ROI, box) or box[2] * box[3] < 7000:
-            cv2.imwrite(f"/home/pi/GongXun/src/data/是否抓取{w}.jpg", mask)
+            cv2.imwrite(f"/home/pi/GongXun/src/data/t22catchItem/不抓取原因{w}.jpg", mask)
             w += 1
             print("等待中, 当前颜色不匹配", box)
             continue
@@ -233,83 +233,9 @@ def catchItem(threshold: list, queue: list):
 
         if ptr == 3:
             cmd = xmlReadCommand("task2OK", 1)  # t2ok
-            print("三个物块都抓取完毕, 进行下一步")
+            print("三个物块都抓取完毕，发送:", cmd,"进行下一步")
             send_data(cmd, 0, 0)
             break
-
-
-def fineTuneRing(threshold: list, queue: list):
-    XCenter, YCenter = 320, 220
-
-    # 刚开始停在蓝绿色环之间
-    # 获取当前高度的距离比例
-    # 假设视野内会看到两个色环
-    # 拍10次照片以获取更准确的圆心
-    circles = []
-    k = 0
-    while k < 10:
-        if not capture(0, f'sh{k}', 0): return False
-        img = cv2.imread(f'./data/sh{k}.jpg')
-        if img is None: 
-            print(f"第{k}读取色环图片失败, 重试")
-            continue
-        
-        cx, cy, r = getCircleCenter(img)
-        circles.append([cx, cy])
-        k+=1
-
-    result = getKmeansCenter(k=2, lis=circles) # 获取不同位置的两个点
-    p1, p2 = result
-    p1 = tuple(np.round(p1, 0).astype(int).tolist())
-    p2 = tuple(np.round(p2, 0).astype(int).tolist())
-    uDistance = abs(p1[0], p2[0])
-    realDistance = 150  # 单位 mm
-    rate = realDistance * 10 / uDistance  # 获取像素距离和实际距离的转换比
-    
-    blueCx = max(p1[0], p1[0])
-
-    # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
-    # # 要校准三次
-    # centerX = XCenter
-    # i=0
-    # # for i in range(3):
-    # color = queue[i]
-    # # r: 1, g: 2, b: 3
-    # if color == 1:  # 红色
-    #     center2blueX = abs(centerX - blueCx)
-
-    # elif color == 2:  # 绿色
-
-    #     pass
-
-    # elif color == 3:  # 蓝色
-
-    #     pass
-    # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
-
-
-    # 先按213顺序
-    blueCx = max(p1[0], p1[0])
-    DistanceCenter2blueX = abs(XCenter - blueCx)
-    cmd = xmlReadCommand('moveRing', 1)
-    disX = 1500 - DistanceCenter2blueX
-    print("当前要发送的命令为：", cmd, "disX: disY:", disX, 0)
-    send_data(cmd, disX, 0)
-
-    while True:
-        response = recv_data()
-        print("等待到达绿色区域的消息, 当前接收: ", response, end='\r')
-        if response == xmlReadCommand("arriveSH", 0):
-            print("已到达绿色区域, 开始校准色环")
-            break
-
-    if not capture('ring1', 1): return False
-    img = cv2.imread('./data/ring1.jpg')
-
-
-
-def mountByQueue(threshold: list, queue: list):
-    pass
 
 
 if __name__ == "__main__":
