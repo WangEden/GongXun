@@ -22,7 +22,9 @@ def mountByQueue(threshold: list, queue: list, orient: int):
     while k < 1:
         # if not capture(0, f'sh{k}', 0): return False
         # img = cv2.imread(f'./data/sh{k}.jpg')
-        img = cap.read()
+        ret, img = cap.read()
+        if not ret:
+            continue
         if img is None: 
             print(f"第{k}读取色环图片失败, 重试")
             continue
@@ -38,7 +40,8 @@ def mountByQueue(threshold: list, queue: list, orient: int):
         cv2.imwrite(f"./data/t31ceju/算距离时采集{k}.jpg", img_note)
         # time.sleep(0.01)
         k+=1
-
+        
+    cap.release()
     result = getKmeansCenter(k=2, lis=circles) # 获取不同位置的两个点
     p1, p2 = result
     # p1, p2 = circlePerList

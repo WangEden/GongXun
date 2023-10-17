@@ -142,6 +142,6 @@ if __name__ == "__main__":
 
     if not uart.isOpen():
         print("串口没打开")
-    task1()
-    task2()
+    # task1()
+    # task2()
     task3()
