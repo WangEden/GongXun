@@ -18,12 +18,15 @@ def mountByQueue(threshold: list, queue: list, orient: int):
     # 拍10次照片以获取更准确的圆心
     circles = []
     k = 0
-    while k < 10:
-        if not capture(0, f'sh{k}', 0): return False
-        img = cv2.imread(f'./data/sh{k}.jpg')
+    cap = cv2.VideoCapture("/dev/cameraInc")
+    while k < 1:
+        # if not capture(0, f'sh{k}', 0): return False
+        # img = cv2.imread(f'./data/sh{k}.jpg')
+        img = cap.read()
         if img is None: 
             print(f"第{k}读取色环图片失败, 重试")
             continue
+        img = precondition(img)
         circlePerList = getCircleCenter(img)
         if len(circlePerList) == 0:
             continue
@@ -33,14 +36,15 @@ def mountByQueue(threshold: list, queue: list, orient: int):
             cv2.circle(img_note, (cx, cy), 5, (64, 128, 256), -1)
             circles.append([cx, cy])
         cv2.imwrite(f"./data/t31ceju/算距离时采集{k}.jpg", img_note)
-        time.sleep(0.01)
+        # time.sleep(0.01)
         k+=1
 
     result = getKmeansCenter(k=2, lis=circles) # 获取不同位置的两个点
     p1, p2 = result
+    # p1, p2 = circlePerList
     p1 = tuple(np.round(p1, 0).astype(int).tolist())
     p2 = tuple(np.round(p2, 0).astype(int).tolist())
-    uDistance = abs(p1[0], p2[0])
+    uDistance = abs(p1[0] - p2[0])
     realDistance = 150  # 单位 mm
     rate = realDistance * 10 / uDistance  # 获取像素距离和实际距离的转换比
     

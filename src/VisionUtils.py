@@ -104,7 +104,8 @@ def f(mask, box, tag):
 # 获取色环的圆心像素坐标
 def getCircleCenter(img:np.ndarray):
     result = []
-    img_calc = cv2.GaussianBlur(img, (5, 5), 0)
+    # img_calc = cv2.GaussianBlur(img, (5, 5), 0)
+    img_calc = img
     img_gray = cv2.cvtColor(img_calc, cv2.COLOR_BGR2GRAY)
     
     # img_binary = cv2.adaptiveThreshold(~img_gray, 255,
