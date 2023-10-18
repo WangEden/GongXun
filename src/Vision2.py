@@ -16,7 +16,7 @@ def mountBySequence(threshold: list, queue: list, orient: int):
     # 找到绿色色环
     img = None
     k=0
-    Ringlen = 150 # mm 待定
+    Ringlen = 120 # mm 待定
     while True:
         AREA = 7000  # 待定
         if not capture(0, 'sh', 1): return False

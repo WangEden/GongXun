@@ -1,8 +1,8 @@
 import cv2
 import numpy as np
 
-filename = '../src/data/img_note0.jpg'
-# filename = '10.jpg'
+# filename = '../src/data/img_note0.jpg'
+filename = '27.jpg'
 
 
 def callback(event):
