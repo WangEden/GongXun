@@ -11,12 +11,12 @@ def mountBySequence(threshold: list, queue: list, orient: int):
     XCenter, YCenter = 320, 220
     COLOR = {1: "红色", 2: "绿色", 3: "蓝色"}
 
-    # 方法二：直接用绿色色环大小算距离。
+    # 方法二：用两个圆心算距离比
 
     # 找到绿色色环
     img = None
     k=0
-    Ringlen = 120 # mm 待定
+    Ringlen = 150 # mm 待定
     while True:
         AREA = 7000  # 待定
         if not capture(0, 'sh', 1): return False
@@ -26,30 +26,48 @@ def mountBySequence(threshold: list, queue: list, orient: int):
             continue 
 
         circleList = getCircleCenter(img)
+        pixelLen = 1
         if len(circleList) == 0:
             print("没有发现圆环, 重试")
             continue
+        elif len(circleList) == 2:
+            p1, p2 = circleList
+            pixelLen = abs(p1[0] - p2[0])
+        elif len(circleList) == 3:
+            sorted(circleList, key=lambda circle:circle[0], reverse=True)
+            p1, p2 = circleList[0], circleList[1]
+            pixelLen = abs(p1[0] - p2[0])
 
         img = precondition(img)
         img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
         img_note = img.copy()
         maskGreen = cv2.inRange(img_hsv, threshold[1][0], threshold[1][1])
+        kernel = np.ones((3, 3), dtype=np.uint8)
+        cv2.dilate(maskGreen, kernel, 1) 
+        cv2.imwrite(f"./data/t31ceju/查找绿色色环mask{k}.jpg", maskGreen)
         b_box = mask_find_b_boxs(maskGreen)
         b_box = sorted(b_box, key = lambda box: box[4], reverse=True) # 找到面积最大的框
+        
+        if len(b_box) == 0:
+            print("没有找到绿色色环")
+            continue
         
         box = b_box[0]
         p1 = tuple([box[0], box[1]])
         p2 = tuple([box[0] + box[2], box[1] + box[3]])
         
         cv2.rectangle(img_note, p1, p2, (255, 255, 255), 2)
+        print(box)
         cv2.imwrite(f"./data/t31ceju/查找绿色色环{k}.jpg", img_note)
         if box[2] * box[3] < AREA:
             print("面积太小不符合")
             k+=1
             continue
 
-        rate = Ringlen * 10 / max(box[2], box[3])
+        rate = Ringlen * 10 / pixelLen
+        print("rate: ", rate)
+
         c = None
         for circle in circleList:
             cu, cv, r = circle
@@ -65,6 +83,10 @@ def mountBySequence(threshold: list, queue: list, orient: int):
         cu, cv, r = c
         moveU = cu - XCenter
         moveXY = 0
+        cv2.circle(img_note, (cu, cv), 4, (255, 0, 0), -1)
+        cv2.putText(img_note, f"moveU: {moveU}", (cu, cv), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (255, 255, 255), 1)
+        cv2.imwrite(f"./data/t31ceju/绿色色环圆点位置{k}.jpg", img_note)
+
         cmd = xmlReadCommand("moveRing", 1)
         if orient == 0:  # 车头朝北
             moveXY = int(rate * moveU)  # move > 0 往东走
@@ -112,6 +134,7 @@ def mountBySequence(threshold: list, queue: list, orient: int):
         box = b_box[0]
         p1 = tuple([box[0], box[1]])
         p2 = tuple([box[0] + box[2], box[1] + box[3]])
+        print(box)
         
         cv2.rectangle(img_note, p1, p2, (255, 255, 255), 2)
         cv2.imwrite(f"./data/t32ringwt/微调{k}.jpg", img_note)
