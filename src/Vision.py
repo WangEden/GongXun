@@ -10,21 +10,25 @@ from VisionUtils import *
 
 # 获取扫码结果
 def getQRCodeResult(queue: list):
+    cameraQR = VideoCapture("/dev/cameraTop")
+
+    c = 0
     while True:
-        if not capture(1, "qrcode", 0):
-            return False  # 拍照不成功
-        img = cv2.imread("./data/qrcode.jpg")
-
+        img = cameraQR.read()
         if img is None:
-            print("**图片读取失败**")
-            return False
+            print("**图片读取失败, 继续尝试中...**")
+            if c > 15:
+                return False
+            c+=1
+            continue
 
-        gray = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-        result = decode(gray)
+        img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        result = decode(img_gray)
 
         if result is None or len(result) == 0:
-            print("**二维码识别失败**")
+            print("**未发现二维码, 继续尝试中...**", end='\r')
         else:
+            cameraQR.terminate() # 释放摄像头
             break
 
     data: str = result[0].data.decode("utf-8")
@@ -54,7 +58,7 @@ def fineTuneItem(threshold: list, category):
     ROI = [0, 0, 640, 480]
     mask, box, img_note = None, None, None
     n = 0  # 用于标记匹配到的颜色是哪一个
-    AREA = 2000
+    AREA = 1000
 
     g = 0
     while True:
@@ -74,26 +78,45 @@ def fineTuneItem(threshold: list, category):
         # 匹配颜色
         f = True
         for cth in threshold:
-            mask = cv2.inRange(img_hsv, cth[0], cth[1])
-            mask = cv2.medianBlur(mask, 3)
-            cv2.imwrite(f"/home/pi/GongXun/src/data/t21fineTuneItem/匹配时mask{debug}_{g}.jpg", mask)
-            bbox = mask_find_b_boxs(mask)
-            box = get_the_most_credible_box(bbox)
-            print(box)
-            if box is not None:  # 通常不会为None
-                if compRect(roi=ROI, box=box) and box[4] > AREA:
-                    f = False
-                    break
-            n += 1
-        if not f:
+            if mask is None:
+                mask = cv2.inRange(img_hsv, cth[0], cth[1])
+                mask = cv2.medianBlur(mask, 3)
+            else:
+                _ = cv2.inRange(img_hsv, cth[0], cth[1])
+                mask += cv2.medianBlur(_, 3)
+        
+        cv2.imwrite(f"/home/pi/GongXun/src/data/t21fineTuneItem/匹配时mask{debug}_{g}.jpg", mask)
+        bbox = mask_find_b_boxs(mask)
+        print(bbox)
+        box = get_the_most_credible_box(bbox)
+
+        if box[4] < AREA:
+            print("面积太小, 不是目标")
+            continue
+        elif box[2] / box[3] > 1.2 or box[2] / box[3] < 0.8:
+            print("比例不对, 不是目标")
+            continue
+        else:
             break
 
-        if n == 3:  # 三种颜色都没匹配上
-            print("没有找到任何一个颜色")
-            g+=1
-            n = 0
-
     # 此时 box 正好是圆形物块的外接正方形，物块的尺寸已知，box的边长已知，可以动态得到图像长度和实际距离的比值
+    # 新算法得到距离比例，更准确但耗时
+    # cx = int(box[0] + box[2] / 2)
+    # cy = int(box[1] + box[3] / 2)
+    # rectangle = np.zeros(img.shape, dtype=np.uint8)
+    # rectangle = cv2.cvtColor(rectangle, cv2.COLOR_BGR2GRAY)
+    # roi = rectangle.copy()
+    # p1 = tuple([box[0] + 3, box[1] + 3])
+    # p2 = tuple([box[0] + box[2] - 3, box[1] + box[3] - 3])
+    # cv2.rectangle(rectangle, p1, p2, (255, 255, 255), 5)
+    # cv2.rectangle(roi, p1, p2, (255, 255, 255), -1)
+    # mask = cv2.bitwise_and(mask, mask, mask=roi)
+    # points_mask = cv2.bitwise_and(mask, rectangle)
+    # b_box = mask_find_b_boxs(points_mask)
+    # 根据象限取点
+
+
+    # 旧的算法，粗略获取距离比例
     pixel_len = (box[2] + box[3]) / 2  # box 宽高平均
     item_len = xmlReadSize(category)
     rate = item_len * 10 / pixel_len  # 将像素距离映射到实际距离的比例, 实际尺寸单位: x10mm
@@ -114,8 +137,8 @@ def fineTuneItem(threshold: list, category):
         k = 0
         cmd = xmlReadCommand("tweak", 1)
         # 图像距离转实际距离，因为抓物块时，画面相对于车头是横着的
-        dx = int(-udy * rate)
-        dy = int(udx * rate)
+        dx = int(-udy * rate) # dx > 0 往东走
+        dy = int(udx * rate) # dy > 0 往南走
 
         # 中心偏移小于8mm都可以进行抓取
         if abs(dx) < 80 and abs(dx) < 80:
