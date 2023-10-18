@@ -4,7 +4,7 @@ from Vision import *
 from Vision2 import *
 import time
 
-sequence = []  # 物块抓取顺序
+sequence = [2, 1, 3]  # 物块抓取顺序
 
 
 def make_print_to_file(path="./"):
@@ -120,7 +120,7 @@ def task3():
         print("等待命令: 到达粗加工区, 目前接受到: [", response, "]", end="\r")
         if response is not None:
             if response == xmlReadCommand("arriveCJ", 0):
-                print("开始微调")
+                print("开始调整")
                 break
 
     # 获取三个色环阈值
