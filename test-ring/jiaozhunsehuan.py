@@ -50,7 +50,7 @@ cv2.imshow("maskRed", img_bgr)
 cv2.waitKey(0)
 
 # 找最大box作为roi
-bbox = sorted(bbox, key= lambda )
+# bbox = sorted(bbox, key= lambda )
 # for box in bbox
 
 

@@ -48,12 +48,12 @@
     <threshold tag="ring">
         <color category="red">
             <H>
-                <ceiling>169</ceiling>
-                <floor>146</floor>
+                <floor>0</floor>
+                <ceiling>67</ceiling>
             </H>
             <S>
-                <ceiling>126</ceiling>
-                <floor>36</floor>
+                <floor>18</floor>
+                <ceiling>63</ceiling>
             </S>
             <V>
                 <ceiling>255</ceiling>
@@ -62,26 +62,26 @@
         </color>
         <color category="green">
             <H>
-                <ceiling>103</ceiling>
-                <floor>41</floor>
+                <floor>69</floor>
+                <ceiling>79</ceiling>
             </H>
             <S>
-                <ceiling>71</ceiling>
-                <floor>33</floor>
+                <floor>18</floor>
+                <ceiling>80</ceiling>
             </S>
             <V>
-                <ceiling>255</ceiling>
                 <floor>0</floor>
+                <ceiling>255</ceiling>
             </V>
         </color>
         <color category="blue">
             <H>
-                <ceiling>122</ceiling>
-                <floor>114</floor>
+                <floor>92</floor>
+                <ceiling>117</ceiling>
             </H>
             <S>
-                <ceiling>101</ceiling>
-                <floor>46</floor>
+                <floor>14</floor>
+                <ceiling>141</ceiling>
             </S>
             <V>
                 <ceiling>255</ceiling>

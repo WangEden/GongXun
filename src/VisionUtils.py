@@ -1,6 +1,6 @@
 import numpy as np
 import cv2
-
+import queue, threading
 
 # 拍一张照片，路径存储于 ./data/<name>.jpg
 # dev=0: Inc, dev=1: Top
@@ -62,14 +62,15 @@ def get_the_most_credible_box(b_box):
         return None
     if len(b_box) == 1:
         return b_box[0]
+    b_box = sorted(b_box, key=lambda box: box[4], reverse=True)
+    b_box = b_box[:2] # 取前三个面积大的
+    print("by area:\n", b_box)
     b_box = sorted(b_box, key=lambda box: abs(box[0] + box[2] / 2 - XCenter))
     # print("by dx:\n", b_box)
     b_box = sorted(b_box, key=lambda box: abs(box[1] + box[3] / 2 - YCenter))
     # print("by dy:\n", b_box)
-    # b_box = sorted(b_box, key=lambda box: box[1], reverse=True)
+    b_box = sorted(b_box, key=lambda box: box[1], reverse=True)
     # print("by y:\n", b_box)
-    b_box = sorted(b_box, key=lambda box: box[4], reverse=True)
-    # print("by area:\n", b_box)
     return b_box[0]
 
 
@@ -108,14 +109,14 @@ def getCircleCenter(img:np.ndarray):
     img_calc = img
     img_gray = cv2.cvtColor(img_calc, cv2.COLOR_BGR2GRAY)
     
-    # img_binary = cv2.adaptiveThreshold(~img_gray, 255,
-    #                             cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 15, -10)
-    # erode_kernel = np.ones((1, 1), dtype=np.uint8)
-    # erosion_binary = cv2.erode(img_binary, kernel=erode_kernel, iterations=1)
-    # # cv2.imshow("video in deal", erosion_binary)
-    # circles = cv2.HoughCircles(erosion_binary, cv2.HOUGH_GRADIENT, 1, 100)
+    img_binary = cv2.adaptiveThreshold(~img_gray, 255,
+                                cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 15, -10)
+    erode_kernel = np.ones((1, 1), dtype=np.uint8)
+    erosion_binary = cv2.erode(img_binary, kernel=erode_kernel, iterations=1)
+    # cv2.imshow("video in deal", erosion_binary)
+    circles = cv2.HoughCircles(erosion_binary, cv2.HOUGH_GRADIENT, 1, 100)
     
-    circles = cv2.HoughCircles(img_gray, cv2.HOUGH_GRADIENT, 1, 100)
+    # circles = cv2.HoughCircles(img_gray, cv2.HOUGH_GRADIENT, 1, 100)
     if circles is not None and len(circles) != 0:
         circles = np.round(circles[0, :]).astype('int')
         for (x, y, r) in circles:
@@ -149,6 +150,35 @@ def get_the_most_credible_circle(clcList: list):
     # print("by dy:\n", clcList)
     return clcList[0]
 
+
+class VideoCapture:
+    def __init__(self, camera_id):
+        # "camera_id" is a int type id or string name
+        self.cap = cv2.VideoCapture(camera_id)
+        self.q = queue.Queue(maxsize=3)
+        self.stop_threads = False    # to gracefully close sub-thread
+        th = threading.Thread(target=self._reader)
+        th.daemon = True             # 设置工作线程为后台运行
+        th.start()
+
+    def _reader(self):
+        while not self.stop_threads:
+            ret, frame = self.cap.read()
+            if not ret:
+                break
+            if not self.q.empty():
+                try:
+                    self.q.get_nowait() 
+                except queue.Empty:
+                    pass
+            self.q.put(frame)
+
+    def read(self):
+        return self.q.get()
+    
+    def terminate(self):
+        self.stop_threads = True
+        self.cap.release()
 
 
 if __name__ == '__main__':
