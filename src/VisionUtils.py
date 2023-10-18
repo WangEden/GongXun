@@ -1,6 +1,7 @@
 import numpy as np
 import cv2
 import queue, threading
+from PIL import Image, ImageDraw, ImageFont
 
 # 拍一张照片，路径存储于 ./data/<name>.jpg
 # dev=0: Inc, dev=1: Top
@@ -179,6 +180,20 @@ class VideoCapture:
     def terminate(self):
         self.stop_threads = True
         self.cap.release()
+
+
+def cv2AddChineseText(img, text, position, textColor=(0, 255, 0), textSize=30):
+    if (isinstance(img, np.ndarray)):  # 判断是否OpenCV图片类型
+        img = Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+    # 创建一个可以在给定图像上绘图的对象
+    draw = ImageDraw.Draw(img)
+    # 字体的格式
+    fontStyle = ImageFont.truetype(
+        "simsun.ttc", textSize, encoding="utf-8")
+    # 绘制文本
+    draw.text(position, text, textColor, font=fontStyle)
+    # 转换回OpenCV格式
+    return cv2.cvtColor(np.asarray(img), cv2.COLOR_RGB2BGR)
 
 
 if __name__ == '__main__':

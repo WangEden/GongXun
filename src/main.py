@@ -4,7 +4,9 @@ from Vision import *
 from Vision2 import *
 import time
 
+
 sequence = [2, 1, 3]  # 物块抓取顺序
+screen = np.ones((600, 1024), dtype=np.uint8) * 255
 
 
 def make_print_to_file(path="./"):
@@ -52,9 +54,12 @@ def make_print_to_file(path="./"):
     print(fileName.center(60, "*"))
 
 
+
+
+
 # 任务一：读取二维码
 def task1():
-    global sequence
+    global sequence, screen
 
     # while True:
     #     response = recv_data()
@@ -74,11 +79,12 @@ def task1():
     print("任务1: 二维码读取, 完成, 结果为: ", sequence)
 
 
+
 # 任务二：拾取物块
 # 1. 对准物块，无论什么颜色
 # 2. 定时抓拍，判断颜色，确定抓取
 def task2():
-    global sequence
+    global sequence, screen
 
     # 等待小车到达原料区域
     while True:
@@ -111,7 +117,7 @@ def task2():
 # 刚开始会停在第二个色环的位置，伸出机械臂，高度保证视野中有三个色环，ps: 相邻色环之间的距离是固定的
 #
 def task3():
-    global sequence
+    global sequence, screen
 
     # 等待小车到达原料区域，并伸出机械臂
     # 小车应停在原料区绿色色环位置，之后伸出机械臂，视野范围内，必须要有至少两个色环（用于标定距离）
@@ -137,13 +143,17 @@ def task3():
 
 
 def task4():
-    global sequence
+    global sequence, screen
 
     
 
 
 if __name__ == "__main__":
     make_print_to_file(path="./")
+    # cv2.namedWindow("screen", cv2.WINDOW_NORMAL)
+    # cv2.setWindowProperty("screen", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+    # cv2.imshow("screen", screen)
+    # cv2.waitKey(1)
 
     if not uart.isOpen():
         print("串口没打开")

@@ -34,6 +34,11 @@ def getQRCodeResult(queue: list):
     data: str = result[0].data.decode("utf-8")
     print("识别结果: ", data)
 
+    # screen = np.ones((600, 1024), dtype=np.uint8) * 255
+    # screen=cv2AddChineseText(screen, data, (320, 240), (0, 0, 0), 60)
+    # cv2.imshow("screen", screen)
+    # cv2.waitKey(1)
+
     number = data.split("+")
     # color = {'1': 'r', '2': 'g', '3': 'b'}
     for i in number:  # number: ['123', '321']
