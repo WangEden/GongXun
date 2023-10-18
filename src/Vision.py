@@ -56,6 +56,7 @@ def fineTuneItem(threshold: list, category):
     n = 0  # 用于标记匹配到的颜色是哪一个
     AREA = 2000
 
+    g = 0
     while True:
         if not capture(0, "yl", 1):
             return False  # 拍照不成功
@@ -65,7 +66,7 @@ def fineTuneItem(threshold: list, category):
 
         # 查找物块, 三种颜色轮流尝试, 判断依据为物块是否处于预定义的中间区域
         img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-        cv2.imwrite(f"./data/t21fineTuneItem/匹配时hsv{debug}.jpg", img_hsv)
+        cv2.imwrite(f"./data/t21fineTuneItem/匹配时hsv{debug}_{g}.jpg", img_hsv)
 
         # debug用的一些输出图像
         img_note = img.copy()
@@ -75,7 +76,7 @@ def fineTuneItem(threshold: list, category):
         for cth in threshold:
             mask = cv2.inRange(img_hsv, cth[0], cth[1])
             mask = cv2.medianBlur(mask, 3)
-            cv2.imwrite(f"/home/pi/GongXun/src/data/t21fineTuneItem/匹配时mask{debug}.jpg", mask)
+            cv2.imwrite(f"/home/pi/GongXun/src/data/t21fineTuneItem/匹配时mask{debug}_{g}.jpg", mask)
             bbox = mask_find_b_boxs(mask)
             box = get_the_most_credible_box(bbox)
             print(box)
@@ -89,6 +90,7 @@ def fineTuneItem(threshold: list, category):
 
         if n == 3:  # 三种颜色都没匹配上
             print("没有找到任何一个颜色")
+            g+=1
             n = 0
 
     # 此时 box 正好是圆形物块的外接正方形，物块的尺寸已知，box的边长已知，可以动态得到图像长度和实际距离的比值
@@ -224,8 +226,8 @@ def catchItem(threshold: list, queue: list):
 
         while True:
             response = recv_data()
-            # print("等待抓取动作完成, 当前接收命令:", response, end='\r')
-            print("等待抓取动作完成, 当前接收命令:", response)
+            print("等待抓取动作完成, 当前接收命令: [", response, "]", end='\r')
+            # print("等待抓取动作完成, 当前接收命令:", response)
             if response is not None:
                 if response == xmlReadCommand("mngOK", 0):
                     print("抓取动作执行完毕, 进行下一步")
