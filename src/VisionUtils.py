@@ -189,11 +189,20 @@ def cv2AddChineseText(img, text, position, textColor=(0, 255, 0), textSize=30):
     draw = ImageDraw.Draw(img)
     # 字体的格式
     fontStyle = ImageFont.truetype(
-        "simsun.ttc", textSize, encoding="utf-8")
+        "./data/simsun.ttc", textSize, encoding="utf-8")
     # 绘制文本
     draw.text(position, text, textColor, font=fontStyle)
     # 转换回OpenCV格式
     return cv2.cvtColor(np.asarray(img), cv2.COLOR_RGB2BGR)
+
+
+def reflashScreen(string):
+    screen = np.zeros((600, 1024), dtype=np.uint8)
+    dx = len(string) * 30
+    Px = 512 - dx
+    Py = 300
+    screen = cv2AddChineseText(screen, string, (Px, Py), (255, 255, 255), 60)
+    cv2.imwrite("./data/screen.jpg", screen)
 
 
 if __name__ == '__main__':

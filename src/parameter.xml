@@ -62,12 +62,12 @@
         </color>
         <color category="green">
             <H>
-                <floor>69</floor>
-                <ceiling>79</ceiling>
+                <floor>64</floor>
+                <ceiling>95</ceiling>
             </H>
             <S>
-                <floor>18</floor>
-                <ceiling>80</ceiling>
+                <floor>33</floor>
+                <ceiling>135</ceiling>
             </S>
             <V>
                 <floor>0</floor>

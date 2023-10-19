@@ -29,18 +29,16 @@ def getQRCodeResult(queue: list):
             print("**未发现二维码, 继续尝试中...**", end='\r')
         else:
             cameraQR.terminate() # 释放摄像头
+            reflashScreen("扫描完成")
             break
 
     data: str = result[0].data.decode("utf-8")
     print("识别结果: ", data)
-
-    # screen = np.ones((600, 1024), dtype=np.uint8) * 255
-    # screen=cv2AddChineseText(screen, data, (320, 240), (0, 0, 0), 60)
-    # cv2.imshow("screen", screen)
-    # cv2.waitKey(1)
+    reflashScreen(f"结果为: {data}")
 
     number = data.split("+")
     # color = {'1': 'r', '2': 'g', '3': 'b'}
+    queue.clear()
     for i in number:  # number: ['123', '321']
         l = list(i)  # l : ['1', '2', '3']
         for j in l:
@@ -52,7 +50,7 @@ def getQRCodeResult(queue: list):
 def fineTuneItem(threshold: list, category):
     # debug # # # # # # # # # # # # # # # # # #
     debug = 0
-    with open("debug.txt", "r") as file:
+    with open("./logs/debug.txt", "r") as file:
         s = file.read()
         debug = int(s)
         print(f"第{debug}次测试")
@@ -206,7 +204,7 @@ def fineTuneItem(threshold: list, category):
             time.sleep(0.1)
 
     # debug # # # # # # # # # # # # # # # # # #
-    with open("debug.txt", "w") as file:
+    with open("./logs/debug.txt", "w") as file:
         file.write(str(debug + 1))
     # # # # # # # # # # # # # # # # # # # # # #
     return True
