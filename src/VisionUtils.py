@@ -200,15 +200,17 @@ def cv2AddChineseText(img, text, position, textColor=(0, 255, 0), textSize=30):
 
 
 def reflashScreen(string):
-    
+    global lastContent
     screen = np.zeros((600, 1024), dtype=np.uint8)
+    dx1 = len(lastContent) * 30
+    dx2 = len(string) * 30
+    Px1 = 512 - dx1
+    Px2 = 512 - dx2
+    Py1 = 270
+    Py2 = 330
+    screen = cv2AddChineseText(screen, lastContent, (Px1, Py1), (128, 128, 128), 60)
+    screen = cv2AddChineseText(screen, string, (Px2, Py2), (255, 255, 255), 60)
     lastContent = string
-    dx = len(string) * 30
-    Px = 512 - dx
-    Py1 = 280
-    Py2 = 320
-    screen = cv2AddChineseText(screen, lastContent, (Px, Py1), (255, 255, 255), 60)
-    screen = cv2AddChineseText(screen, string, (Px, Py2), (255, 255, 255), 60)
     cv2.imwrite("./data/screen.jpg", screen)
 
 

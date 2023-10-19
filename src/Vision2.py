@@ -30,7 +30,7 @@ def mountBySequence(threshold: list, queue: list, orient: int):
     pixelLen = 1
     rate = 1
 
-    reflashScreen("正在进行微调")
+    reflashScreen("正在进行校准")
     # 算距离比
     while True:
         # 读取一张照片用于算出距离比例
@@ -201,6 +201,10 @@ def catchBySequence(queue:list):
                 print("抓取完成一个, 进行下一步")
                 break
     print("三个物块都完成抓取, 进行下一步, 前往暂存区")
+    cmd = xmlReadCommand("task3OK", 1)
+    reflashScreen("物块回收完毕")
+    send_data(cmd, 0, 0)
+
 
 
 if __name__ == "__main":
