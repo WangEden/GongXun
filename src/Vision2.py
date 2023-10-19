@@ -89,6 +89,7 @@ def mountBySequence(threshold: list, queue: list, orient: int):
 
         # 找到绿色色环获取roi, 利用roi得到目标点位置
         img_note = img.copy()
+        cv2.imwrite("./data/最后一帧.jpg", img)
         img = precondition(img) # 耗时
         img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
         maskGreen = cv2.inRange(img_hsv, threshold[1][0], threshold[1][1])
@@ -125,7 +126,7 @@ def mountBySequence(threshold: list, queue: list, orient: int):
         # 获取绿色色环中扫描到出现最多次的圆
         circle = Counter(circles).most_common(1)  # 出现次数最多的圆心
     
-        if circle == None:
+        if circle == []:
             print("在绿色色环区域内没有识别到圆形")
             k+=1
             continue
