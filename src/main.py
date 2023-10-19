@@ -138,7 +138,7 @@ def task3():
     orient = 0  # 0: 北, 1: 西
     mountBySequence(threshold, sequence, orient)
 
-    #
+    # 
     catchBySequence(sequence)
 
 
