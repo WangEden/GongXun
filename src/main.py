@@ -139,7 +139,7 @@ def task3():
     mountBySequence(threshold, sequence, orient)
 
     #
-    # catchBySequence(sequence)
+    catchBySequence(sequence)
 
 
 def task4():
@@ -150,8 +150,12 @@ if __name__ == "__main__":
     make_print_to_file(path="./logs/")
     loader = subprocess.Popen(["/usr/bin/python3", "/home/pi/GongXun/src/Display.py"])
 
-    if not uart.isOpen():
-        print("串口没打开")
-    # task1()
-    # task2()
-    task3()
+    try:
+        if not uart.isOpen():
+            print("串口没打开")
+        # task1()
+        # task2()
+        task3()
+        loader.terminate()
+    except:
+        loader.terminate()

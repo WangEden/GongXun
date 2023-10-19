@@ -49,7 +49,7 @@ def mountBySequence(threshold: list, queue: list, orient: int):
             print("没有发现圆环, 重试")
             continue
         else:
-            sorted(circleList, key=lambda circle:circle[0], reverse=True)
+            circleList = sorted(circleList, key=lambda circle:circle[0], reverse=True)
             p1, p2 = circleList[0], circleList[1]
             pixelLen = abs(p1[0] - p2[0])
         
@@ -112,7 +112,7 @@ def mountBySequence(threshold: list, queue: list, orient: int):
         cv2.rectangle(img_note, p1, p2, (255, 0, 0), 2) 
         cv2.imwrite(f"./data/t31ceju/查找的绿色色环{debug}_{k}.jpg", img_note)
 
-        if box[2] > RingLen and box[3] > RingLen:
+        if box[2] < RingLen and box[3] < RingLen:
             print("面积太小不符合")
             k+=1
             continue
@@ -137,7 +137,7 @@ def mountBySequence(threshold: list, queue: list, orient: int):
         udx = cx - XCenter
         udy = cy - YCenter
         cv2.circle(img_note, (cx, cy), 5, (255, 0, 0), 2)
-        cv2.putText(img_note, f"偏移中心({cx}, {cy})", (cx, cy), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (255, 0, 0), 1)
+        cv2.putText(img_note, f"py({udx}, {udy})", (cx, cy), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (255, 0, 0), 1)
         cv2.imwrite(f"./data/t31ceju/查找的色环圆心{debug}_{k}.jpg", img_note)
         cmd = xmlReadCommand("tweak", 1)
 
@@ -150,7 +150,7 @@ def mountBySequence(threshold: list, queue: list, orient: int):
             dx = int(-rate * udy)  # dy > 0 往南走
             dy = int(rate * udx)
             print("将发送的命令为: ", cmd, dy, dx)
-        if abs(udx) < 40 and abs(udy) < 40:
+        if abs(udx) < 40 and abs(udy) < 75:
             dx = 0
             dy = 0
             cmd = xmlReadCommand("calibrOk", 1)
@@ -158,9 +158,16 @@ def mountBySequence(threshold: list, queue: list, orient: int):
             print("将发送的命令为: ", cmd, 0, 0)
             flag = False
         send_data(cmd, dx, dy)
+        while flag:
+            response = recv_data()
+            print("等待微调完成的信号, 当前接收:[", response, "]", end='\r')
+            if response == xmlReadCommand("tweakOk", 0):
+                print("微调动作完成")
+                break
         k+=1
 
     # 放置
+    reflashScreen("正在进行放置")
     for i in range(3):
         c = queue[i]
         color = {1: 'R', 2: 'G', 3: 'B'}
@@ -178,6 +185,22 @@ def mountBySequence(threshold: list, queue: list, orient: int):
     with open("./logs/debug.txt", "w") as file:
         file.write(str(debug + 1))
     # # # # # # # # # # # # # # # # # # # # # #
+
+
+def catchBySequence(queue:list):
+    reflashScreen("正在取回物块")
+    for i in range(3):
+        c = queue[i]
+        color = {1: 'R', 2: 'G', 3: 'B'}
+        cmd = xmlReadCommand(f"set{color[c]}", 1)
+        send_data(cmd, 0, 0)
+        while True:
+            response = recv_data()
+            print("等待抓取动作完成的信号, 当前接收: ", response, end='\r')
+            if response == xmlReadCommand("mngOK", 0):
+                print("抓取完成一个, 进行下一步")
+                break
+    print("三个物块都完成抓取, 进行下一步, 前往暂存区")
 
 
 if __name__ == "__main":
