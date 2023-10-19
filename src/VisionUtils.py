@@ -3,6 +3,7 @@ import cv2
 import queue, threading
 from PIL import Image, ImageDraw, ImageFont
 
+lastContent = ""
 # 拍一张照片，路径存储于 ./data/<name>.jpg
 # dev=0: Inc, dev=1: Top
 # mode=1 进行预处理
@@ -123,7 +124,7 @@ def getCircleCenter(img:np.ndarray):
         for (x, y, r) in circles:
             result.append(tuple([x, y, r]))
     return result
-        
+
 
 # 利用K-means算法找出k个最准确的圆心
 def getKmeansCenter(k:int, lis:[(np.float32, np.float32), ...]) -> [(int, int), ...]:
@@ -183,6 +184,8 @@ class VideoCapture:
 
 
 def cv2AddChineseText(img, text, position, textColor=(0, 255, 0), textSize=30):
+    if text == "":
+        return img
     if (isinstance(img, np.ndarray)):  # 判断是否OpenCV图片类型
         img = Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
     # 创建一个可以在给定图像上绘图的对象
@@ -199,10 +202,13 @@ def cv2AddChineseText(img, text, position, textColor=(0, 255, 0), textSize=30):
 def reflashScreen(string):
     
     screen = np.zeros((600, 1024), dtype=np.uint8)
+    lastContent = string
     dx = len(string) * 30
     Px = 512 - dx
-    Py = 300
-    screen = cv2AddChineseText(screen, string, (Px, Py), (255, 255, 255), 60)
+    Py1 = 280
+    Py2 = 320
+    screen = cv2AddChineseText(screen, lastContent, (Px, Py1), (255, 255, 255), 60)
+    screen = cv2AddChineseText(screen, string, (Px, Py2), (255, 255, 255), 60)
     cv2.imwrite("./data/screen.jpg", screen)
 
 
