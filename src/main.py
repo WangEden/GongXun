@@ -3,15 +3,15 @@ from XmlProcess import *
 from Vision import *
 from Vision2 import *
 import time
+import subprocess
 
 
 sequence = [2, 1, 3]  # 物块抓取顺序
-screen = np.ones((600, 1024), dtype=np.uint8) * 255
 
 
 def make_print_to_file(path="./"):
     """
-    path， it is a path for save your log about fuction print
+    path, it is a path for save your log about fuction print
     example:
     use  make_print_to_file()   and the   all the information of funtion print , will be write in to a log file
     :return:
@@ -54,9 +54,6 @@ def make_print_to_file(path="./"):
     print(fileName.center(60, "*"))
 
 
-
-
-
 # 任务一：读取二维码
 def task1():
     global sequence, screen
@@ -70,6 +67,7 @@ def task1():
     #             break
 
     # 读取二维码获取顺序
+    reflashScreen("准备扫码")
     getQRCodeResult(sequence)
     # cmd = xmlReadCommand("qrComplete", 1)
     # if flg:
@@ -121,6 +119,7 @@ def task3():
 
     # 等待小车到达原料区域，并伸出机械臂
     # 小车应停在原料区绿色色环位置，之后伸出机械臂，视野范围内，必须要有至少两个色环（用于标定距离）
+    reflashScreen("正在前往粗加工区")
     while True:
         response = recv_data()
         print("等待命令: 到达粗加工区, 目前接受到: [", response, "]", end="\r")
@@ -128,6 +127,7 @@ def task3():
             if response == xmlReadCommand("arriveCJ", 0):
                 print("开始调整")
                 break
+
 
     # 获取三个色环阈值
     threshold = [[], [], []]  # -> [[min, max], [min, max], [min, max]]
@@ -145,18 +145,13 @@ def task3():
 def task4():
     global sequence, screen
 
-    
-
 
 if __name__ == "__main__":
-    make_print_to_file(path="./")
-    # cv2.namedWindow("screen", cv2.WINDOW_NORMAL)
-    # cv2.setWindowProperty("screen", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
-    # cv2.imshow("screen", screen)
-    # cv2.waitKey(1)
+    make_print_to_file(path="./logs/")
+    loader = subprocess.Popen(["/usr/bin/python3", "/home/pi/GongXun/src/Display.py"])
 
     if not uart.isOpen():
         print("串口没打开")
-    # task1()
+    task1()
     # task2()
     task3()
