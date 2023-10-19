@@ -1,0 +1,17 @@
+#
+runActionGroup(0, 1);起始复位
+runActionGroup(1, 1);右侧圆盘16cm抬高
+runActionGroup(2, 1);圆盘下去+抓取+抬起
+runActionGroup(3, 1);蓝色放置到载物后抬起
+runActionGroup(4, 1);绿色放置到载物后抬起
+runActionGroup(5, 1);红色放置到载物后抬起
+runActionGroup(6, 1);蓝色到载物+抓取+抬起+放置到地上
+runActionGroup(7, 1);绿色到载物+抓取+抬起+放置到地上
+runActionGroup(8, 1);红色到载物+抓取+抬起+放置到地上
+
+
+runActionGroup(11, 1);前方粗调高度
+\\作废runActionGroup(12, 1);前方细调高度
+
+
+
