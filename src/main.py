@@ -84,6 +84,7 @@ def task1():
 def task2():
     global sequence, screen
 
+    reflashScreen("正在前往原料区")
     # 等待小车到达原料区域
     while True:
         response = recv_data()
@@ -138,12 +139,15 @@ def task3():
     orient = 0  # 0: 北, 1: 西
     mountBySequence(threshold, sequence, orient)
 
-    #
+    # 
     catchBySequence(sequence)
 
 
+# 任务四: 在暂存区放物料, 重复任务三部分步骤
 def task4():
-    global sequence, screen
+    global sequence
+
+    reflashScreen("正在前往暂存区")
 
 
 if __name__ == "__main__":

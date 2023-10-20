@@ -34,7 +34,7 @@ def getQRCodeResult(queue: list):
 
     data: str = result[0].data.decode("utf-8")
     print("识别结果: ", data)
-    reflashScreen(f"结果为: {data}")
+    reflashScreen(f"结果为:{data}")
 
     number = data.split("+")
     # color = {'1': 'r', '2': 'g', '3': 'b'}
@@ -63,6 +63,7 @@ def fineTuneItem(threshold: list, category):
     n = 0  # 用于标记匹配到的颜色是哪一个
     AREA = 1000
 
+    reflashScreen("正在进行微调")
     g = 0
     while True:
         if not capture(0, "yl", 1):
@@ -211,6 +212,7 @@ def fineTuneItem(threshold: list, category):
 
 
 def catchItem(threshold: list, queue: list):
+    reflashScreen("开始抓取物块")
     print("抓取顺序:", queue)
     XCenter, YCenter = 320, 220
     # ROI = [XCenter - 160, YCenter - 160, 320, 320]  # 待确定
@@ -246,6 +248,7 @@ def catchItem(threshold: list, queue: list):
         cmd = xmlReadCommand(colorCMD[c], 1)
 
         print("识别到", color[c], "颜色正确, 进行抓取")
+        reflashScreen(f"正在抓取{color[c]}")
         print("将发送的命令为：", cmd)
         send_data(cmd, 0, 0)
         ptr += 1
@@ -262,6 +265,7 @@ def catchItem(threshold: list, queue: list):
         if ptr == 3:
             cmd = xmlReadCommand("task2OK", 1)  # t2ok
             print("三个物块都抓取完毕，发送:", cmd,"进行下一步")
+            reflashScreen(f"物块抓取完毕")
             send_data(cmd, 0, 0)
             break
 
