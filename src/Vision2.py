@@ -25,7 +25,7 @@ def mountBySequence(threshold: list, queue: list, orient: int):
     # 找到绿色色环, 用于确定目标点的roi
 
     img = None
-    RingLen = 100
+    RingLen = 80
     RingDis = 150
     pixelLen = 1
     rate = 1

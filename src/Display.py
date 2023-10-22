@@ -32,7 +32,7 @@ if __name__ == "__main__":
     # print("子程序运行中...")
     while flag:
         screen = cv2.imread("./data/screen.jpg")
-        cv2.rectangle(screen, (900, 60), (980, 100), (255, 255, 255), 2)
-        screen = cv2AddChineseText(screen, "关闭", (900, 60), (255, 255, 255), 40)
+        cv2.rectangle(screen, (900, 60), (980, 100), (0, 0, 0), 2)
+        screen = cv2AddChineseText(screen, "关闭", (900, 60), (0, 0, 0), 40)
         cv2.imshow("screen", screen)
         cv2.waitKey(1000)
