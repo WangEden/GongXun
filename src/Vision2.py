@@ -6,6 +6,10 @@ from XmlProcess import *
 from VisionUtils import *
 from collections import Counter
 
+"""
+任务函数：
+从粗加工区放置和抓取物料
+"""
 
 def mountBySequence(threshold: list, queue: list, orient: int):
 

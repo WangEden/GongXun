@@ -8,6 +8,11 @@ from XmlProcess import *
 from VisionUtils import *
 
 
+"""
+任务函数：
+1.扫描二维码
+2.从圆盘上抓取物料
+"""
 # 获取扫码结果
 def getQRCodeResult(queue: list):
     cameraQR = VideoCapture("/dev/cameraTop")

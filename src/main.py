@@ -2,13 +2,15 @@ from Communication import *
 from XmlProcess import *
 from Vision import *
 from Vision2 import *
+from Vision3 import *
 import time
 import subprocess
 
 
-sequence = [2, 1, 3]  # 物块抓取顺序
+sequence = [2, 1, 3, 2, 3, 1]  # 物块抓取顺序
 
 
+# 用于创建日志文件
 def make_print_to_file(path="./"):
     """
     path, it is a path for save your log about fuction print
@@ -58,12 +60,13 @@ def make_print_to_file(path="./"):
 def task1():
     global sequence, screen
 
+    # 等待启动信号
     # while True:
     #     response = recv_data()
-    #     print("等待命令: 到达二维码区, 目前接受到: [", response, "]", end="\r")
+    #     print("等待命令: 启动系统, 目前接受到: [", response, "]", end="\r")
     #     if response is not None:
     #         if response == xmlReadCommand("arriveQR", 0):
-    #             print("开始读取识别二维码")
+    #             print("系统启动")
     #             break
 
     # 读取二维码获取顺序
@@ -77,12 +80,11 @@ def task1():
     print("任务1: 二维码读取, 完成, 结果为: ", sequence)
 
 
-
 # 任务二：拾取物块
 # 1. 对准物块，无论什么颜色
 # 2. 定时抓拍，判断颜色，确定抓取
 def task2():
-    global sequence, screen
+    global sequence
 
     reflashScreen("正在前往原料区")
     # 等待小车到达原料区域
@@ -157,9 +159,20 @@ if __name__ == "__main__":
     try:
         if not uart.isOpen():
             print("串口没打开")
-        # task1()
-        # task2()
-        task3()
-        loader.terminate()
+        
+        # task1()  # 扫码
+        # task2()  # 取原料
+        task3()  # 粗加工
+        task4()  # 暂存
+
+        # sequence = sequence[3:]
+
+        # task5()  # 取第二轮物料
+        # task6()  # 第二轮粗加工
+        
+        # task7()  # 垛码放置的暂存
+        # task8()  # 回启停区
     except:
+        loader.terminate()
+    finally:
         loader.terminate()
