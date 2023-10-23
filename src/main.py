@@ -253,7 +253,9 @@ if __name__ == "__main__":
 
 
 
-    except:
+    except Exception as ex:
+        print("异常:")
+        print(ex)
         loader.terminate()
     finally:
         loader.terminate()
