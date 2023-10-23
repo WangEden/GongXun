@@ -39,6 +39,11 @@ def getQRCodeResult(queue: list):
 
     data: str = result[0].data.decode("utf-8")
     print("识别结果: ", data)
+
+    img = np.ones((600, 1024), dtype=np.uint8) * 255
+    cv2.putText(img, data, (512 - 7 * 25, 50 + 25), cv2.FONT_HERSHEY_SIMPLEX, 2.5, (0, 0, 0), 8)
+    cv2.imwrite("./data/screen_template.jpg", img)
+    
     reflashScreen(f"结果为:{data}")
 
     number = data.split("+")

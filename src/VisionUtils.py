@@ -43,7 +43,6 @@ def precondition(_img):
     return _
 
 
-
 # 得到二值图像连通域上外接矩形
 # bbox: [box1, box2, ...]
 # box: [左上角点x, 左上角点y, 宽度, 高度, ...]
@@ -53,7 +52,6 @@ def mask_find_b_boxs(_mask):
     )  # connectivity参数的默认值为8
     stats = stats[stats[:, 4].argsort()]
     return stats[:-1]
-
 
 
 # 按照面积、位置筛选得到最可信的外接矩形
@@ -194,21 +192,23 @@ def cv2AddChineseText(img, text, position, textColor=(0, 255, 0), textSize=30):
     fontStyle = ImageFont.truetype(
         "./data/simsun.ttc", textSize, encoding="utf-8")
     # 绘制文本
-    draw.text(position, text, textColor, font=fontStyle)
+    draw.text(position, text, textColor, font=fontStyle, stroke_width=2)
     # 转换回OpenCV格式
     return cv2.cvtColor(np.asarray(img), cv2.COLOR_RGB2BGR)
 
 
 def reflashScreen(string):
     global lastContent
-    screen = np.ones((600, 1024), dtype=np.uint8) * 255
-    dx1 = len(lastContent) * 30
+    screen = cv2.imread("./data/screen_template.jpg")
+    if screen is None:
+        screen = np.ones((600, 1024), dtype=np.uint8) * 255
+    dx1 = len(lastContent) * 20
     dx2 = len(string) * 30
     Px1 = 512 - dx1
     Px2 = 512 - dx2
     Py1 = 270
     Py2 = 330
-    screen = cv2AddChineseText(screen, lastContent, (Px1, Py1), (128, 128, 128), 60)
+    screen = cv2AddChineseText(screen, lastContent, (Px1, Py1), (128, 128, 128), 40)
     screen = cv2AddChineseText(screen, string, (Px2, Py2), (0, 0, 0), 60)
     lastContent = string
     cv2.imwrite("./data/screen.jpg", screen)
