@@ -11,7 +11,7 @@ from collections import Counter
 从粗加工区放置和抓取物料
 """
 
-def mountBySequence(threshold: list, queue: list, orient: int):
+def fineTuneRing(threshold: list, orient: int):
 
     # debug # # # # # # # # # # # # # # # # # #
     debug = 0
@@ -93,13 +93,13 @@ def mountBySequence(threshold: list, queue: list, orient: int):
 
         # 找到绿色色环获取roi, 利用roi得到目标点位置
         img_note = img.copy()
-        cv2.imwrite("./data/最后一帧.jpg", img)
+        cv2.imwrite("./data/t32ringwt/最后一帧.jpg", img)
         img = precondition(img) # 耗时
         img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
         maskGreen = cv2.inRange(img_hsv, threshold[1][0], threshold[1][1])
         kernel = np.ones((3, 3), dtype=np.uint8)
         cv2.dilate(maskGreen, kernel, 1) 
-        cv2.imwrite(f"./data/t31ceju/查找的绿色色环mask{debug}_{k}.jpg", maskGreen)
+        cv2.imwrite(f"./data/t32ringwt/查找的绿色色环mask{debug}_{k}.jpg", maskGreen)
         b_box = mask_find_b_boxs(maskGreen)
         b_box = sorted(b_box, key = lambda box: box[4], reverse=True) # 找到面积最大的框
     
@@ -114,7 +114,7 @@ def mountBySequence(threshold: list, queue: list, orient: int):
     
         print(box)
         cv2.rectangle(img_note, p1, p2, (255, 0, 0), 2) 
-        cv2.imwrite(f"./data/t31ceju/查找的绿色色环{debug}_{k}.jpg", img_note)
+        cv2.imwrite(f"./data/t32ringwt/查找的绿色色环{debug}_{k}.jpg", img_note)
 
         if box[2] < RingLen and box[3] < RingLen:
             print("面积太小不符合")
@@ -142,18 +142,18 @@ def mountBySequence(threshold: list, queue: list, orient: int):
         udy = cy - YCenter
         cv2.circle(img_note, (cx, cy), 5, (255, 0, 0), 2)
         cv2.putText(img_note, f"py({udx}, {udy})", (cx, cy), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (255, 0, 0), 1)
-        cv2.imwrite(f"./data/t31ceju/查找的色环圆心{debug}_{k}.jpg", img_note)
+        cv2.imwrite(f"./data/t32ringwt/查找的色环圆心{debug}_{k}.jpg", img_note)
         cmd = xmlReadCommand("tweak", 1)
 
         dx, dy = 0, 0
-        if orient == 0:  # 车头朝北
-            dx = int(rate * udx)  # dx > 0 往东走
-            dy = int(rate * udy)
-            print("将发送的命令为: ", cmd, dx, dy)
-        elif orient == 1:  # 车头朝西
-            dx = int(-rate * udy)  # dy > 0 往南走
-            dy = int(rate * udx)
-            print("将发送的命令为: ", cmd, dy, dx)
+        # if orient == 0:  # 车头朝北
+        dx = int(rate * udx)  # dx > 0 往东走
+        dy = int(rate * udy)
+        print("将发送的命令为: ", cmd, dx, dy)
+        # elif orient == 1:  # 车头朝西
+        #     dx = int(-rate * udy)  # dy > 0 往南走
+        #     dy = int(rate * udx)
+        #     print("将发送的命令为: ", cmd, dy, dx)
         if abs(udx) < 40 and abs(udy) < 75:
             dx = 0
             dy = 0
@@ -169,29 +169,44 @@ def mountBySequence(threshold: list, queue: list, orient: int):
                 print("微调动作完成")
                 break
         k+=1
-
-    # 放置
-    reflashScreen("正在进行放置")
-    for i in range(3):
-        c = queue[i]
-        color = {1: 'R', 2: 'G', 3: 'B'}
-        cmd = xmlReadCommand(f"set{color[c]}", 1)
-        send_data(cmd, 0, 0)
-        while True:
-            response = recv_data()
-            print("等待放置动作完成的信号, 当前接收: ", response, end='\r')
-            if response == xmlReadCommand("mngOK", 0):
-                print("放置完成一个, 进行下一步")
-                break
-    print("三个物块都完成放置, 进行下一步, 抓取")
-
     # debug # # # # # # # # # # # # # # # # # #
     with open("./logs/debug.txt", "w") as file:
         file.write(str(debug + 1))
     # # # # # # # # # # # # # # # # # # # # # #
 
 
-def catchBySequence(queue:list):
+def setItemBySequance(queue:list, mode:int):
+    reflashScreen("正在进行放置")
+    if mode == 0:  # 普通放置
+        for i in range(3):
+            c = queue[i]
+            color = {1: 'R', 2: 'G', 3: 'B'}
+            cmd = xmlReadCommand(f"set{color[c]}", 1)
+            send_data(cmd, 0, 0)
+            while True:
+                response = recv_data()
+                print("等待放置动作完成的信号, 当前接收: ", response, end='\r')
+                if response == xmlReadCommand("mngOK", 0):
+                    print("放置完成一个, 进行下一步")
+                    break
+        print("三个物块都完成放置, 准备进行第二轮")
+    
+    elif mode == 1:  # 垛码放置
+        for i in range(3):
+            c = queue[i]
+            color = {1: 'R', 2: 'G', 3: 'B'}
+            cmd = xmlReadCommand(f"dset{color[c]}", 1)
+            send_data(cmd, 0, 0)
+            while True:
+                response = recv_data()
+                print("等待放置动作完成的信号, 当前接收: ", response, end='\r')
+                if response == xmlReadCommand("mngOK", 0):
+                    print("放置完成一个, 进行下一步")
+                    break
+        print("三个物块都完成放置, 准备进行第二轮")
+
+
+def retriveBySequence(queue:list):
     reflashScreen("正在取回物块")
     for i in range(3):
         c = queue[i]

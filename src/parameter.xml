@@ -9,6 +9,8 @@
         <arriveYL>wait</arriveYL>
         <!-- 到达粗加工区附近 -->
         <arriveCJ>cjgq</arriveCJ>
+        <!-- 到达粗加工区附近 -->
+        <arriveZC>dzcq</arriveZC>
         <!-- 微调动作完成 -->
         <tweakOk>wtok</tweakOk>
         <!-- 抓取/放置动作完成 -->
@@ -38,6 +40,10 @@
         <setR>setR</setR> 
         <setG>setG</setG>
         <setB>setB</setB>
+        <!-- 进行垛码放置 红/绿/蓝 -->
+        <dstR>dstR</dstR> 
+        <dstG>dstG</dstG>
+        <dstB>dstB</dstB>
         <!-- 色环间切换 -->
         <moveRing>move</moveRing>
 

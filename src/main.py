@@ -86,7 +86,7 @@ def task1():
 def task2():
     global sequence
 
-    reflashScreen("正在前往原料区")
+    reflashScreen("前往原料区取第一轮物料")
     # 等待小车到达原料区域
     while True:
         response = recv_data()
@@ -105,13 +105,13 @@ def task2():
         xmlReadThreshold("item", c, threshold[i])
 
     # 进行微调
-    fineTuneItem(threshold, category="normal")  # 选择普通物块
+    fineTuneItem(threshold, category="normal", loop=1)  # 选择普通物块
 
     # 按顺序进行抓取
-    catchItem(threshold, sequence)
+    catchItem(threshold, sequence, loop=1)
 
     # 显示任务信息
-    print("任务2: 原料拾取, 完成")
+    print("任务2: 第一轮原料拾取, 完成")
 
 
 # 任务三：在粗加工区放置物块
@@ -120,9 +120,9 @@ def task2():
 def task3():
     global sequence, screen
 
-    # 等待小车到达原料区域，并伸出机械臂
-    # 小车应停在原料区绿色色环位置，之后伸出机械臂，视野范围内，必须要有至少两个色环（用于标定距离）
-    reflashScreen("正在前往粗加工区")
+    # 等待小车到达粗加工区域，并伸出机械臂
+    # 小车应停在粗加工区绿色色环位置，之后伸出机械臂，视野范围内，必须要有至少两个色环（用于标定距离）
+    reflashScreen("第一轮前往粗加工区")
     while True:
         response = recv_data()
         print("等待命令: 到达粗加工区, 目前接受到: [", response, "]", end="\r")
@@ -137,19 +137,88 @@ def task3():
     for i, c in enumerate(["red", "green", "blue"]):
         xmlReadThreshold("ring", c, threshold[i])
 
-    # 计算位置, 根据顺序, 校准并放置三个物块, 按顺序抓取物块: 移动、抓取、记录位置
+    # 计算位置, 校准
     orient = 0  # 0: 北, 1: 西
-    mountBySequence(threshold, sequence, orient)
+    fineTuneRing(threshold, orient)
 
-    # 
-    catchBySequence(sequence)
+    # 根据顺序放置三个物块
+    setItemBySequance(sequence, 0)
+
+    # 按顺序取回物料
+    retriveBySequence(sequence)
+
+    # 显示任务信息
+    print("任务3: 第一轮粗加工, 完成")
 
 
 # 任务四: 在暂存区放物料, 重复任务三部分步骤
 def task4():
     global sequence
 
-    reflashScreen("正在前往暂存区")
+    # 等待小车到达暂存区域，并伸出机械臂
+    # 小车应停在暂存区绿色色环位置，之后伸出机械臂，视野范围内，必须要有至少两个色环（用于标定距离）
+    reflashScreen("第一轮前往暂存区")
+    while True:
+        response = recv_data()
+        print("等待命令: 到达暂存区, 目前接受到: [", response, "]", end="\r")
+        if response is not None:
+            if response == xmlReadCommand("arriveZC", 0):
+                print("开始调整")
+                break
+        
+    # 获取三个色环阈值
+    threshold = [[], [], []]  # -> [[min, max], [min, max], [min, max]]
+    for i, c in enumerate(["red", "green", "blue"]):
+        xmlReadThreshold("ring", c, threshold[i])
+
+    # 在暂存区校准
+    fineTuneRing2(threshold)
+
+    # 按顺序放置物块
+    setItemBySequance(sequence, 0)
+
+    # 显示任务信息
+    print("任务4: 第一轮暂存, 完成")
+
+# # # # # # # # # # # # # # # # # #
+# # # # # # # 第 二 轮 # # # # # # #
+# # # # # # # # # # # # # # # # # #
+
+# 任务五: 回到原料区, 取第二轮物料
+def task5():
+    global sequence
+
+    reflashScreen("回到原料区取第二轮物料")
+    # 等待小车到达原料区域
+    while True:
+        response = recv_data()
+        print("等待命令: 到达原料区, 目前接受到: [", response, "]", end="\r")
+        if response is not None:
+            if response == xmlReadCommand("arriveYL", 0):
+                print("开始微调")
+                break
+
+    # 拍照用于微调，拍的时候物块不能是运动的，解决办法：等一段两倍转盘运动时间
+    time.sleep(0.2)
+
+    # 获取三个物块的阈值
+    threshold = [[], [], []]  # -> [[min, max], [min, max], [min, max]]
+    for i, c in enumerate(["red", "green", "blue"]):
+        xmlReadThreshold("item", c, threshold[i])
+
+    # 进行微调
+    fineTuneItem(threshold, category="normal", loop=2)  # 选择普通物块
+
+    # 按顺序进行抓取
+    catchItem(threshold, sequence, loop=2)
+
+    # 显示任务信息
+    print("任务5: 第二轮原料拾取, 完成")
+
+
+# 任务五: 前往粗加工区，放置第二轮物料
+def task6():
+    global sequence
 
 
 if __name__ == "__main__":
@@ -163,9 +232,10 @@ if __name__ == "__main__":
         # task1()  # 扫码
         # task2()  # 取原料
         task3()  # 粗加工
-        task4()  # 暂存
 
-        # sequence = sequence[3:]
+        # 截取第二轮顺序
+        sequence = sequence[3:]
+        task4()  # 暂存
 
         # task5()  # 取第二轮物料
         # task6()  # 第二轮粗加工

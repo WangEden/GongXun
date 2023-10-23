@@ -57,7 +57,7 @@ def getQRCodeResult(queue: list):
 
 
 # 微调物块：一两秒内需要完成
-def fineTuneItem(threshold: list, category):
+def fineTuneItem(threshold: list, category, loop:int):
     # debug # # # # # # # # # # # # # # # # # #
     debug = 0
     with open("./logs/debug.txt", "r") as file:
@@ -84,8 +84,10 @@ def fineTuneItem(threshold: list, category):
 
         # 查找物块, 三种颜色轮流尝试, 判断依据为物块是否处于预定义的中间区域
         img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-        cv2.imwrite(f"./data/t21fineTuneItem/匹配时hsv{debug}_{g}.jpg", img_hsv)
-
+        if loop == 1:
+            cv2.imwrite(f"./data/t21fineTuneItem/匹配时hsv{debug}_{g}.jpg", img_hsv)
+        elif loop == 2:
+            cv2.imwrite(f"./data/t51fineTuneItem/匹配时hsv{debug}_{g}.jpg", img_hsv)
         # debug用的一些输出图像
         img_note = img.copy()
 
@@ -99,7 +101,11 @@ def fineTuneItem(threshold: list, category):
                 _ = cv2.inRange(img_hsv, cth[0], cth[1])
                 mask += cv2.medianBlur(_, 3)
         
-        cv2.imwrite(f"/home/pi/GongXun/src/data/t21fineTuneItem/匹配时mask{debug}_{g}.jpg", mask)
+        if loop == 1:
+            cv2.imwrite(f"/home/pi/GongXun/src/data/t21fineTuneItem/匹配时mask{debug}_{g}.jpg", mask)
+        elif loop == 2:
+            cv2.imwrite(f"/home/pi/GongXun/src/data/t51fineTuneItem/匹配时mask{debug}_{g}.jpg", mask)
+
         bbox = mask_find_b_boxs(mask)
         print(bbox)
         box = get_the_most_credible_box(bbox)
@@ -178,9 +184,14 @@ def fineTuneItem(threshold: list, category):
             1,
         )
         cv2.line(img_note, (320, 240), (cx, cy), (255, 0, 0), 2)
-        cv2.imwrite(
-            f"/home/pi/GongXun/src/data/t21fineTuneItem/校准时结果{debug}+{k}.jpg", img_note
-        )
+        if loop == 1:
+            cv2.imwrite(
+                f"/home/pi/GongXun/src/data/t21fineTuneItem/校准时结果{debug}+{k}.jpg", img_note
+            )
+        elif loop == 2:
+            cv2.imwrite(
+                f"/home/pi/GongXun/src/data/t51fineTuneItem/校准时结果{debug}+{k}.jpg", img_note
+            )
         k += 1
 
         # 发送完误差信号后等待调整动作完成
@@ -201,14 +212,23 @@ def fineTuneItem(threshold: list, category):
             if img is None:
                 return False  # 图片读取不成功
             img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-            cv2.imwrite(
-                f"/home/pi/GongXun/src/data/t21fineTuneItem/校准时hsv{debug}+{k}.jpg", img_hsv
-            )
+
             mask = cv2.inRange(img_hsv, threshold[n][0], threshold[n][1])
             mask = cv2.medianBlur(mask, 3)
-            cv2.imwrite(
-                f"/home/pi/GongXun/src/data/t21fineTuneItem/校准时mask{debug}+{k}.jpg", mask
-            )
+            if loop == 1:
+                cv2.imwrite(
+                    f"/home/pi/GongXun/src/data/t21fineTuneItem/校准时hsv{debug}+{k}.jpg", img_hsv
+                )
+                cv2.imwrite(
+                    f"/home/pi/GongXun/src/data/t21fineTuneItem/校准时mask{debug}+{k}.jpg", mask
+                )
+            elif loop == 2:
+                cv2.imwrite(
+                    f"/home/pi/GongXun/src/data/t51fineTuneItem/校准时hsv{debug}+{k}.jpg", img_hsv
+                )
+                cv2.imwrite(
+                    f"/home/pi/GongXun/src/data/t51fineTuneItem/校准时mask{debug}+{k}.jpg", mask
+                )
             bbox = mask_find_b_boxs(mask)
             box = get_the_most_credible_box(bbox)
             img_note = img.copy()
@@ -221,7 +241,7 @@ def fineTuneItem(threshold: list, category):
     return True
 
 
-def catchItem(threshold: list, queue: list):
+def catchItem(threshold: list, queue: list, loop:int):
     reflashScreen("开始抓取物块")
     print("抓取顺序:", queue)
     XCenter, YCenter = 320, 220
@@ -249,7 +269,10 @@ def catchItem(threshold: list, queue: list):
         bbox = mask_find_b_boxs(mask)
         box = get_the_most_credible_box(bbox)
         if not compRect(ROI, box) or box[2] * box[3] < 7000:
-            cv2.imwrite(f"/home/pi/GongXun/src/data/t22catchItem/不抓取原因{w}.jpg", mask)
+            if loop == 1:
+                cv2.imwrite(f"/home/pi/GongXun/src/data/t22catchItem/不抓取原因{w}.jpg", mask)
+            elif loop == 2:
+                cv2.imwrite(f"/home/pi/GongXun/src/data/t52catchItem/不抓取原因{w}.jpg", mask)
             w += 1
             print("等待中, 当前颜色不匹配", box)
             continue
