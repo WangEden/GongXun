@@ -92,7 +92,6 @@ def fineTuneItem(threshold: list, category, loop:int):
         img_note = img.copy()
 
         # 匹配颜色
-        f = True
         for cth in threshold:
             if mask is None:
                 mask = cv2.inRange(img_hsv, cth[0], cth[1])
@@ -107,14 +106,16 @@ def fineTuneItem(threshold: list, category, loop:int):
             cv2.imwrite(f"/home/pi/GongXun/src/data/t51fineTuneItem/匹配时mask{debug}_{g}.jpg", mask)
 
         bbox = mask_find_b_boxs(mask)
-        print(bbox)
+        # print(bbox)
         box = get_the_most_credible_box(bbox)
 
         if box[4] < AREA:
             print("面积太小, 不是目标")
+            mask = None
             continue
         elif box[2] / box[3] > 1.2 or box[2] / box[3] < 0.8:
             print("比例不对, 不是目标")
+            mask = None
             continue
         else:
             break
