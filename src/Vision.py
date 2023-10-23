@@ -107,7 +107,7 @@ def fineTuneItem(threshold: list, category, loop:int):
             cv2.imwrite(f"/home/pi/GongXun/src/data/t51fineTuneItem/匹配时mask{debug}_{g}.jpg", mask)
 
         bbox = mask_find_b_boxs(mask)
-        print(bbox)
+        # print(bbox)
         box = get_the_most_credible_box(bbox)
 
         if box[4] < AREA:

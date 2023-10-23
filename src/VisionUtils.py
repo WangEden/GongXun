@@ -206,9 +206,9 @@ def reflashScreen(string):
     dx2 = len(string) * 30
     Px1 = 512 - dx1
     Px2 = 512 - dx2
-    Py1 = 270
-    Py2 = 330
-    screen = cv2AddChineseText(screen, lastContent, (Px1, Py1), (128, 128, 128), 40)
+    Py1 = 230
+    Py2 = 270
+    screen = cv2AddChineseText(screen, lastContent, (Px1, Py1), (64, 64, 64), 30)
     screen = cv2AddChineseText(screen, string, (Px2, Py2), (0, 0, 0), 60)
     lastContent = string
     cv2.imwrite("./data/screen.jpg", screen)

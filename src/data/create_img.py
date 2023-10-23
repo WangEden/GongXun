@@ -3,7 +3,7 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
 img = np.ones((600, 1024), dtype=np.uint8) * 255
-cv2.putText(img, "213+312", (512 - 7 * 25, 50 + 25), cv2.FONT_HERSHEY_SIMPLEX, 2.5, (0, 0, 0), 8)
+# cv2.putText(img, "213+312", (512 - 7 * 25, 50 + 25), cv2.FONT_HERSHEY_SIMPLEX, 2.5, (0, 0, 0), 8)
 cv2.imwrite("screen_template.jpg", img)
 
 

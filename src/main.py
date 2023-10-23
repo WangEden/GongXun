@@ -95,6 +95,7 @@ def task2():
     while True:
         response = recv_data()
         print("等待命令: 到达原料区, 目前接受到: [", response, "]", end="\r")
+        
         if response is not None:
             if response == xmlReadCommand("arriveYL", 0):
                 print("开始微调")
@@ -120,7 +121,6 @@ def task2():
 
 # 任务三：在粗加工区放置物块
 # 刚开始会停在第二个色环的位置，伸出机械臂，高度保证视野中有三个色环，ps: 相邻色环之间的距离是固定的
-#
 def task3():
     global sequence, screen
 
@@ -237,8 +237,8 @@ if __name__ == "__main__":
         if not uart.isOpen():
             print("串口没打开")
         
-        # task1()  # 扫码
-        # task2()  # 取原料
+        task1()  # 扫码
+        task2()  # 取原料
         task3()  # 粗加工
 
         # 截取第二轮顺序
