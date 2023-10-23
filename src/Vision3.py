@@ -11,7 +11,7 @@ from collections import Counter
 任务函数：
 在暂存区放置物料
 """
-def fineTuneRing2(threshold:list):
+def fineTuneRing2(threshold:list, loop:int):
     # 最多可能出现六个色环
     # debug # # # # # # # # # # # # # # # # # #
     debug = 0
@@ -61,7 +61,12 @@ def fineTuneRing2(threshold:list):
         cv2.line(img_note, (p1[0], p1[1]), (p2[0], p2[1]), (255, 0, 0), 2)
         rate = RingDis * 10 / pixelLen
         print("pixelLen, rate: ", pixelLen, rate)
-        cv2.imwrite(f"./data/t41ceju/描绘算距离用的线.jpg", img_note)
+
+        if loop == 1:
+            cv2.imwrite(f"./data/t41ceju/描绘算距离用的线.jpg", img_note)
+        elif loop == 2:
+            cv2.imwrite(f"./data/t71ceju/描绘算距离用的线.jpg", img_note)
+
         circleAll = circleList
         break
 
@@ -93,13 +98,19 @@ def fineTuneRing2(threshold:list):
 
         # 找到绿色色环获取roi, 利用roi得到目标点位置
         img_note = img.copy()
-        cv2.imwrite("./data/t42ringwt/最后一帧.jpg", img)
         img = precondition(img) # 耗时
         img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
         maskGreen = cv2.inRange(img_hsv, threshold[1][0], threshold[1][1])
         kernel = np.ones((3, 3), dtype=np.uint8)
         cv2.dilate(maskGreen, kernel, 1)
-        cv2.imwrite(f"./data/t42ringwt/查找的绿色色环mask{debug}_{k}.jpg", maskGreen)
+
+        if loop == 1:
+            cv2.imwrite("./data/t42ringwt/最后一帧.jpg", img)
+            cv2.imwrite(f"./data/t42ringwt/查找的绿色色环mask{debug}_{k}.jpg", maskGreen)
+        elif loop == 2:
+            cv2.imwrite("./data/t72ringwt/最后一帧.jpg", img)
+            cv2.imwrite(f"./data/742ringwt/查找的绿色色环mask{debug}_{k}.jpg", maskGreen)
+ 
         b_box = mask_find_b_boxs(maskGreen)
         b_box = sorted(b_box, key = lambda box: box[4], reverse=True) # 找到面积最大的框
     
@@ -112,9 +123,14 @@ def fineTuneRing2(threshold:list):
         p1 = tuple([box[0], box[1]])
         p2 = tuple([box[0] + box[2], box[1] + box[3]])
     
+
         print(box)
         cv2.rectangle(img_note, p1, p2, (255, 0, 0), 2) 
-        cv2.imwrite(f"./data/t42ringwt/查找的绿色色环{debug}_{k}.jpg", img_note)
+
+        if loop == 1:
+            cv2.imwrite(f"./data/t42ringwt/查找的绿色色环{debug}_{k}.jpg", img_note)
+        elif loop == 2:
+            cv2.imwrite(f"./data/t72ringwt/查找的绿色色环{debug}_{k}.jpg", img_note)
 
         if box[2] < RingLen and box[3] < RingLen:
             print("面积太小不符合")
@@ -142,7 +158,12 @@ def fineTuneRing2(threshold:list):
         udy = cy - YCenter
         cv2.circle(img_note, (cx, cy), 5, (255, 0, 0), 2)
         cv2.putText(img_note, f"py({udx}, {udy})", (cx, cy), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (255, 0, 0), 1)
-        cv2.imwrite(f"./data/t42ringwt/查找的色环圆心{debug}_{k}.jpg", img_note)
+        
+        if loop == 1:
+            cv2.imwrite(f"./data/t42ringwt/查找的色环圆心{debug}_{k}.jpg", img_note)
+        elif loop == 2:
+            cv2.imwrite(f"./data/t72ringwt/查找的色环圆心{debug}_{k}.jpg", img_note)
+
         cmd = xmlReadCommand("tweak", 1)
 
         dx, dy = 0, 0

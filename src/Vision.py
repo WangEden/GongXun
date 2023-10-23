@@ -44,7 +44,7 @@ def getQRCodeResult(queue: list):
     cv2.putText(img, data, (512 - 7 * 25, 50 + 25), cv2.FONT_HERSHEY_SIMPLEX, 2.5, (0, 0, 0), 8)
     cv2.imwrite("./data/screen_template.jpg", img)
     
-    reflashScreen(f"结果为:{data}")
+    reflashScreen(f"扫码结果为:{data}")
 
     number = data.split("+")
     # color = {'1': 'r', '2': 'g', '3': 'b'}

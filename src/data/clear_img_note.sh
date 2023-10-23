@@ -1,1 +1,0 @@
-rm ./img_note*
