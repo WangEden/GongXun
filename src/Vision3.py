@@ -13,6 +13,7 @@ from collections import Counter
 """
 def fineTuneRing2(threshold:list, loop:int):
     # 最多可能出现六个色环
+    # 垛码放置时可能需要另外识别
     # debug # # # # # # # # # # # # # # # # # #
     debug = 0
     with open("./logs/debug.txt", "r") as file:
