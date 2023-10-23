@@ -56,6 +56,10 @@ def make_print_to_file(path="./"):
     print(fileName.center(60, "*"))
 
 
+# # # # # # # # # # # # # # # # # #
+# # # # # # # 第 一 轮 # # # # # # #
+# # # # # # # # # # # # # # # # # #
+
 # 任务一：读取二维码
 def task1():
     global sequence, screen
@@ -131,7 +135,6 @@ def task3():
                 print("开始调整")
                 break
 
-
     # 获取三个色环阈值
     threshold = [[], [], []]  # -> [[min, max], [min, max], [min, max]]
     for i, c in enumerate(["red", "green", "blue"]):
@@ -139,7 +142,7 @@ def task3():
 
     # 计算位置, 校准
     orient = 0  # 0: 北, 1: 西
-    fineTuneRing(threshold, orient)
+    fineTuneRing(threshold, 1)
 
     # 根据顺序放置三个物块
     setItemBySequance(sequence, 0)
@@ -172,7 +175,7 @@ def task4():
         xmlReadThreshold("ring", c, threshold[i])
 
     # 在暂存区校准
-    fineTuneRing2(threshold)
+    fineTuneRing2(threshold, 1)
 
     # 按顺序放置物块
     setItemBySequance(sequence, 0)
@@ -216,8 +219,13 @@ def task5():
     print("任务5: 第二轮原料拾取, 完成")
 
 
-# 任务五: 前往粗加工区，放置第二轮物料
+# 任务六: 前往粗加工区，放置第二轮物料
 def task6():
+    global sequence
+
+
+# 任务七: 前往暂存区，放置第二轮物料
+def task7():
     global sequence
 
 
@@ -241,7 +249,10 @@ if __name__ == "__main__":
         # task6()  # 第二轮粗加工
         
         # task7()  # 垛码放置的暂存
-        # task8()  # 回启停区
+        # 回启停区
+
+
+
     except:
         loader.terminate()
     finally:
