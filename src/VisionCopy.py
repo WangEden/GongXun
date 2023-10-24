@@ -55,7 +55,7 @@ def fineTuneItem(threshold: list, category, loop:int):
         print(f"第{debug}次测试")
     # # # # # # # # # # # # # # # # # # # # # #
 
-    XCenter, YCenter = 320, 220
+    XCenter, YCenter = 320, 240
     # ROI = [XCenter-160, YCenter-160, 320, 320] # 待确定
     ROI = [0, 0, 640, 480]
     mask, box, img_note = None, None, None
@@ -124,7 +124,7 @@ def fineTuneItem(threshold: list, category, loop:int):
         dy = int(udx * rate)
 
         # 中心偏移小于8mm都可以进行抓取
-        if abs(dx) < 80 and abs(dx) < 80:
+        if abs(dx) < 70 and abs(dy) < 40:
             cmd = xmlReadCommand("calibrOk", 1)
             dx, dy = 0, 0
             flag = False
@@ -165,7 +165,7 @@ def fineTuneItem(threshold: list, category, loop:int):
         if flag:
             mask = None
             # 拍照
-            time.sleep(0.3)
+            # time.sleep(0.3)
             if not capture(0, "yl", 0):
                 return False  # 拍照不成功
             img = cv2.imread("./data/yl.jpg")
@@ -180,7 +180,8 @@ def fineTuneItem(threshold: list, category, loop:int):
                     mask = cv2.inRange(img_hsv, threshold[i][0], threshold[i][1])
                 else:
                     _ = cv2.inRange(img_hsv, threshold[i][0], threshold[i][1])
-                    mask += cv2.medianBlur(_, 3)
+                    mask += _
+            mask = cv2.medianBlur(mask, 3)
             cv2.imwrite(
                 f"/home/pi/GongXun/src/data/t21fineTuneItem/校准时mask{debug}+{k}.jpg", mask
             )
@@ -198,7 +199,7 @@ def fineTuneItem(threshold: list, category, loop:int):
 
 def catchItem(threshold: list, queue: list, loop:int):
     print("抓取顺序:", queue)
-    XCenter, YCenter = 320, 220
+    XCenter, YCenter = 320, 240
     ROI = [XCenter - 160, YCenter - 160, 320, 320]  # 待确定
     # ROI = [0, 0, 640, 480]
     color = ["红色", "绿色", "蓝色"]

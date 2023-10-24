@@ -66,7 +66,7 @@ def fineTuneItem(threshold: list, category, loop:int):
         print(f"第{debug}次测试")
     # # # # # # # # # # # # # # # # # # # # # #
 
-    XCenter, YCenter = 320, 220
+    XCenter, YCenter = 320, 240
     # ROI = [XCenter-160, YCenter-160, 320, 320] # 待确定
     ROI = [0, 0, 640, 480]
     mask, box, img_note = None, None, None
@@ -277,7 +277,7 @@ def fineTuneItem(threshold: list, category, loop:int):
 def catchItem(threshold: list, queue: list, loop:int):
     reflashScreen("开始抓取物块")
     print("抓取顺序:", queue)
-    XCenter, YCenter = 320, 220
+    XCenter, YCenter = 320, 240
     # ROI = [XCenter - 160, YCenter - 160, 320, 320]  # 待确定
     ROI = [0, 0, 640, 480]
     color = ["红色", "绿色", "蓝色"]
