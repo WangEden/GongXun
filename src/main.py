@@ -1,6 +1,6 @@
 from Communication import *
 from XmlProcess import *
-from Vision import *
+from VisionCopy import *
 from Vision2 import *
 from Vision3 import *
 import time
@@ -78,7 +78,8 @@ def task1():
     flg = getQRCodeResult(sequence)
     cmd = xmlReadCommand("qrComplete", 1)
     if flg:
-        send_data(cmd, 0, 0)  # 发送继续前进的命令
+        for i in range(2):
+            send_data(cmd, 0, 0)  # 发送继续前进的命令
 
     # 显示任务信息
     print("任务1: 二维码读取, 完成, 结果为: ", sequence)

@@ -39,6 +39,7 @@ def fineTuneRing(threshold: list, loop: int):
     while True:
         # 读取一张照片用于算出距离比例
         if not capture(0, 'sh', 0): return False
+        time.sleep(0.3)
         img = cv2.imread(f'./data/sh.jpg')
         if img is None: 
             print("读取色环图片失败, 重试")
@@ -93,6 +94,7 @@ def fineTuneRing(threshold: list, loop: int):
                     circleAll.append((cx, cy))
             print("获取15帧图像用于处理, 当前: ", i)
         camera.terminate()
+        time.sleep(0.3)
 
         # 找到绿色色环获取roi, 利用roi得到目标点位置
         img_note = img.copy()
@@ -223,6 +225,10 @@ def setItemBySequance(queue:list, mode:int):
                     print("放置完成一个, 进行下一步")
                     break
         print("三个物块都完成放置, 准备进行第二轮")
+    
+    cmd = xmlReadCommand("task2OK", 1)  # t2ok
+    print("三个物块都回收完毕，发送:", cmd,"进行下一步")
+    send_data(cmd, 0, 0)
 
 
 def retriveBySequence(queue:list):

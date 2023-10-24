@@ -16,7 +16,8 @@ def capture(dev: int, name, mode=0):
     else:
         cap = cv2.VideoCapture("/dev/video0")
 
-    print(cap.set(3, 640))
+    # print(cap.set(3, 640))
+    cap.set(3, 640)
     cap.set(4, 480)
     cap.set(cv2.CAP_PROP_AUTO_WB, 1)
     cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 1)
@@ -63,18 +64,24 @@ def get_the_most_credible_box(b_box):
     if len(b_box) == 1:
         return b_box[0]
     b_box = sorted(b_box, key=lambda box: box[4], reverse=True)
+    flag = False
     if len(b_box) >= 3:
         b_box = b_box[:2] # 取前三个面积大的
-    else:
-        print("少于三个")
-        pass
+    elif len(b_box) == 2:
+        print("只有两个")
+        flag = True
     # print("by area:\n", b_box)
+    # for i, v in enumerate(b_box):
+    #     if v[4] < 1000:
+    #         b_box.remove(v)
     b_box = sorted(b_box, key=lambda box: abs(box[0] + box[2] / 2 - XCenter))
     # print("by dx:\n", b_box)
     b_box = sorted(b_box, key=lambda box: abs(box[1] + box[3] / 2 - YCenter))
     # print("by dy:\n", b_box)
     b_box = sorted(b_box, key=lambda box: box[1], reverse=True)
     # print("by y:\n", b_box)
+    # if flag:
+    #     a = 
     return b_box[0]
 
 
