@@ -1,20 +1,23 @@
 #
 runActionGroup(0, 1);起始复位
-runActionGroup(1, 1);右侧圆盘16cm抬高
-runActionGroup(2, 1);圆盘下去+抓取+抬起
-runActionGroup(3, 1);蓝色放置到载物后抬起
-runActionGroup(4, 1);绿色放置到载物后抬起
-runActionGroup(5, 1);红色放置到载物后抬起
-runActionGroup(6, 1);蓝色到载物+抓取+抬起+放置到粗加工区
-runActionGroup(7, 1);绿色到载物+抓取+抬起+放置到粗加工区
-runActionGroup(8, 1);红色到载物+抓取+抬起+放置到粗加工区
+runActionGroup(1, 1);右侧圆盘-抬高
+runActionGroup(2, 1);臂下去+抓取+抬起（圆盘）
+runActionGroup(3, 1);蓝色放置到载物台后抬起
+runActionGroup(4, 1);绿色放置到载物台后抬起
+runActionGroup(5, 1);红色放置到载物台后抬起
+runActionGroup(6, 1);到蓝色载物+抓取+抬起+放置到粗加工区
+runActionGroup(7, 1);到绿色载物+抓取+抬起+放置到粗加工区
+runActionGroup(8, 1);到红色载物+抓取+抬起+放置到粗加工区
 
+#
+runActionGroup(11, 1);前方位-粗调高度
 
-runActionGroup(11, 1);前方粗调高度
-作废runActionGroup(12, 1);前方细调高度
+runActionGroup(16, 1);臂下去蓝色+抓取+抬起+放置到蓝色载物
+runActionGroup(17, 1);臂下去绿色+抓取+抬起+放置到绿色载物
+runActionGroup(18, 1);臂下去红色+抓取+抬起+放置到红色载物
 
-
-runActionGroup(21, 1);左侧粗调高度
+#
+runActionGroup(21, 1);左方位-粗调高度
 
 runActionGroup(26, 1);蓝色从载盘上抓取+抬起+放置（暂存区）
 runActionGroup(27, 1);绿色从载盘上抓取+抬起+放置（暂存区）
