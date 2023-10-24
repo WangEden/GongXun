@@ -539,7 +539,7 @@ def catchItem(threshold: list, queue: list, loop:int):
         mask = cv2.medianBlur(mask, 3)
         bbox = mask_find_b_boxs(mask)
         box = get_the_most_credible_box(bbox)
-        if not compRect(ROI, box) or box[2] * box[3] < 7000:
+        if not compRect(ROI, box) or box[2] * box[3] < 5000:
             if loop == 1:
                 cv2.imwrite(f"/home/pi/GongXun/src/data/t22catchItem/不抓取原因{w}.jpg", mask)
             elif loop == 2:
