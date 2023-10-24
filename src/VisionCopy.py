@@ -7,7 +7,8 @@ from Communication import *
 from XmlProcess import *
 from VisionUtils import *
 
-# # # # # # # # # # 没有问题的程序备份 10-18 # # # # # # # # # # # # 
+
+# # # # # # # # # # 没有问题的程序备份 10-18 # # # # # # # # # # # #
 
 # 获取扫码结果
 def getQRCodeResult(queue: list):
@@ -24,7 +25,7 @@ def getQRCodeResult(queue: list):
         result = decode(gray)
 
         if result is None or len(result) == 0:
-            print("**二维码识别失败**",end='\r')
+            print("**二维码识别失败**", end='\r')
         else:
             break
 
@@ -46,7 +47,7 @@ def getQRCodeResult(queue: list):
 
 
 # 微调物块：一两秒内需要完成
-def fineTuneItem(threshold: list, category, loop:int):
+def fineTuneItem(threshold: list, category, loop: int):
     # debug # # # # # # # # # # # # # # # # # #
     debug = 0
     with open("./logs/debug.txt", "r") as file:
@@ -72,6 +73,8 @@ def fineTuneItem(threshold: list, category, loop:int):
 
         # 查找物块, 三种颜色轮流尝试, 判断依据为物块是否处于预定义的中间区域
         img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+        img_hsv = cv2.erode(img_hsv, None, iterations=2)
+
         cv2.imwrite(f"./data/t21fineTuneItem/匹配时hsv{debug}_{g}.jpg", img_hsv)
 
         # debug用的一些输出图像
@@ -96,7 +99,7 @@ def fineTuneItem(threshold: list, category, loop:int):
 
         if n == 3:  # 三种颜色都没匹配上
             print("没有找到任何一个颜色")
-            g+=1
+            g += 1
             n = 0
 
     # 此时 box 正好是圆形物块的外接正方形，物块的尺寸已知，box的边长已知，可以动态得到图像长度和实际距离的比值
@@ -163,7 +166,7 @@ def fineTuneItem(threshold: list, category, loop:int):
 
         # 继续捕获图像进行微调
         if flag:
-            mask = None
+            # mask = None
             # 拍照
             # time.sleep(0.3)
             if not capture(0, "yl", 0):
@@ -175,12 +178,18 @@ def fineTuneItem(threshold: list, category, loop:int):
             cv2.imwrite(
                 f"/home/pi/GongXun/src/data/t21fineTuneItem/校准时hsv{debug}+{k}.jpg", img_hsv
             )
-            for i in range(3):
-                if i == 0:
-                    mask = cv2.inRange(img_hsv, threshold[i][0], threshold[i][1])
-                else:
-                    _ = cv2.inRange(img_hsv, threshold[i][0], threshold[i][1])
-                    mask += _
+            # for i in range(3):
+            #     if i == 0:
+            #         mask = cv2.inRange(img_hsv, threshold[i][0], threshold[i][1])
+            #     else:
+            #         _ = cv2.inRange(img_hsv, threshold[i][0], threshold[i][1])
+            #         mask += _
+
+            mask1 = cv2.inRange(img_hsv, threshold[0][0], threshold[0][1])
+            mask2 = cv2.inRange(img_hsv, threshold[1][0], threshold[1][1])
+            mask3 = cv2.inRange(img_hsv, threshold[2][0], threshold[2][1])
+            mask = mask1 + mask2 + mask3
+
             mask = cv2.medianBlur(mask, 3)
             cv2.imwrite(
                 f"/home/pi/GongXun/src/data/t21fineTuneItem/校准时mask{debug}+{k}.jpg", mask
@@ -188,7 +197,7 @@ def fineTuneItem(threshold: list, category, loop:int):
             bbox = mask_find_b_boxs(mask)
             box = get_the_most_credible_box(bbox)
             img_note = img.copy()
-            time.sleep(0.1)
+            time.sleep(0.2)
 
     # debug # # # # # # # # # # # # # # # # # #
     with open("./logs/debug.txt", "w") as file:
@@ -197,7 +206,7 @@ def fineTuneItem(threshold: list, category, loop:int):
     return True
 
 
-def catchItem(threshold: list, queue: list, loop:int):
+def catchItem(threshold: list, queue: list, loop: int):
     print("抓取顺序:", queue)
     XCenter, YCenter = 320, 240
     ROI = [XCenter - 160, YCenter - 160, 320, 320]  # 待确定
@@ -253,11 +262,9 @@ def catchItem(threshold: list, queue: list, loop:int):
 
         if ptr == 3:
             cmd = xmlReadCommand("task2OK", 1)  # t2ok
-            print("三个物块都抓取完毕，发送:", cmd,"进行下一步")
+            print("三个物块都抓取完毕，发送:", cmd, "进行下一步")
             send_data(cmd, 0, 0)
             break
-
-    
 
 
 if __name__ == "__main__":

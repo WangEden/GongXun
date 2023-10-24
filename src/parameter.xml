@@ -98,44 +98,44 @@
     <threshold tag="item">
         <color category="red">
             <H>
-                <floor>138</floor>
-                <ceiling>214</ceiling>
+                <floor>162</floor>
+                <ceiling>197</ceiling>
             </H>
             <S>
-                <floor>121</floor>
-                <ceiling>214</ceiling>
+                <floor>169</floor>
+                <ceiling>226</ceiling>
             </S>
             <V>
-                <floor>0</floor>
-                <ceiling>255</ceiling>
+                <floor>40</floor>
+                <ceiling>210</ceiling>
             </V>
         </color>
         <color category="green">
             <H>
-                <floor>67</floor>
-                <ceiling>87</ceiling>
+                <floor>48</floor>
+                <ceiling>136</ceiling>
             </H>
             <S>
-                <floor>44</floor>
-                <ceiling>172</ceiling>
+                <floor>167</floor>
+                <ceiling>242</ceiling>
             </S>
             <V>
-                <floor>0</floor>
-                <ceiling>165</ceiling>
+                <floor>40</floor>
+                <ceiling>210</ceiling>
             </V>
         </color>
         <color category="blue">
             <H>
-                <floor>83</floor>
-                <ceiling>112</ceiling>
+                <floor>60</floor>
+                <ceiling>102</ceiling>
             </H>
             <S>
-                <floor>149</floor>
-                <ceiling>215</ceiling>
+                <floor>99</floor>
+                <ceiling>162</ceiling>
             </S>
             <V>
-                <floor>0</floor>
-                <ceiling>165</ceiling>
+                <floor>40</floor>
+                <ceiling>210</ceiling>
             </V>
         </color>
     </threshold>

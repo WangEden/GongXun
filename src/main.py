@@ -103,7 +103,7 @@ def task2():
                 break
 
     # 拍照用于微调，拍的时候物块不能是运动的，解决办法：等一段两倍转盘运动时间
-    time.sleep(0.2)
+    time.sleep(0.6)
 
     # 获取三个物块的阈值
     threshold = [[], [], []]  # -> [[min, max], [min, max], [min, max]]

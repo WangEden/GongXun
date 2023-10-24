@@ -57,7 +57,7 @@ def getQRCodeResult(queue: list):
 
 
 # 微调物块：一两秒内需要完成
-def fineTuneItem(threshold: list, category, loop:int):
+def fineTuneItem(threshold: list, category, loop: int):
     # debug # # # # # # # # # # # # # # # # # #
     debug = 0
     with open("./logs/debug.txt", "r") as file:
@@ -76,16 +76,18 @@ def fineTuneItem(threshold: list, category, loop:int):
     reflashScreen("正在进行微调")
     g = 0
     while True:
-        if not capture(0, "yl", 1):
+        if not capture(0, "yl", 0):
             print("拍照不成功")
             return False  # 拍照不成功
-        time.sleep(0.3)
         img = cv2.imread("./data/yl.jpg")
         if img is None:
             return False  # 没有读到图像
 
         # 查找物块, 三种颜色轮流尝试, 判断依据为物块是否处于预定义的中间区域
+        img = precondition(img)
         img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+        img_hsv = cv2.erode(img_hsv, None, iterations=2)
+
         if loop == 1:
             cv2.imwrite(f"./data/t21fineTuneItem/匹配时hsv{debug}_{g}.jpg", img_hsv)
         elif loop == 2:
@@ -94,25 +96,33 @@ def fineTuneItem(threshold: list, category, loop:int):
         img_note = img.copy()
 
         # 匹配颜色
-        for cth in threshold:
-            if mask is None:
-                mask = cv2.inRange(img_hsv, cth[0], cth[1])
-                mask = cv2.medianBlur(mask, 3)
-            else:
-                _ = cv2.inRange(img_hsv, cth[0], cth[1])
-                mask += cv2.medianBlur(_, 3)
-        
+        mask1 = cv2.inRange(img_hsv, threshold[0][0], threshold[0][1])
+        mask2 = cv2.inRange(img_hsv, threshold[1][0], threshold[1][1])
+        mask3 = cv2.inRange(img_hsv, threshold[2][0], threshold[2][1])
+        mask = mask1 + mask2 + mask3
+        mask = cv2.medianBlur(mask, 3)
+
         if loop == 1:
             cv2.imwrite(f"/home/pi/GongXun/src/data/t21fineTuneItem/匹配时mask{debug}_{g}.jpg", mask)
         elif loop == 2:
             cv2.imwrite(f"/home/pi/GongXun/src/data/t51fineTuneItem/匹配时mask{debug}_{g}.jpg", mask)
 
-        bbox = mask_find_b_boxs(mask)
+        # bbox = mask_find_b_boxs(mask)
         # print(bbox)
-        box = get_the_most_credible_box(bbox)
+        # bbox = sorted(bbox, key=lambda _: _[4], reverse=True)  # 按面积排
+        # if len()
+        # box = get_the_most_credible_box(bbox)
 
-        if len(box) == 0:
-            g+=1 
+        bbox = mask_find_b_boxs2(mask)
+        if len(bbox) == 3:
+            
+            pass
+        elif len(bbox) == 2:
+            pass
+        elif len(bbox) == 1:
+            pass
+        else:
+            g += 1
             continue
 
         if box[4] < AREA:
@@ -143,7 +153,6 @@ def fineTuneItem(threshold: list, category, loop:int):
     # points_mask = cv2.bitwise_and(mask, rectangle)
     # b_box = mask_find_b_boxs(points_mask)
     # 根据象限取点
-
 
     # 旧的算法，粗略获取距离比例
     pixel_len = (box[2] + box[3]) / 2  # box 宽高平均

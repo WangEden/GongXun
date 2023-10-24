@@ -39,8 +39,9 @@ def capture(dev: int, name, mode=0):
 
 # 图像预处理
 def precondition(_img):
-    _ = cv2.pyrMeanShiftFiltering(_img, 15, 20)
-    _ = cv2.GaussianBlur(_, (3, 3), 0)
+    # _ = cv2.pyrMeanShiftFiltering(_img, 15, 20)
+    # _ = cv2.GaussianBlur(_, (3, 3), 0)
+    _ = cv2.GaussianBlur(_img, (3, 3), 0)
     return _
 
 
@@ -55,6 +56,23 @@ def mask_find_b_boxs(_mask):
     return stats[:-1]
 
 
+def mask_find_b_boxs2(_mask):
+    contours, hierarchy = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)
+    box_list = []
+    b_box = []
+    for c in contours:
+        if cv2.contourArea(c) < 4500:  # 过滤掉较面积小的物体
+            continue
+        else:
+            box_list.append(c)
+    for i in box_list:
+        rect = cv2.minAreaRect(i)
+        box = cv2.boxPoints(rect)
+        b_box.append(box)
+        # cv2.drawContours(img_note, [np.int0(box)], -1, (0, 255, 255), 2)
+    return b_box
+
+
 # 按照面积、位置筛选得到最可信的外接矩形
 def get_the_most_credible_box(b_box):
     XCenter = 320
@@ -66,7 +84,7 @@ def get_the_most_credible_box(b_box):
     b_box = sorted(b_box, key=lambda box: box[4], reverse=True)
     flag = False
     if len(b_box) >= 3:
-        b_box = b_box[:2] # 取前三个面积大的
+        b_box = b_box[:2]  # 取前三个面积大的
     elif len(b_box) == 2:
         print("只有两个")
         flag = True
@@ -76,10 +94,10 @@ def get_the_most_credible_box(b_box):
     #         b_box.remove(v)
     b_box = sorted(b_box, key=lambda box: abs(box[0] + box[2] / 2 - XCenter))
     # print("by dx:\n", b_box)
-    b_box = sorted(b_box, key=lambda box: abs(box[1] + box[3] / 2 - YCenter))
-    # print("by dy:\n", b_box)
     b_box = sorted(b_box, key=lambda box: box[1], reverse=True)
     # print("by y:\n", b_box)
+    b_box = sorted(b_box, key=lambda box: abs(box[1] + box[3] / 2 - YCenter))
+    # print("by dy:\n", b_box)
     # if flag:
     #     a = 
     return b_box[0]
