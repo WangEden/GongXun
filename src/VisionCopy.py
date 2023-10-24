@@ -24,7 +24,7 @@ def getQRCodeResult(queue: list):
         result = decode(gray)
 
         if result is None or len(result) == 0:
-            print("**二维码识别失败**")
+            print("**二维码识别失败**",end='\r')
         else:
             break
 
