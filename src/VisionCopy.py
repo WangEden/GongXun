@@ -199,8 +199,8 @@ def fineTuneItem(threshold: list, category, loop:int):
 def catchItem(threshold: list, queue: list, loop:int):
     print("抓取顺序:", queue)
     XCenter, YCenter = 320, 220
-    # ROI = [XCenter - 160, YCenter - 160, 320, 320]  # 待确定
-    ROI = [0, 0, 640, 480]
+    ROI = [XCenter - 160, YCenter - 160, 320, 320]  # 待确定
+    # ROI = [0, 0, 640, 480]
     color = ["红色", "绿色", "蓝色"]
     colorCMD = ["catchR", "catchG", "catchB"]
 
@@ -221,9 +221,11 @@ def catchItem(threshold: list, queue: list, loop:int):
         mask = cv2.inRange(img_hsv, threshold[c][0], threshold[c][1])
         # mask = cv2.medianBlur(mask, 3)
         bbox = mask_find_b_boxs(mask)
+        if len(bbox) == 0:
+            continue
         bbox = sorted(bbox, key=lambda box: box[4], reverse=True)
         print(bbox)
-        
+        box = bbox[0]
         # box = get_the_most_credible_box(bbox)
         if not compRect(ROI, box) or box[2] * box[3] < 7000:
             cv2.imwrite(f"/home/pi/GongXun/src/data/t22catchItem/不抓取原因{w}.jpg", mask)
