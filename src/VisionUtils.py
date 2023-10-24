@@ -63,8 +63,12 @@ def get_the_most_credible_box(b_box):
     if len(b_box) == 1:
         return b_box[0]
     b_box = sorted(b_box, key=lambda box: box[4], reverse=True)
-    b_box = b_box[:2] # 取前三个面积大的
-    print("by area:\n", b_box)
+    if len(b_box) >= 3:
+        b_box = b_box[:2] # 取前三个面积大的
+    else:
+        print("少于三个")
+        pass
+    # print("by area:\n", b_box)
     b_box = sorted(b_box, key=lambda box: abs(box[0] + box[2] / 2 - XCenter))
     # print("by dx:\n", b_box)
     b_box = sorted(b_box, key=lambda box: abs(box[1] + box[3] / 2 - YCenter))
@@ -78,6 +82,8 @@ def get_the_most_credible_box(b_box):
 def compRect(roi, box):
     # print("roi: ", roi, "box: ", box)
     if box is None:
+        return False
+    if len(box) == 0:
         return False
     if roi[0] < box[0] and \
         roi[1] < box[1] and \

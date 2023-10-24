@@ -367,7 +367,7 @@ def fineTuneItem(threshold: list, category, loop:int):
             mask = None
             g+=1
             continue
-        elif box[2] / box[3] > 1.2 or box[2] / box[3] < 0.8:
+        elif box[2] / box[3] > 1.4 or box[2] / box[3] < 0.6:
             print("比例不对, 不是目标")
             mask = None
             g+=1
@@ -417,7 +417,7 @@ def fineTuneItem(threshold: list, category, loop:int):
         dy = int(udx * rate) # dy > 0 往南走
 
         # 中心偏移小于8mm都可以进行抓取
-        if abs(dx) < 80 and abs(dx) < 80:
+        if abs(dx) < 60 and abs(dx) < 60:
             cmd = xmlReadCommand("calibrOk", 1)
             dx, dy = 0, 0
             flag = False
@@ -497,7 +497,7 @@ def fineTuneItem(threshold: list, category, loop:int):
                     f"/home/pi/GongXun/src/data/t51fineTuneItem/校准时mask{debug}+{k}.jpg", mask
                 )
             bbox = mask_find_b_boxs(mask)
-            print(bbox)
+            # print(bbox)
             box = get_the_most_credible_box(bbox)
             img_note = img.copy()
             if len(box) == 0:

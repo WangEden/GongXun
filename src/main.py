@@ -75,10 +75,10 @@ def task1():
 
     # 读取二维码获取顺序
     reflashScreen("准备扫码")
-    getQRCodeResult(sequence)
-    # cmd = xmlReadCommand("qrComplete", 1)
-    # if flg:
-        # send_data(cmd, 0, 0)  # 发送继续前进的命令
+    flg = getQRCodeResult(sequence)
+    cmd = xmlReadCommand("qrComplete", 1)
+    if flg:
+        send_data(cmd, 0, 0)  # 发送继续前进的命令
 
     # 显示任务信息
     print("任务1: 二维码读取, 完成, 结果为: ", sequence)
@@ -233,27 +233,29 @@ if __name__ == "__main__":
     make_print_to_file(path="./logs/")
     loader = subprocess.Popen(["/usr/bin/python3", "/home/pi/GongXun/src/Display.py"])
 
-    try:
-        if not uart.isOpen():
-            print("串口没打开")
-        
-        # task1()  # 扫码
-        task2()  # 取原料
-        task3()  # 粗加工
+    img = np.ones((600, 1024), dtype=np.uint8) * 255
+    # cv2.putText(img, "213+312", (512 - 7 * 25, 50 + 25), cv2.FONT_HERSHEY_SIMPLEX, 2.5, (0, 0, 0), 8)
+    cv2.imwrite("./data/screen_template.jpg", img)
 
-        # 截取第二轮顺序
-        sequence = sequence[3:]
-        task4()  # 暂存
+    # try:
+    if not uart.isOpen():
+        print("串口没打开")
+    
+    task1()  # 扫码
+    task2()  # 取原料
+    task3()  # 粗加工
 
-        # task5()  # 取第二轮物料
-        # task6()  # 第二轮粗加工
-        
-        # task7()  # 垛码放置的暂存
-        # 回启停区
+    # 截取第二轮顺序
+    sequence = sequence[3:]
+    task4()  # 暂存
 
+    # task5()  # 取第二轮物料
+    # task6()  # 第二轮粗加工
+    
+    # task7()  # 垛码放置的暂存
+    # 回启停区
 
-
-    except:
-        loader.terminate()
-    finally:
-        loader.terminate()
+    # except:
+    #     loader.terminate()
+    # finally:
+    #     loader.terminate()
