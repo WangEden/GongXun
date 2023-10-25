@@ -5,46 +5,46 @@ from XmlProcess import *
 from VisionUtils import *
 
 
-# 设置相机参数
-cap = cv2.VideoCapture(0)
-# cap.set(3, 640)
-# cap.set(4, 480)
-# cap.set(cv2.CAP_PROP_AUTO_WB, 1)
-# cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 1)
-# capSet = cap.set(6, cv2.VideoWriter.fourcc(*"MJPG"))
-# if capSet:
-#     print("相机参数设置成功")
+# # 设置相机参数
+# cap = cv2.VideoCapture(0)
+# # cap.set(3, 640)
+# # cap.set(4, 480)
+# # cap.set(cv2.CAP_PROP_AUTO_WB, 1)
+# # cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 1)
+# # capSet = cap.set(6, cv2.VideoWriter.fourcc(*"MJPG"))
+# # if capSet:
+# #     print("相机参数设置成功")
 
-rate = 1
-# 再套一层while
-k = 0
-wt_count = 0
-XCenter, YCenter = 320, 240
-reflashScreen("进行微调")
+# rate = 1
+# # 再套一层while
+# k = 0
+# wt_count = 0
+# XCenter, YCenter = 320, 240
+# reflashScreen("进行微调")
+# # while True:
+# # 判断圆盘是否在转动 # # # # # # # # # # # #
+# ret, last_frame = cap.read()
+# # last_frame = cv2.cvtColor(last_frame, cv2.COLOR_BGR2GRAY)
+# start_time = time.time()
+# is_plate_move = True
+# c = 0
 # while True:
-# 判断圆盘是否在转动 # # # # # # # # # # # #
-ret, last_frame = cap.read()
-# last_frame = cv2.cvtColor(last_frame, cv2.COLOR_BGR2GRAY)
-start_time = time.time()
-is_plate_move = True
-c = 0
-while True:
-    end_time = time.time()
-    if end_time - start_time > 0.2:
-        start_time = time.time()
-        ret, last_frame = cap.read()
+#     end_time = time.time()
+#     if end_time - start_time > 0.2:
+#         start_time = time.time()
+#         ret, last_frame = cap.read()
 
-    ret, current_frame = cap.read()
-    cv2.imshow("c", current_frame)
-    cv2.waitKey(24)
-    # 圆盘没在移动时退出
-    is_plate_move = moving_detect(last_frame, current_frame)
-    if not is_plate_move:
-        c += 1
-    if c > 10:
-        break
-cap.release()
-cv2.destroyAllWindows()
+#     ret, current_frame = cap.read()
+#     cv2.imshow("c", current_frame)
+#     cv2.waitKey(24)
+#     # 圆盘没在移动时退出
+#     is_plate_move = moving_detect(last_frame, current_frame)
+#     if not is_plate_move:
+#         c += 1
+#     if c > 10:
+#         break
+# cap.release()
+# cv2.destroyAllWindows()
 # # # # # # # # # # # # # # # # # # # # # #
 # img_path = "take4.jpg"
 # img = cv2.imread(img_path)
@@ -121,62 +121,62 @@ cv2.destroyAllWindows()
 # cv2.waitKey(0)
 
 
-# cap = cv2.VideoCapture(0)  # 读取视频文件，参数设置为0表示从摄像头获取图像
-#
-#
-# def moving_detect(frame1, frame2):
-#     img1 = cv2.cvtColor(frame1, cv2.COLOR_BGR2GRAY)
-#     img2 = cv2.cvtColor(frame2, cv2.COLOR_BGR2GRAY)
-#     grey_diff = cv2.absdiff(img1, img2)  # 计算两幅图的像素差
-#     change = np.average(grey_diff)
-#
-#     if change > 10:  # 当两幅图的差异大于给定的值后，认为画面有物体在动
-#         cv2.putText(frame2, 'moving', (100, 30), 2, 1, (0, 255, 0), 2, cv2.LINE_AA)
-#     else:
-#         cv2.putText(frame2, 'quiet', (100, 30), 2, 1, (255, 0, 0), 2, cv2.LINE_AA)
-#     cv2.imshow("output", frame2)
-#
-#
-# _, frame1 = cap.read()
-# img1 = cv2.cvtColor(frame1, cv2.COLOR_BGR2GRAY)  # 将图片转为灰度图，第一个返回值表示是否转换成功，第二个返回值就是灰度图了
-# start = time.time()
-# while True:
-#     end = time.time()
-#     if (end - start > 0.1):  # 每隔2秒拍一幅图，比较前后两幅图的差异
-#         start = time.time()
-#         _, frame1 = cap.read()
-#
-#     _, frame2 = cap.read()
-#     moving_detect(frame1, frame2)
-#     if cv2.waitKey(5) & 0xFF == ord('q'):  # 按下q停止运行程序
-#         break
-#
-#
-# # 最后，关闭所有窗口
-# cap.release()
-# cv2.destroyAllWindows()
+cap = VideoCapture("/dev/cameraInc")  # 读取视频文件，参数设置为0表示从摄像头获取图像
+
+
+def moving_detect(frame1, frame2):
+    img1 = cv2.cvtColor(frame1, cv2.COLOR_BGR2GRAY)
+    img2 = cv2.cvtColor(frame2, cv2.COLOR_BGR2GRAY)
+    grey_diff = cv2.absdiff(img1, img2)  # 计算两幅图的像素差
+    change = np.average(grey_diff)
+
+    if change > 3:  # 当两幅图的差异大于给定的值后，认为画面有物体在动
+        cv2.putText(frame2, 'moving', (100, 30), 2, 1, (0, 255, 0), 2, cv2.LINE_AA)
+    else:
+        cv2.putText(frame2, 'quiet', (100, 30), 2, 1, (255, 0, 0), 2, cv2.LINE_AA)
+    cv2.imshow("output", frame2)
+
+
+frame1 = cap.read()
+img1 = cv2.cvtColor(frame1, cv2.COLOR_BGR2GRAY)  # 将图片转为灰度图，第一个返回值表示是否转换成功，第二个返回值就是灰度图了
+start = time.time()
+while True:
+    end = time.time()
+    if (end - start > 0.3):  # 每隔2秒拍一幅图，比较前后两幅图的差异
+        start = time.time()
+        frame1 = cap.read()
+
+    frame2 = cap.read()
+    moving_detect(frame1, frame2)
+    if cv2.waitKey(5) & 0xFF == ord('q'):  # 按下q停止运行程序
+        break
+
+
+# 最后，关闭所有窗口
+cap.release()
+cv2.destroyAllWindows()
 
 # import cv2
 # import numpy as np
-#
-#
+
+
 # cap = cv2.VideoCapture("/dev/cameraInc")
 # cap.set(3, 640)
 # cap.set(4, 480)
 # cap.set(cv2.CAP_PROP_AUTO_WB, 1)
 # cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 1)
 # cap.set(6, cv2.VideoWriter.fourcc(*"MJPG"))
-#
-#
-#
-#
+
+
+
+
 # try:
 #     while True:
 #         ret, frame = cap.read()
 #         if ret:
 #             cv2.imshow("look", frame)
 #             cv2.waitKey(24)
-#
+
 # except:
 #     cap.release()
 # finally:
