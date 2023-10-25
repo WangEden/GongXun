@@ -146,7 +146,7 @@ def find_target(contours,draw_img):
 
 #画出中心点坐标
 def draw_center(target_list,draw_img):
-    for  c in target_list:
+    for c in target_list:
         M = cv2.moments(c)                   #计算中心点的x、y坐标
         center_x = int(M['m10']/M['m00'])
         center_y = int(M['m01']/M['m00'])

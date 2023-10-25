@@ -12,8 +12,9 @@ from collections import Counter
 在暂存区放置物料
 """
 def fineTuneRing2(threshold:list, loop:int):
-    # 最多可能出现六个色环
-    # 垛码放置时可能需要另外识别
+    # 1. 最多可能出现六个色环
+    # 2. 垛码放置时可能需要另外识别, 绿色色环和物块都要加入识别
+    # 因为很可能之前没放绿色物块导致程序卡死, 也可以前面加个防漏取, 
     # debug # # # # # # # # # # # # # # # # # #
     debug = 0
     with open("./logs/debug.txt", "r") as file:

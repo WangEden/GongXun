@@ -1,6 +1,8 @@
 from Communication import *
 from XmlProcess import *
-from Vision import *
+from Vision0 import *
+# from Vision1copy import *
+from Vision1 import *
 from Vision2 import *
 from Vision3 import *
 import time
@@ -75,10 +77,11 @@ def task1():
 
     # 读取二维码获取顺序
     reflashScreen("准备扫码")
-    getQRCodeResult(sequence)
-    # cmd = xmlReadCommand("qrComplete", 1)
-    # if flg:
-        # send_data(cmd, 0, 0)  # 发送继续前进的命令
+    flg = getQRCodeResult(sequence)
+    cmd = xmlReadCommand("qrComplete", 1)
+    if flg:
+        for i in range(2):
+            send_data(cmd, 0, 0)  # 发送继续前进的命令
 
     # 显示任务信息
     print("任务1: 二维码读取, 完成, 结果为: ", sequence)
@@ -101,8 +104,6 @@ def task2():
                 print("开始微调")
                 break
 
-    # 拍照用于微调，拍的时候物块不能是运动的，解决办法：等一段两倍转盘运动时间
-    time.sleep(0.2)
 
     # 获取三个物块的阈值
     threshold = [[], [], []]  # -> [[min, max], [min, max], [min, max]]
@@ -110,10 +111,10 @@ def task2():
         xmlReadThreshold("item", c, threshold[i])
 
     # 进行微调
-    fineTuneItem(threshold, category="normal", loop=1)  # 选择普通物块
+    fineTuneItemF(threshold, category="normal", loop=1)  # 选择普通物块
 
     # 按顺序进行抓取
-    catchItem(threshold, sequence, loop=1)
+    catchItemF(threshold, sequence, loop=1)
 
     # 显示任务信息
     print("任务2: 第一轮原料拾取, 完成")
@@ -180,6 +181,10 @@ def task4():
     # 按顺序放置物块
     setItemBySequance(sequence, 0)
 
+    cmd = xmlReadCommand("task2OK", 1)  # t2ok
+    print("暂存区放置完成，发送:", cmd,"进行下一步")
+    send_data(cmd, 0, 0)
+
     # 显示任务信息
     print("任务4: 第一轮暂存, 完成")
 
@@ -202,7 +207,7 @@ def task5():
                 break
 
     # 拍照用于微调，拍的时候物块不能是运动的，解决办法：等一段两倍转盘运动时间
-    time.sleep(0.2)
+    # time.sleep(0.2)
 
     # 获取三个物块的阈值
     threshold = [[], [], []]  # -> [[min, max], [min, max], [min, max]]
@@ -210,14 +215,13 @@ def task5():
         xmlReadThreshold("item", c, threshold[i])
 
     # 进行微调
-    fineTuneItem(threshold, category="normal", loop=2)  # 选择普通物块
+    fineTuneItemF(threshold, category="normal", loop=2)  # 选择普通物块
 
     # 按顺序进行抓取
-    catchItem(threshold, sequence, loop=2)
+    catchItemF(threshold, sequence, loop=2)
 
     # 显示任务信息
     print("任务5: 第二轮原料拾取, 完成")
-
 
 # 任务六: 前往粗加工区，放置第二轮物料
 def task6():
@@ -233,29 +237,31 @@ if __name__ == "__main__":
     make_print_to_file(path="./logs/")
     loader = subprocess.Popen(["/usr/bin/python3", "/home/pi/GongXun/src/Display.py"])
 
-    try:
-        if not uart.isOpen():
-            print("串口没打开")
-        
-        # task1()  # 扫码
-        task2()  # 取原料
-        task3()  # 粗加工
+    img = np.ones((600, 1024), dtype=np.uint8) * 255
+    # cv2.putText(img, "213+312", (512 - 7 * 25, 50 + 25), cv2.FONT_HERSHEY_SIMPLEX, 2.5, (0, 0, 0), 8)
+    cv2.imwrite("./data/screen_template.jpg", img)
 
-        # 截取第二轮顺序
-        sequence = sequence[3:]
-        task4()  # 暂存
+    # try:
+    if not uart.isOpen():
+        print("串口没打开")
+    
+    # task1()  # 扫码
+    cmd = xmlReadCommand("qrComplete", 1)
+    send_data(cmd, 0, 0)  # 发送继续前进的命令
+    task2()  # 取原料
+    task3()  # 粗加工
 
-        # task5()  # 取第二轮物料
-        # task6()  # 第二轮粗加工
-        
-        # task7()  # 垛码放置的暂存
-        # 回启停区
+    # 截取第二轮顺序
+    sequence = sequence[3:]
+    task4()  # 暂存
 
+    # task5()  # 取第二轮物料
+    # task6()  # 第二轮粗加工
+    
+    # task7()  # 垛码放置的暂存
+    # 回启停区
 
-
-    except Exception as ex:
-        print("异常:")
-        print(ex)
-        loader.terminate()
-    finally:
-        loader.terminate()
+    # except:
+    #     loader.terminate()
+    # finally:
+    #     loader.terminate()

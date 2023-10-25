@@ -32,7 +32,7 @@
         <set3OK>stOK</set3OK>
         <!-- 任务三完成 -->
         <task3OK>t3OK</task3OK>
-        <!-- 进行抓取 红/绿/蓝 -->
+        <!-- 进行抓取原料 红/绿/蓝 -->
         <catchR>cthr</catchR>
         <catchG>cthg</catchG>
         <catchB>cthb</catchB>
@@ -40,6 +40,10 @@
         <setR>setR</setR> 
         <setG>setG</setG>
         <setB>setB</setB>
+        <!-- 进行抓取加工 红/绿/蓝 -->
+        <Rcatch>rcth</Rcatch>
+        <Gcatch>gcth</Gcatch>
+        <Bcatch>bcth</Bcatch>
         <!-- 进行垛码放置 红/绿/蓝 -->
         <dstR>dstR</dstR> 
         <dstG>dstG</dstG>
@@ -98,12 +102,12 @@
     <threshold tag="item">
         <color category="red">
             <H>
-                <floor>140</floor>
-                <ceiling>207</ceiling>
+                <floor>137</floor>
+                <ceiling>212</ceiling>
             </H>
             <S>
-                <floor>72</floor>
-                <ceiling>193</ceiling>
+                <floor>100</floor>
+                <ceiling>199</ceiling>
             </S>
             <V>
                 <floor>0</floor>
@@ -112,12 +116,12 @@
         </color>
         <color category="green">
             <H>
-                <floor>54</floor>
-                <ceiling>96</ceiling>
+                <floor>28</floor>
+                <ceiling>92</ceiling>
             </H>
             <S>
-                <floor>45</floor>
-                <ceiling>127</ceiling>
+                <floor>93</floor>
+                <ceiling>202</ceiling>
             </S>
             <V>
                 <floor>0</floor>
@@ -126,12 +130,12 @@
         </color>
         <color category="blue">
             <H>
-                <floor>67</floor>
-                <ceiling>131</ceiling>
+                <floor>48</floor>
+                <ceiling>152</ceiling>
             </H>
             <S>
-                <floor>125</floor>
-                <ceiling>214</ceiling>
+                <floor>124</floor>
+                <ceiling>202</ceiling>
             </S>
             <V>
                 <floor>0</floor>

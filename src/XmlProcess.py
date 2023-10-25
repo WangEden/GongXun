@@ -36,4 +36,8 @@ def xmlReadSize(tag: str) -> int:
 
 
 if __name__ == "__main__":
-    print(type(xmlReadSize('normal')))
+    threshold = [[], [], []]  # -> [[min, max], [min, max], [min, max]]
+    for i, c in enumerate(["red", "green", "blue"]):
+        xmlReadThreshold("item", c, threshold[i])
+    for i in range(3):
+        print(threshold[i])
