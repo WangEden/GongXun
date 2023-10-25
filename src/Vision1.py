@@ -134,7 +134,13 @@ def fineTuneItemF(threshold: list, category: str, loop: int):
                     print("微调次数大于5次, 强制退出")
                     send_data(cmd, 0, 0)
                     break
+                start = time.time()
                 while True: # 等待调完信号
+                    end = time.time()
+                    if end - start > 5:
+                        print("超时, 重新发送")
+                        wt_count -= 1
+                        break
                     response = recv_data()
                     print("等待调完信号, 当前接收: (", response, ")", end="\r")
                     # print(" ", end='\r')
