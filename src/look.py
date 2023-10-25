@@ -156,28 +156,28 @@ from VisionUtils import *
 # cap.release()
 # cv2.destroyAllWindows()
 
-# import cv2
-# import numpy as np
+import cv2
+import numpy as np
 
 
-# cap = cv2.VideoCapture("/dev/cameraInc")
-# cap.set(3, 640)
-# cap.set(4, 480)
-# cap.set(cv2.CAP_PROP_AUTO_WB, 1)
-# cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 1)
-# cap.set(6, cv2.VideoWriter.fourcc(*"MJPG"))
+cap = cv2.VideoCapture("/dev/cameraInc")
+cap.set(3, 640)
+cap.set(4, 480)
+cap.set(cv2.CAP_PROP_AUTO_WB, 1)
+cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 1)
+cap.set(6, cv2.VideoWriter.fourcc(*"MJPG"))
 
 
 
 
-# try:
-#     while True:
-#         ret, frame = cap.read()
-#         if ret:
-#             cv2.imshow("look", frame)
-#             cv2.waitKey(24)
+try:
+    while True:
+        ret, frame = cap.read()
+        if ret:
+            cv2.imshow("look", frame)
+            cv2.waitKey(24)
 
-# except:
-#     cap.release()
-# finally:
-#     cap.release()
+except:
+    cap.release()
+finally:
+    cap.release()
