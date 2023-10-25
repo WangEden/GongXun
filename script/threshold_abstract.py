@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 # filename = '../src/data/img_note0.jpg'
-filename = '0.jpg'
+filename = 'take4.jpg'
 
 
 def callback(event):
@@ -10,8 +10,8 @@ def callback(event):
 
 
 def precondition(img):
-    result = cv2.pyrMeanShiftFiltering(img, 15, 20)
-    result = cv2.GaussianBlur(result, (3, 3), 0)
+    # result = cv2.pyrMeanShiftFiltering(img, 15, 20)
+    result = cv2.GaussianBlur(img, (3, 3), 0)
     return result
 
 

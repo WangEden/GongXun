@@ -1,7 +1,8 @@
 from Communication import *
 from XmlProcess import *
 from Vision0 import *
-from VisionCopy import *
+# from VisionCopy import *
+from finalVision import *
 from Vision2 import *
 from Vision3 import *
 import time
@@ -103,8 +104,6 @@ def task2():
                 print("开始微调")
                 break
 
-    # 拍照用于微调，拍的时候物块不能是运动的，解决办法：等一段两倍转盘运动时间
-    time.sleep(0.6)
 
     # 获取三个物块的阈值
     threshold = [[], [], []]  # -> [[min, max], [min, max], [min, max]]
@@ -112,10 +111,10 @@ def task2():
         xmlReadThreshold("item", c, threshold[i])
 
     # 进行微调
-    fineTuneItem(threshold, category="normal", loop=1)  # 选择普通物块
+    fineTuneItemF(threshold, category="normal", loop=1)  # 选择普通物块
 
     # 按顺序进行抓取
-    catchItem(threshold, sequence, loop=1)
+    catchItemF(threshold, sequence, loop=1)
 
     # 显示任务信息
     print("任务2: 第一轮原料拾取, 完成")
@@ -212,10 +211,10 @@ def task5():
         xmlReadThreshold("item", c, threshold[i])
 
     # 进行微调
-    fineTuneItem(threshold, category="normal", loop=2)  # 选择普通物块
+    fineTuneItemF(threshold, category="normal", loop=2)  # 选择普通物块
 
     # 按顺序进行抓取
-    catchItem(threshold, sequence, loop=2)
+    catchItemF(threshold, sequence, loop=2)
 
     # 显示任务信息
     print("任务5: 第二轮原料拾取, 完成")
@@ -246,11 +245,11 @@ if __name__ == "__main__":
     cmd = xmlReadCommand("qrComplete", 1)
     send_data(cmd, 0, 0)  # 发送继续前进的命令
     task2()  # 取原料
-    task3()  # 粗加工
+    # task3()  # 粗加工
 
     # 截取第二轮顺序
     sequence = sequence[3:]
-    task4()  # 暂存
+    # task4()  # 暂存
 
     # task5()  # 取第二轮物料
     # task6()  # 第二轮粗加工
