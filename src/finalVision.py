@@ -74,5 +74,7 @@ def fineTuneItemF(_threshold: list, category: str, loop: int):
 
     # 分支2:有就进行微调
     wt_count = 0
+    
+    # 微调完取个roi用于抓物块时判断
 
 
