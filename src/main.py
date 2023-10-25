@@ -219,7 +219,6 @@ def task5():
     # 显示任务信息
     print("任务5: 第二轮原料拾取, 完成")
 
-
 # 任务六: 前往粗加工区，放置第二轮物料
 def task6():
     global sequence

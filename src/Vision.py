@@ -115,7 +115,7 @@ def fineTuneItem(threshold: list, category, loop: int):
 
         bbox = mask_find_b_boxs2(mask)
         if len(bbox) == 3:
-            
+
             pass
         elif len(bbox) == 2:
             pass
