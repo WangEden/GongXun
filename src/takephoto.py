@@ -4,6 +4,15 @@ from VisionUtils import *
 
 
 cap = VideoCapture("/dev/cameraInc")
+ring = True
+
+# cap.set(3, 640)
+# cap.set(4, 480)
+# cap.set(cv2.CAP_PROP_AUTO_WB, 1)
+# cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 1)
+# cap.set(6, cv2.VideoWriter.fourcc(*"MJPG"))
+
+# cap = cv2.VideoCapture("/dev/cameraInc")
 # cap.set(3, 640)
 # cap.set(4, 480)
 # cap.set(cv2.CAP_PROP_AUTO_WB, 1)
@@ -12,11 +21,12 @@ cap = VideoCapture("/dev/cameraInc")
 
 
 
-
 try:
     while True:
-        frame = cap.read()
-        cv2.imwrite("take.jpg", frame)
+        img = cap.read()
+        if ring:
+            img = precondition(img) # 耗时
+        cv2.imwrite("take.jpg", img)
         break
 except:
     cap.terminate()

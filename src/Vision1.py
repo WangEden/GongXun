@@ -95,11 +95,10 @@ def fineTuneItemF(threshold: list, category: str, loop: int):
         # 面积太小, 离中心太远, 长宽比不对
         img_note = img.copy()
         if w < 90 or h < 90 or s < 4000 or \
-            abs(udx) > 180 or abs(udy) > 210 or \
-            lu == 0 or lv == 0 or lu + w == 640 or \
-            max(w, h) / min(w, h) > 1.3:
+            lu == 0 and pc[1] > 240 or lv == 0 or lu + w == 640 and pc[1] > 240 or \
+            max(w, h) / min(w, h) > 1.4:
             cv2.rectangle(img_note, plu, prd, (0, 255, 255), 2)
-            print("当前找到的色块不符合条件", end='\r')
+            print("当前找到的色块不符合条件, box: ", box, end='\r')
             cv2.imwrite(f"/home/pi/GongXun/src/data/t21fineTuneItem/不符合要求的{k}.jpg" ,img_note)
             k += 1
             continue
