@@ -244,11 +244,11 @@ if __name__ == "__main__":
     cmd = xmlReadCommand("qrComplete", 1)
     send_data(cmd, 0, 0)  # 发送继续前进的命令
     task2()  # 取原料
-    # task3()  # 粗加工
+    task3()  # 粗加工
 
     # 截取第二轮顺序
     sequence = sequence[3:]
-    # task4()  # 暂存
+    task4()  # 暂存
 
     # task5()  # 取第二轮物料
     # task6()  # 第二轮粗加工
