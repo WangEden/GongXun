@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 # filename = '../src/data/img_note0.jpg'
-filename = 'img.png'
+filename = 'img_1.png'
 
 
 def callback(event):
