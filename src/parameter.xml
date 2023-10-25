@@ -99,14 +99,14 @@
         <color category="red">
             <H>
                 <floor>0</floor>
-                <ceiling>68</ceiling>
+                <ceiling>187</ceiling>
             </H>
             <S>
-                <floor>106</floor>
-                <ceiling>186</ceiling>
+                <floor>100</floor>
+                <ceiling>174</ceiling>
             </S>
             <V>
-                <floor>0</floor>
+                <floor>161</floor>
                 <ceiling>255</ceiling>
             </V>
         </color>
