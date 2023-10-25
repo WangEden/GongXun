@@ -103,7 +103,7 @@ def fineTuneRing(threshold: list, loop: int):
         img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
         maskGreen = cv2.inRange(img_hsv, threshold[1][0], threshold[1][1])
         kernel = np.ones((3, 3), dtype=np.uint8)
-        cv2.dilate(maskGreen, kernel, 1) 
+        cv2.dilate(maskGreen, kernel, 2) 
         
         if loop == 1:
             cv2.imwrite("./data/t32ringwt/最后一帧.jpg", img)
@@ -190,10 +190,11 @@ def fineTuneRing(threshold: list, loop: int):
                 print("微调动作完成")
                 break
             if response == "OKOK":
-                # print("****************收到了OKOK*****************")
+                print("****************收到了OKOK*****************")
                 break
             else:
-                print("****************没收到OKOK*****************")
+                break
+                # print("****************没收到OKOK*****************")
         k+=1
     # debug # # # # # # # # # # # # # # # # # #
     with open("./logs/debug.txt", "w") as file:

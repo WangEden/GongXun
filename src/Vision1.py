@@ -144,6 +144,10 @@ def fineTuneItemF(threshold: list, category: str, loop: int):
                         break
                     elif response == "Erro":
                         break
+                    if response == "OKOK":
+                        print("************收到了OKOK************")
+                    else:
+                        print("************没收到OKOK************")
     cap.terminate()
     # time.sleep(0.2)
     # 微调完取个roi用于抓物块时判断
