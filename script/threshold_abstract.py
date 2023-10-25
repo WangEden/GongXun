@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 # filename = '../src/data/img_note0.jpg'
-filename = 'img_1.png'
+filename = 'img.png'
 
 
 def callback(event):
@@ -22,7 +22,7 @@ def Choose_Color():
     # img = cv2.resize(image0, (640, 480))
     img = cv2.resize(image0, (int(image0.shape[1] / 1), int(image0.shape[0] / 1)))
 
-    img = precondition(img)
+    # img = precondition(img)
 
     cv2.imshow("img_pyr", img)
     cv2.waitKey(0)
