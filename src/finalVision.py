@@ -26,6 +26,7 @@ def fineTuneItemF(_threshold: list, category: str, loop: int):
     if capSet:
         print("相机参数设置成功")
 
+	# 再套一层while
     # 判断圆盘是否在转动 # # # # # # # # # # # #
     ret, last_frame = cap.read()
     last_frame = cv2.cvtColor(last_frame, cv2.COLOR_BGR2GRAY)
@@ -59,14 +60,22 @@ def fineTuneItemF(_threshold: list, category: str, loop: int):
     mask3 = cv2.inRange(img_hsv, threshold[2][0], threshold[2][1])
     mask3 = cv2.medianBlur(mask3, 3)
     mask = mask1 + mask2 + mask3
+    
+    # 底部区域清空，需要点一下坐标看看
 
     # 查找物块
+    # # 找轮廓、去掉面积很小的，去掉长宽比例不合适的，选择y最大的
     
+ 	# # 比例啥的不对得重拍，重拍要重新判断有没有在转
+    # 分支1:判断距离比例算出来没有，没有就算
+    # 获取box长度，算距离比例然后退出  
+    # 
     # # # # # # # # # # # # # # # # # # # # # #
 
-    # 进行微调
+    # 分支2:有就进行微调
     wt_count = 0
     # 判断圆盘是否在转动 # # # # # # # # # # # # #
+    
 
     # # # # # # # # # # # # # # # # # # # # # #
 
