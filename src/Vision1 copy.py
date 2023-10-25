@@ -193,7 +193,7 @@ def catchItemF(threshold: list, queue: list, loop:int):
             if end_time - start_time > 0.3:
                 start_time = time.time()
                 last_frame = cap.read()
-            
+
             current_frame = cap.read()
             # 圆盘没在移动时退出
             is_plate_move = moving_detect(last_frame, current_frame)
@@ -252,7 +252,98 @@ def catchItemF(threshold: list, queue: list, loop:int):
                 if response is not None:
                     if response == xmlReadCommand("mngOK", 0):
                         print("抓取动作执行完毕, 进行下一步")
-                        break        
+                        break
+    # # # # # # # # # # # # # # # # # # # # # #
+
+    # 检测环节
+    accomlish = False
+    num_test = 0
+    t = 1
+    while accomlish == False:
+        if t >= 4:
+            accomlish = True
+        # 判断圆盘是否在转动 # # # # # # # # # # # #
+        last_frame = cap.read()
+        start_time = time.time()
+        is_plate_move = True
+        c = 0
+        while True:
+            end_time = time.time()
+            if end_time - start_time > 0.3:
+                start_time = time.time()
+                last_frame = cap.read()
+            
+            current_frame = cap.read()
+            # 圆盘没在移动时退出
+            is_plate_move = moving_detect(last_frame, current_frame)
+            if is_plate_move:
+                print("圆盘在动                           ", end='\r')
+                c = 0
+            else: c += 1
+            if c > 15:
+                break
+        # # # # # # # # # # # # # # # # # # # # # #
+
+        # 匹配颜色
+        frame = cap.read()
+        img = cv2.GaussianBlur(frame, (3, 3), 0)
+        img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+        img_hsv = cv2.erode(img_hsv, None, iterations=2)
+
+        target_color = accom_lish[num_test]
+        mask = cv2.inRange(img_hsv, threshold[target_color - 1][0], threshold[target_color - 1][1])
+        mask = cv2.medianBlur(mask, 3)
+        # kernel = np.ones((3, 3), np.uint8)
+        # mask = cv2.dilate(mask, kernel, iterations=3)
+
+        b_box = mask_find_b_boxs(mask)
+        box = get_the_most_credible_box(b_box)
+        if box is None:
+            continue
+        lu, lv, w, h, s = box
+        plu = tuple([lu, lv])
+        # pru = tuple([lu + w, lv])
+        # pld = tuple([lu, lv + h])
+        prd = tuple([lu + w, lv + h])
+        pc = tuple([lu + int(w / 2), lv + int(h / 2)])
+        udx, udy = pc[0] - XCenter, pc[1] - YCenter
+
+        img_note = img.copy()
+        if  not compRect(ROI, box) or \
+            abs(udx) > 290 or abs(udy) > 210:
+            print("不符合条件", end='\r')
+            cv2.rectangle(img_note, plu, prd, (0, 255, 255), 2)
+            cv2.imwrite(f"/home/pi/GongXun/src/data/t22catchItem/不符合要求的{k}.jpg" ,img_note)
+            k += 1
+            if k >= 55 and t > 1:
+                num_test+=1
+                t += 1
+            
+            if k >= 130 and t > 2:
+                num_test+=1
+                t += 1
+
+            if k >= 265 and t > 3:
+                num_test+=1
+                t += 4
+            continue
+        else:  # 可以抓取
+            cmd = xmlReadCommand(colorCMD[target_color - 1], 1)         
+            send_data(cmd, 0, 0)
+            print("识别到", color[target_color - 1], "颜色正确, 进行抓取")
+            reflashScreen(f"正在抓取{color[target_color - 1]}")
+            print("将发送的命令为：", cmd)
+            num_test+=1
+            t+=1
+            while True:
+                response = recv_data()
+                print("等待抓取动作完成, 当前接收命令: [", response, "]", end='\r')
+                # print("等待抓取动作完成, 当前接收命令:", response)
+                if response is not None:
+                    if response == xmlReadCommand("mngOK", 0):
+                        print("抓取动作执行完毕, 进行下一步")
+                        break
+        
         
 
     cmd = xmlReadCommand("task2OK", 1)  # t2ok
