@@ -159,7 +159,7 @@ def catchItemF(threshold: list, queue: list, loop:int):
     reflashScreen("抓取物块中")
     print("抓取顺序:", queue)
     XCenter, YCenter = 320, 240
-    ROI = [XCenter - 160, YCenter - 160, 320, 320]  # 待确定
+    ROI = [XCenter - 150, YCenter - 130, 300, 260]  # 待确定
 
     # 设置相机参数
     cap = VideoCapture("/dev/cameraInc")
@@ -221,23 +221,30 @@ def catchItemF(threshold: list, queue: list, loop:int):
 
         img_note = img.copy()
         if  not compRect(ROI, box) or \
-            w < 90 or h < 90 or s < 4000 or \
-            abs(udx) > 290 or abs(udy) > 210 or \
-            max(w, h) / min(w, h) > 1.3 :
+            abs(udx) > 290 or abs(udy) > 210:
             print("不符合条件")
             cv2.rectangle(img_note, plu, prd, (0, 255, 255), 2)
-            cv2.imwrite(f"/home/pi/GongXun/src/data/t21fineTuneItem/不符合要求的{k}.jpg" ,img_note)
+            cv2.imwrite(f"/home/pi/GongXun/src/data/t22catchItem/不符合要求的{k}.jpg" ,img_note)
             k += 1
             continue
         else:  # 可以抓取
-            colorCMD = ["catchR", "catchG", "catchB"]
-            cmd = xmlReadCommand(colorCMD[target_color], 1)
-            print("识别到", color[target_color], "颜色正确, 进行抓取")
             color = ["红色", "绿色", "蓝色"]
-            reflashScreen(f"正在抓取{color[target_color]}")
+            colorCMD = ["catchR", "catchG", "catchB"]
+            cmd = xmlReadCommand(colorCMD[target_color - 1], 1)
+            print("识别到", color[target_color - 1], "颜色正确, 进行抓取")
+            reflashScreen(f"正在抓取{color[target_color - 1]}")
             print("将发送的命令为：", cmd)
             send_data(cmd, 0, 0)
             n+=1
+            while True:
+                response = recv_data()
+                print("等待抓取动作完成, 当前接收命令: [", response, "]", end='\r')
+                # print("等待抓取动作完成, 当前接收命令:", response)
+                if response is not None:
+                    if response == xmlReadCommand("mngOK", 0):
+                        print("抓取动作执行完毕, 进行下一步")
+                        break
+
 
     cmd = xmlReadCommand("task2OK", 1)  # t2ok
     print("三个物块都抓取完毕，发送:", cmd,"进行下一步")
