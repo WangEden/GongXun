@@ -57,7 +57,7 @@ def mask_find_b_boxs(_mask):
 
 
 def mask_find_b_boxs2(_mask):
-    contours, hierarchy = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)
+    contours, hierarchy = cv2.findContours(_mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)
     box_list = []
     b_box = []
     for c in contours:
