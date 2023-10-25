@@ -49,7 +49,7 @@ def fineTuneItemF(threshold: list, category: str, loop: int):
             # 圆盘没在移动时退出
             is_plate_move = moving_detect(last_frame, current_frame)
             if is_plate_move:
-                print("圆盘在动")
+                print("圆盘在动                                          ", end='\r')
                 c = 0
             else: c += 1
             if c > 5:
@@ -82,6 +82,7 @@ def fineTuneItemF(threshold: list, category: str, loop: int):
         # 太离谱的值要去掉重看，比如y特别小，
         b_box = mask_find_b_boxs(mask)
         box = get_the_most_credible_box(b_box)
+        if box is None or len(box) == 0: continue
         lu, lv, w, h, s = box
         plu = tuple([lu, lv])
         pru = tuple([lu + w, lv])
@@ -98,7 +99,7 @@ def fineTuneItemF(threshold: list, category: str, loop: int):
             lu == 0 or lv == 0 or lu + w == 640 or \
             max(w, h) / min(w, h) > 1.3:
             cv2.rectangle(img_note, plu, prd, (0, 255, 255), 2)
-            print("当前找到的色块不符合条件")
+            print("当前找到的色块不符合条件", end='\r')
             cv2.imwrite(f"/home/pi/GongXun/src/data/t21fineTuneItem/不符合要求的{debug}+{k}.jpg" ,img_note)
             k += 1
             continue
@@ -129,9 +130,9 @@ def fineTuneItemF(threshold: list, category: str, loop: int):
                 cv2.rectangle(img_note, plu, prd, (0, 255, 255), 2)
                 cv2.imwrite(f"/home/pi/GongXun/src/data/t21fineTuneItem/微调{debug}+{k}.jpg" ,img_note)
                 wt_count += 1
-                if wt_count > 3:
+                if wt_count > 4:
                     cmd = xmlReadCommand("calibrOk", 1)
-                    print("微调次数大于3次, 强制退出")
+                    print("微调次数大于4次, 强制退出")
                     send_data(cmd, 0, 0)
                     break
                 while True: # 等待调完信号
@@ -140,6 +141,8 @@ def fineTuneItemF(threshold: list, category: str, loop: int):
                     # print(" ", end='\r')
                     if response == xmlReadCommand("tweakOk", 0):
                         print("\n当次微调动作完成                        ", end="\r")
+                        break
+                    elif response == "Erro":
                         break
     cap.terminate()
     time.sleep(0.2)
@@ -190,7 +193,7 @@ def catchItemF(threshold: list, queue: list, loop:int):
             # 圆盘没在移动时退出
             is_plate_move = moving_detect(last_frame, current_frame)
             if is_plate_move:
-                print("圆盘在动")
+                print("圆盘在动                           ", end='\r')
                 c = 0
             else: c += 1
             if c > 15:
@@ -222,7 +225,7 @@ def catchItemF(threshold: list, queue: list, loop:int):
         img_note = img.copy()
         if  not compRect(ROI, box) or \
             abs(udx) > 290 or abs(udy) > 210:
-            print("不符合条件")
+            print("不符合条件", end='\r')
             cv2.rectangle(img_note, plu, prd, (0, 255, 255), 2)
             cv2.imwrite(f"/home/pi/GongXun/src/data/t22catchItem/不符合要求的{k}.jpg" ,img_note)
             k += 1
