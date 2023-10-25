@@ -88,12 +88,16 @@ def fineTuneItem(threshold: list, category, loop: int):
             cv2.imwrite(f"/home/pi/GongXun/src/data/t21fineTuneItem/匹配时mask{debug}_{g}.jpg", mask)
             bbox = mask_find_b_boxs(mask)
             box = get_the_most_credible_box(bbox)
-            print(box)
+            
+            # print(box)
             if box is not None:  # 通常不会为None
                 if compRect(roi=ROI, box=box) and box[4] > AREA:
                     f = False
                     break
             n += 1
+
+        
+
         if not f:
             break
 
@@ -127,7 +131,7 @@ def fineTuneItem(threshold: list, category, loop: int):
         dy = int(udx * rate)
 
         # 中心偏移小于8mm都可以进行抓取
-        if abs(dx) < 70 and abs(dy) < 40:
+        if abs(dx) < 80 and abs(dy) < 60:
             cmd = xmlReadCommand("calibrOk", 1)
             dx, dy = 0, 0
             flag = False
@@ -196,6 +200,11 @@ def fineTuneItem(threshold: list, category, loop: int):
             )
             bbox = mask_find_b_boxs(mask)
             box = get_the_most_credible_box(bbox)
+
+            if box[1] > 370:
+                print("错误目标")
+                continue
+
             img_note = img.copy()
             time.sleep(0.2)
 
@@ -234,13 +243,16 @@ def catchItem(threshold: list, queue: list, loop: int):
         if len(bbox) == 0:
             continue
         bbox = sorted(bbox, key=lambda box: box[4], reverse=True)
-        print(bbox)
+        # print(bbox)
         box = bbox[0]
         # box = get_the_most_credible_box(bbox)
-        if not compRect(ROI, box) or box[2] * box[3] < 7000:
+        if not compRect(ROI, box) or box[2] * box[3] < 5000:
             cv2.imwrite(f"/home/pi/GongXun/src/data/t22catchItem/不抓取原因{w}.jpg", mask)
             w += 1
             print("等待中, 当前颜色不匹配", box)
+            continue
+        if box[1] > 370:
+            print("错误目标")
             continue
 
         # 根据颜色发不同的抓取命令
