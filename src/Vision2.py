@@ -231,10 +231,6 @@ def setItemBySequance(queue:list, mode:int):
                     break
         print("三个物块都完成放置, 准备进行第二轮")
     
-    cmd = xmlReadCommand("task2OK", 1)  # t2ok
-    print("三个物块都回收完毕，发送:", cmd,"进行下一步")
-    send_data(cmd, 0, 0)
-
 
 def retriveBySequence(queue:list):
     reflashScreen("正在取回物块")
@@ -250,8 +246,12 @@ def retriveBySequence(queue:list):
                 print("抓取完成一个, 进行下一步")
                 break
     print("三个物块都完成抓取, 进行下一步, 前往暂存区")
-    cmd = xmlReadCommand("task3OK", 1)
-    reflashScreen("物块回收完毕")
+    # cmd = xmlReadCommand("task3OK", 1)
+    # reflashScreen("物块回收完毕")
+    # send_data(cmd, 0, 0)
+
+    cmd = xmlReadCommand("task2OK", 1)  # t2ok
+    print("三个物块都回收完毕，发送:", cmd,"进行下一步")
     send_data(cmd, 0, 0)
 
 

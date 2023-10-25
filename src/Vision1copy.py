@@ -160,8 +160,9 @@ def fineTuneItemF(threshold: list, category: str, loop: int):
 
 
 def catchItemF(threshold: list, queue: list, loop:int):
+    rank = queue[:2]
     reflashScreen("抓取物块中")
-    print("抓取顺序:", queue)
+    print("抓取顺序:", rank)
     XCenter, YCenter = 320, 230
     ROI = [XCenter - 150, YCenter - 130, 300, 260]  # 待确定
     color = ["红色", "绿色", "蓝色"]
@@ -214,7 +215,7 @@ def catchItemF(threshold: list, queue: list, loop:int):
         img_hsv = cv2.erode(img_hsv, None, iterations=2)
 
         # 检测颜色
-        for i in queue:
+        for i in rank:
             mask = cv2.inRange(img_hsv, threshold[i - 1][0], threshold[i - 1][1])
             mask = cv2.medianBlur(mask, 3)
             # kernel = np.ones((3, 3), np.uint8)
