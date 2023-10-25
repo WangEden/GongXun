@@ -1,6 +1,6 @@
 #
 runActionGroup(0, 1);起始复位
-runActionGroup(1, 1);右侧圆盘-抬高
+runActionGroup(1, 1);右侧圆盘-抬高高度
 runActionGroup(2, 1);臂下去+抓取+抬起（圆盘）
 runActionGroup(3, 1);蓝色放置到载物台后抬起
 runActionGroup(4, 1);绿色放置到载物台后抬起
