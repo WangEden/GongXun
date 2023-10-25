@@ -211,6 +211,7 @@ def setItemBySequance(queue:list, mode:int):
             c = queue[i]
             color = {1: 'R', 2: 'G', 3: 'B'}
             cmd = xmlReadCommand(f"set{color[c]}", 1)
+            print("放置中, 发送的命令为: ", cmd)
             send_data(cmd, 0, 0)
             while True:
                 response = recv_data()
@@ -218,13 +219,14 @@ def setItemBySequance(queue:list, mode:int):
                 if response == xmlReadCommand("mngOK", 0):
                     print("放置完成一个, 进行下一步")
                     break
-        print("三个物块都完成放置, 准备进行第二轮")
+        print("三个物块都完成放置, 准备进行取回")
     
     elif mode == 1:  # 垛码放置
         for i in range(3):
             c = queue[i]
             color = {1: 'R', 2: 'G', 3: 'B'}
             cmd = xmlReadCommand(f"dset{color[c]}", 1)
+            print("放置中, 发送的命令为: ", cmd)
             send_data(cmd, 0, 0)
             while True:
                 response = recv_data()
@@ -240,7 +242,8 @@ def retriveBySequence(queue:list):
     for i in range(3):
         c = queue[i]
         color = {1: 'R', 2: 'G', 3: 'B'}
-        cmd = xmlReadCommand(f"set{color[c]}", 1)
+        cmd = xmlReadCommand(f"{color[c]}catch", 1)
+        print("取回中, 发送的命令为: ", cmd)
         send_data(cmd, 0, 0)
         while True:
             response = recv_data()
@@ -256,7 +259,6 @@ def retriveBySequence(queue:list):
     cmd = xmlReadCommand("task2OK", 1)  # t2ok
     print("三个物块都回收完毕，发送:", cmd,"进行下一步")
     send_data(cmd, 0, 0)
-
 
 
 if __name__ == "__main":

@@ -32,7 +32,7 @@
         <set3OK>stOK</set3OK>
         <!-- 任务三完成 -->
         <task3OK>t3OK</task3OK>
-        <!-- 进行抓取 红/绿/蓝 -->
+        <!-- 进行抓取原料 红/绿/蓝 -->
         <catchR>cthr</catchR>
         <catchG>cthg</catchG>
         <catchB>cthb</catchB>
@@ -40,6 +40,10 @@
         <setR>setR</setR> 
         <setG>setG</setG>
         <setB>setB</setB>
+        <!-- 进行抓取加工 红/绿/蓝 -->
+        <Rcatch>rcth</Rcatch>
+        <Gcatch>gcth</Gcatch>
+        <Bcatch>bcth</Bcatch>
         <!-- 进行垛码放置 红/绿/蓝 -->
         <dstR>dstR</dstR> 
         <dstG>dstG</dstG>
