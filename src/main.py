@@ -1,6 +1,7 @@
 from Communication import *
 from XmlProcess import *
 from Vision0 import *
+# from Vision1copy import *
 from Vision1 import *
 from Vision2 import *
 from Vision3 import *
@@ -180,6 +181,10 @@ def task4():
     # 按顺序放置物块
     setItemBySequance(sequence, 0)
 
+    cmd = xmlReadCommand("task2OK", 1)  # t2ok
+    print("暂存区放置完成，发送:", cmd,"进行下一步")
+    send_data(cmd, 0, 0)
+
     # 显示任务信息
     print("任务4: 第一轮暂存, 完成")
 
@@ -202,7 +207,7 @@ def task5():
                 break
 
     # 拍照用于微调，拍的时候物块不能是运动的，解决办法：等一段两倍转盘运动时间
-    time.sleep(0.2)
+    # time.sleep(0.2)
 
     # 获取三个物块的阈值
     threshold = [[], [], []]  # -> [[min, max], [min, max], [min, max]]

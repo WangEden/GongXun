@@ -31,7 +31,7 @@ def fineTuneItemF(threshold: list, category: str, loop: int):
 	# 再套一层while
     k = 0
     wt_count = 0
-    XCenter, YCenter = 320, 230
+    XCenter, YCenter = 320, 240
     reflashScreen("进行微调")
     while True:
         # 判断圆盘是否在转动 # # # # # # # # # # # #
@@ -95,11 +95,10 @@ def fineTuneItemF(threshold: list, category: str, loop: int):
         # 面积太小, 离中心太远, 长宽比不对
         img_note = img.copy()
         if w < 90 or h < 90 or s < 4000 or \
-            abs(udx) > 180 or abs(udy) > 210 or \
-            lu == 0 or lv == 0 or lu + w == 640 or \
-            max(w, h) / min(w, h) > 1.3:
+            lu == 0 and pc[1] > 240 or lv == 0 or lu + w == 640 and pc[1] > 240 or \
+            max(w, h) / min(w, h) > 1.4:
             cv2.rectangle(img_note, plu, prd, (0, 255, 255), 2)
-            print("当前找到的色块不符合条件", end='\r')
+            print("当前找到的色块不符合条件, box: ", box, end='\r')
             cv2.imwrite(f"/home/pi/GongXun/src/data/t21fineTuneItem/不符合要求的{k}.jpg" ,img_note)
             k += 1
             continue
@@ -117,7 +116,7 @@ def fineTuneItemF(threshold: list, category: str, loop: int):
         else:
             dx = int(-udy * rate) # dx > 0 往东走
             dy = int(udx * rate) # dy > 0 往南走
-            if abs(udx) < 40 and abs(udy) < 50:  # 小于这个范围就不用微调了
+            if abs(udx) < 40 and abs(udy) < 40:  # 小于这个范围就不用微调了
                 cmd = xmlReadCommand("calibrOk", 1)
                 dx, dy = 0, 0
                 print("当前要发送的命令是：", cmd, "udx, udy:", udx, udy, "dx, dy: (x10mm)", dx, dy)
@@ -144,6 +143,10 @@ def fineTuneItemF(threshold: list, category: str, loop: int):
                         break
                     elif response == "Erro":
                         break
+                    if response == "OKOK":
+                        print("************收到了OKOK************")
+                    else:
+                        print("************没收到OKOK************")
     cap.terminate()
     # time.sleep(0.2)
     # 微调完取个roi用于抓物块时判断
@@ -161,7 +164,7 @@ def fineTuneItemF(threshold: list, category: str, loop: int):
 def catchItemF(threshold: list, queue: list, loop:int):
     reflashScreen("抓取物块中")
     print("抓取顺序:", queue)
-    XCenter, YCenter = 320, 230
+    XCenter, YCenter = 320, 240
     ROI = [XCenter - 150, YCenter - 130, 300, 260]  # 待确定
     color = ["红色", "绿色", "蓝色"]
     colorCMD = ["catchR", "catchG", "catchB"]
@@ -230,8 +233,7 @@ def catchItemF(threshold: list, queue: list, loop:int):
         udx, udy = pc[0] - XCenter, pc[1] - YCenter
 
         img_note = img.copy()
-        if  not compRect(ROI, box) or \
-            abs(udx) > 290 or abs(udy) > 210:
+        if abs(udx) > 290 or abs(udy) > 210:
             print("不符合条件", end='\r')
             cv2.rectangle(img_note, plu, prd, (0, 255, 255), 2)
             cv2.imwrite(f"/home/pi/GongXun/src/data/t22catchItem/不符合要求的{k}.jpg" ,img_note)
@@ -243,7 +245,7 @@ def catchItemF(threshold: list, queue: list, loop:int):
             print("识别到", color[target_color - 1], "颜色正确, 进行抓取")
             reflashScreen(f"正在抓取{color[target_color - 1]}")
             print("将发送的命令为：", cmd)
-            accom_lish.add(target_color)
+            # accom_lish.add(target_color)
             n+=1
             while True:
                 response = recv_data()
@@ -259,6 +261,7 @@ def catchItemF(threshold: list, queue: list, loop:int):
     print("三个物块都抓取完毕，发送:", cmd,"进行下一步")
     reflashScreen(f"物块抓取完毕")
     send_data(cmd, 0, 0)
+    cap.terminate()
 
 
 if __name__ == "__main__":

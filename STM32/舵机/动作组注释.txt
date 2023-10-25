@@ -1,4 +1,4 @@
-#
+#放置为6 7 8，抓取为2 3 4
 runActionGroup(0, 1);起始复位
 runActionGroup(1, 1);右侧圆盘-抬高高度
 runActionGroup(2, 1);臂下去+抓取+抬起（圆盘）
@@ -12,9 +12,9 @@ runActionGroup(8, 1);到红色载物+抓取+抬起+放置到粗加工区
 #
 runActionGroup(11, 1);前方位-粗调高度
 
-runActionGroup(16, 1);臂下去蓝色+抓取+抬起+放置到蓝色载物
-runActionGroup(17, 1);臂下去绿色+抓取+抬起+放置到绿色载物
-runActionGroup(18, 1);臂下去红色+抓取+抬起+放置到红色载物
+runActionGroup(13, 1);臂下去蓝色+抓取+抬起+放置到蓝色载物
+runActionGroup(14, 1);臂下去绿色+抓取+抬起+放置到绿色载物
+runActionGroup(15, 1);臂下去红色+抓取+抬起+放置到红色载物
 
 #
 runActionGroup(21, 1);左方位-粗调高度

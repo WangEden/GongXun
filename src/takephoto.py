@@ -1,28 +1,37 @@
 import cv2
 import numpy as np
+from VisionUtils import *
 
 
-cap = cv2.VideoCapture("/dev/cameraInc")
-cap.set(3, 640)
-cap.set(4, 480)
-cap.set(cv2.CAP_PROP_AUTO_WB, 1)
-cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 1)
-cap.set(6, cv2.VideoWriter.fourcc(*"MJPG"))
+cap = VideoCapture("/dev/cameraInc")
+ring = True
 
+# cap.set(3, 640)
+# cap.set(4, 480)
+# cap.set(cv2.CAP_PROP_AUTO_WB, 1)
+# cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 1)
+# cap.set(6, cv2.VideoWriter.fourcc(*"MJPG"))
+
+# cap = cv2.VideoCapture("/dev/cameraInc")
+# cap.set(3, 640)
+# cap.set(4, 480)
+# cap.set(cv2.CAP_PROP_AUTO_WB, 1)
+# cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 1)
+# cap.set(6, cv2.VideoWriter.fourcc(*"MJPG"))
 
 
 
 try:
     while True:
-        ret, frame = cap.read()
-        if ret:
-            # cv2.imshow("look", frame)
-            cv2.imwrite("take.jpg", frame)
-            break
+        img = cap.read()
+        if ring:
+            img = precondition(img) # 耗时
+        cv2.imwrite("take.jpg", img)
+        break
 except:
-    cap.release()
+    cap.terminate()
 finally:
-    cap.release()
+    cap.terminate()
 
 
 
