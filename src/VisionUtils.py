@@ -44,7 +44,7 @@ def moving_detect(frame1, frame2) -> bool:
     grey_diff = cv2.absdiff(img1, img2)  # 计算两幅图的像素差
     change = np.average(grey_diff)
 
-    if change > 9:  # 当两幅图的差异大于给定的值后，认为画面有物体在动
+    if change > 3:  # 当两幅图的差异大于给定的值后，认为画面有物体在动
         return True
     else:
         return False
@@ -199,6 +199,10 @@ class VideoCapture:
     def __init__(self, camera_id):
         # "camera_id" is a int type id or string name
         self.cap = cv2.VideoCapture(camera_id)
+        self.cap.set(3, 640)
+        self.cap.set(4, 480)
+        self.cap.set(cv2.CAP_PROP_AUTO_WB, 1)
+        self.cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 1)
         self.q = queue.Queue(maxsize=3)
         self.stop_threads = False    # to gracefully close sub-thread
         th = threading.Thread(target=self._reader)

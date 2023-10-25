@@ -6,7 +6,7 @@ from XmlProcess import *
 from VisionUtils import *
 
 
-def fineTuneItemF(_threshold: list, category: str, loop: int):
+def fineTuneItemF(threshold: list, category: str, loop: int):
     # debug # # # # # # # # # # # # # # # # # #
     debug = 0
     with open("./logs/debug.txt", "r") as file:
@@ -17,14 +17,14 @@ def fineTuneItemF(_threshold: list, category: str, loop: int):
 
     # 测距离比例, 不通信 # # # # # # # # # # # # # # 
     # 设置相机参数
-    cap = cv2.VideoCapture("/dev/cameraInc")
-    cap.set(3, 640)
-    cap.set(4, 480)
-    cap.set(cv2.CAP_PROP_AUTO_WB, 1)
-    cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 1)
-    capSet = cap.set(6, cv2.VideoWriter.fourcc(*"MJPG"))
-    if capSet:
-        print("相机参数设置成功")
+    cap = VideoCapture("/dev/cameraInc")
+    # cap.set(3, 640)
+    # cap.set(4, 480)
+    # cap.set(cv2.CAP_PROP_AUTO_WB, 1)
+    # cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 1)
+    # capSet = cap.set(6, cv2.VideoWriter.fourcc(*"MJPG"))
+    # if capSet:
+    #     print("相机参数设置成功")
 
 
     rate = 1
@@ -35,30 +35,30 @@ def fineTuneItemF(_threshold: list, category: str, loop: int):
     reflashScreen("进行微调")
     while True:
         # 判断圆盘是否在转动 # # # # # # # # # # # #
-        ret, last_frame = cap.read()
+        last_frame = cap.read()
         start_time = time.time()
         is_plate_move = True
         c = 0
-        while True:
+        while is_plate_move:
             end_time = time.time()
-            if end_time - start_time > 0.1:
+            if end_time - start_time > 0.3:
                 start_time = time.time()
-                ret, last_frame = cap.read()
+                last_frame = cap.read()
             
-            ret, current_frame = cap.read()
+            current_frame = cap.read()
             # 圆盘没在移动时退出
             is_plate_move = moving_detect(last_frame, current_frame)
             if is_plate_move:
                 print("圆盘在动")
                 c = 0
             else: c += 1
-            if c > 15:
+            if c > 5:
                 break
         # # # # # # # # # # # # # # # # # # # # # #
 
         # 计算距离比例 # # # # # # # # # # # # # # #
         #  物料像素长宽要大于100
-        ret, frame = cap.read()
+        frame = cap.read()
         
         # 匹配颜色
         img = cv2.GaussianBlur(frame, (3, 3), 0)
@@ -94,7 +94,8 @@ def fineTuneItemF(_threshold: list, category: str, loop: int):
         # 面积太小, 离中心太远, 长宽比不对
         img_note = img.copy()
         if w < 90 or h < 90 or s < 4000 or \
-            abs(udx) > 290 or abs(udy) > 210 or \
+            abs(udx) > 180 or abs(udy) > 210 or \
+            lu == 0 or lv == 0 or lu + w == 640 or \
             max(w, h) / min(w, h) > 1.3:
             cv2.rectangle(img_note, plu, prd, (0, 255, 255), 2)
             print("当前找到的色块不符合条件")
@@ -109,12 +110,13 @@ def fineTuneItemF(_threshold: list, category: str, loop: int):
             print("pixel_len:", pixel_len)
             item_len = xmlReadSize(category)
             rate = item_len * 10 / pixel_len
+            print("rate:", rate)
         # # # # # # # # # # # # # # # # # # # # # #
         # 分支2:有就进行微调
         else:
             dx = int(-udy * rate) # dx > 0 往东走
             dy = int(udx * rate) # dy > 0 往南走
-            if abs(dx) < 60 and abs(dy) < 40:  # 小于这个范围就不用微调了
+            if abs(udx) < 60 and abs(udy) < 40:  # 小于这个范围就不用微调了
                 cmd = xmlReadCommand("calibrOk", 1)
                 dx, dy = 0, 0
                 print("当前要发送的命令是：", cmd, "udx, udy:", udx, udy, "dx, dy: (x10mm)", dx, dy)
@@ -124,11 +126,14 @@ def fineTuneItemF(_threshold: list, category: str, loop: int):
                 cmd = xmlReadCommand("tweak", 1)
                 print("当前要发送的命令是：", cmd, "udx, udy:", udx, udy, "dx, dy: (x10mm)", dx, dy)
                 send_data(cmd, dx, dy)
+                cv2.rectangle(img_note, plu, prd, (0, 255, 255), 2)
+                cv2.imwrite(f"/home/pi/GongXun/src/data/t21fineTuneItem/微调{debug}+{k}.jpg" ,img_note)
                 wt_count += 1
                 if wt_count > 3:
                     cmd = xmlReadCommand("calibrOk", 1)
                     print("微调次数大于3次, 强制退出")
                     send_data(cmd, 0, 0)
+                    break
                 while True: # 等待调完信号
                     response = recv_data()
                     print("等待调完信号, 当前接收: (", response, ")", end="\r")
@@ -136,7 +141,7 @@ def fineTuneItemF(_threshold: list, category: str, loop: int):
                     if response == xmlReadCommand("tweakOk", 0):
                         print("\n当次微调动作完成                        ", end="\r")
                         break
-    cap.release()
+    cap.terminate()
     time.sleep(0.2)
     # 微调完取个roi用于抓物块时判断
             
@@ -157,30 +162,31 @@ def catchItemF(threshold: list, queue: list, loop:int):
     ROI = [XCenter - 160, YCenter - 160, 320, 320]  # 待确定
 
     # 设置相机参数
-    cap = cv2.VideoCapture("/dev/cameraInc")
-    cap.set(3, 640)
-    cap.set(4, 480)
-    cap.set(cv2.CAP_PROP_AUTO_WB, 1)
-    cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 1)
-    capSet = cap.set(6, cv2.VideoWriter.fourcc(*"MJPG"))
-    if capSet:
-        print("相机参数设置成功")
+    cap = VideoCapture("/dev/cameraInc")
+    # cap = cv2.VideoCapture("/dev/cameraInc")
+    # cap.set(3, 640)
+    # cap.set(4, 480)
+    # cap.set(cv2.CAP_PROP_AUTO_WB, 1)
+    # cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 1)
+    # capSet = cap.set(6, cv2.VideoWriter.fourcc(*"MJPG"))
+    # if capSet:
+    #     print("相机参数设置成功")
 
     n = 0  # 记录抓了几次
+    k = 0
     while n < 3:
         # 判断圆盘是否在转动 # # # # # # # # # # # #
-        ret, last_frame = cap.read()
-        last_frame = cv2.cvtColor(last_frame, cv2.COLOR_BGR2GRAY)
+        last_frame = cap.read()
         start_time = time.time()
         is_plate_move = True
         c = 0
         while True:
             end_time = time.time()
-            if end_time - start_time > 0.1:
+            if end_time - start_time > 0.3:
                 start_time = time.time()
-                ret, last_frame = cap.read()
+                last_frame = cap.read()
             
-            ret, current_frame = cap.read()
+            current_frame = cap.read()
             # 圆盘没在移动时退出
             is_plate_move = moving_detect(last_frame, current_frame)
             if is_plate_move:
@@ -192,7 +198,7 @@ def catchItemF(threshold: list, queue: list, loop:int):
         # # # # # # # # # # # # # # # # # # # # # #
 
         # 匹配颜色
-        ret, frame = cap.read()
+        frame = cap.read()
         img = cv2.GaussianBlur(frame, (3, 3), 0)
         img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
         img_hsv = cv2.erode(img_hsv, None, iterations=2)
@@ -219,13 +225,16 @@ def catchItemF(threshold: list, queue: list, loop:int):
             abs(udx) > 290 or abs(udy) > 210 or \
             max(w, h) / min(w, h) > 1.3 :
             print("不符合条件")
+            cv2.rectangle(img_note, plu, prd, (0, 255, 255), 2)
+            cv2.imwrite(f"/home/pi/GongXun/src/data/t21fineTuneItem/不符合要求的{k}.jpg" ,img_note)
+            k += 1
             continue
         else:  # 可以抓取
             colorCMD = ["catchR", "catchG", "catchB"]
-            cmd = xmlReadCommand(colorCMD[c], 1)
-            print("识别到", color[c], "颜色正确, 进行抓取")
+            cmd = xmlReadCommand(colorCMD[target_color], 1)
+            print("识别到", color[target_color], "颜色正确, 进行抓取")
             color = ["红色", "绿色", "蓝色"]
-            reflashScreen(f"正在抓取{color[c]}")
+            reflashScreen(f"正在抓取{color[target_color]}")
             print("将发送的命令为：", cmd)
             send_data(cmd, 0, 0)
             n+=1
