@@ -37,6 +37,19 @@ def capture(dev: int, name, mode=0):
     return True
 
 
+# 判断前后两个画面是否有物体在运动
+def moving_detect(frame1, frame2) -> bool:
+    img1 = cv2.cvtColor(frame1, cv2.COLOR_BGR2GRAY)
+    img2 = cv2.cvtColor(frame2, cv2.COLOR_BGR2GRAY)
+    grey_diff = cv2.absdiff(img1, img2)  # 计算两幅图的像素差
+    change = np.average(grey_diff)
+
+    if change > 9:  # 当两幅图的差异大于给定的值后，认为画面有物体在动
+        return True
+    else:
+        return False
+
+
 # 图像预处理
 def precondition(_img):
     # _ = cv2.pyrMeanShiftFiltering(_img, 15, 20)
