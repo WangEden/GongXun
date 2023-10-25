@@ -189,6 +189,11 @@ def fineTuneRing(threshold: list, loop: int):
             if response == xmlReadCommand("tweakOk", 0):
                 print("微调动作完成")
                 break
+            if response == "OKOK":
+                # print("****************收到了OKOK*****************")
+                break
+            else:
+                print("****************没收到OKOK*****************")
         k+=1
     # debug # # # # # # # # # # # # # # # # # #
     with open("./logs/debug.txt", "w") as file:

@@ -31,7 +31,7 @@ def fineTuneItemF(threshold: list, category: str, loop: int):
 	# 再套一层while
     k = 0
     wt_count = 0
-    XCenter, YCenter = 320, 230
+    XCenter, YCenter = 320, 240
     reflashScreen("进行微调")
     while True:
         # 判断圆盘是否在转动 # # # # # # # # # # # #
@@ -117,7 +117,7 @@ def fineTuneItemF(threshold: list, category: str, loop: int):
         else:
             dx = int(-udy * rate) # dx > 0 往东走
             dy = int(udx * rate) # dy > 0 往南走
-            if abs(udx) < 40 and abs(udy) < 50:  # 小于这个范围就不用微调了
+            if abs(udx) < 40 and abs(udy) < 40:  # 小于这个范围就不用微调了
                 cmd = xmlReadCommand("calibrOk", 1)
                 dx, dy = 0, 0
                 print("当前要发送的命令是：", cmd, "udx, udy:", udx, udy, "dx, dy: (x10mm)", dx, dy)
@@ -161,7 +161,7 @@ def fineTuneItemF(threshold: list, category: str, loop: int):
 def catchItemF(threshold: list, queue: list, loop:int):
     reflashScreen("抓取物块中")
     print("抓取顺序:", queue)
-    XCenter, YCenter = 320, 230
+    XCenter, YCenter = 320, 240
     ROI = [XCenter - 150, YCenter - 130, 300, 260]  # 待确定
     color = ["红色", "绿色", "蓝色"]
     colorCMD = ["catchR", "catchG", "catchB"]
@@ -258,6 +258,7 @@ def catchItemF(threshold: list, queue: list, loop:int):
     print("三个物块都抓取完毕，发送:", cmd,"进行下一步")
     reflashScreen(f"物块抓取完毕")
     send_data(cmd, 0, 0)
+    cap.terminate()
 
 
 if __name__ == "__main__":
