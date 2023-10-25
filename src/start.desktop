@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name = Main
+Exec = /home/pi/GongXun/src/start.sh
+Path = /home/pi/GongXun/src/
+Terminal = True
+Type = Application

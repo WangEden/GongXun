@@ -230,8 +230,7 @@ def catchItemF(threshold: list, queue: list, loop:int):
         udx, udy = pc[0] - XCenter, pc[1] - YCenter
 
         img_note = img.copy()
-        if  not compRect(ROI, box) or \
-            abs(udx) > 290 or abs(udy) > 210:
+        if abs(udx) > 290 or abs(udy) > 210:
             print("不符合条件", end='\r')
             cv2.rectangle(img_note, plu, prd, (0, 255, 255), 2)
             cv2.imwrite(f"/home/pi/GongXun/src/data/t22catchItem/不符合要求的{k}.jpg" ,img_note)
@@ -243,7 +242,7 @@ def catchItemF(threshold: list, queue: list, loop:int):
             print("识别到", color[target_color - 1], "颜色正确, 进行抓取")
             reflashScreen(f"正在抓取{color[target_color - 1]}")
             print("将发送的命令为：", cmd)
-            accom_lish.add(target_color)
+            # accom_lish.add(target_color)
             n+=1
             while True:
                 response = recv_data()
