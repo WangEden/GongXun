@@ -96,7 +96,7 @@ def fineTuneItemF(threshold: list, category: str, loop: int):
         img_note = img.copy()
         if w < 90 or h < 90 or s < 4000 or \
             lu == 0 and pc[1] > 240 or lv == 0 or lu + w == 640 and pc[1] > 240 or \
-            max(w, h) / min(w, h) > 1.4:
+            max(w, h) / min(w, h) > 1.5:
             cv2.rectangle(img_note, plu, prd, (0, 255, 255), 2)
             print("当前找到的色块不符合条件, box: ", box, end='\r')
             cv2.imwrite(f"/home/pi/GongXun/src/data/t21fineTuneItem/不符合要求的{k}.jpg" ,img_note)
@@ -146,9 +146,10 @@ def fineTuneItemF(threshold: list, category: str, loop: int):
                     if response == "OKOK":
                         print("************收到了OKOK************")
                     else:
-                        print("************没收到OKOK************")
+                        pass
+                        # print("************没收到OKOK************")
     cap.terminate()
-    # time.sleep(0.2)
+    time.sleep(0.2)
     # 微调完取个roi用于抓物块时判断
             
 
