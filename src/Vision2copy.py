@@ -13,18 +13,7 @@ from collections import Counter
 
 def fineTuneRing(threshold: list, loop: int):
 
-    # debug # # # # # # # # # # # # # # # # # #
-    # debug = 0
-    # with open("./logs/debug.txt", "r") as file:
-    #     s = file.read()
-    #     debug = int(s)
-    #     print(f"第{debug}次测试")
-    # # # # # # # # # # # # # # # # # # # # # # #
-
-
-    # COLOR = {1: "红色", 2: "绿色", 3: "蓝色"}
-
-    # 方法二：用两个圆心算距离比
+    # 用两个圆心算距离比
     # 找到两个色环, 算出距离比例，用于微调
     # 找到绿色色环, 用于确定目标点的roi
     XCenter, YCenter = 320, 220
@@ -42,6 +31,7 @@ def fineTuneRing(threshold: list, loop: int):
         # if not capture(0, 'sh', 0): return False
         # time.sleep(0.2)
         # img = cv2.imread(f'./data/sh.jpg')
+        
         img = cap.read()
         if img is None: 
             print("读取色环图片失败, 重试")
@@ -131,6 +121,7 @@ def fineTuneRing(threshold: list, loop: int):
             k+=1
             continue
 
+
         print(box)
         cv2.rectangle(img_note, p1, p2, (255, 0, 0), 2) 
         if loop == 1:
@@ -145,6 +136,11 @@ def fineTuneRing(threshold: list, loop: int):
 
         circles = []
         # 筛选出在绿色色环内的圆
+        circleAll = sorted(circleAll, key = lambda c: c[0],  reverse=True)
+        # 由于绿色阈值和蓝色阈值相近, 所以增加这一步筛选掉靠左的蓝色圆形, 如果有的话
+        if len(circleAll > 15):
+            circleAll = circleAll[:14]
+
         for c in circleAll:
             cu, cv = c
             if cu > box[0] and cu < box[0] + box[2] and cv > box[1] and cv < box[1] + box[3]:
@@ -170,25 +166,20 @@ def fineTuneRing(threshold: list, loop: int):
         elif loop == 2:
             cv2.imwrite(f"./data/t62ringwt/查找的色环圆心{k}.jpg", img_note)
         
-        cmd = xmlReadCommand("tweak", 1)
-
-        dx, dy = 0, 0
-        # if orient == 0:  # 车头朝北
-        dx = int(rate * udx)  # dx > 0 往东走
-        dy = int(rate * udy)
-        print("将发送的命令为: ", cmd, dx, dy)
-        # elif orient == 1:  # 车头朝西
-        #     dx = int(-rate * udy)  # dy > 0 往南走
-        #     dy = int(rate * udx)
-        #     print("将发送的命令为: ", cmd, dy, dx)
         if abs(udx) < 40 and abs(udy) < 75:
             dx = 0
             dy = 0
             cmd = xmlReadCommand("calibrOk", 1)
             print("校准完成, 进行放置")
             print("将发送的命令为: ", cmd, 0, 0)
+            send_data(cmd, dx, dy)
             flag = False
-        send_data(cmd, dx, dy)
+        else:
+            dx = int(rate * udx)  # dx > 0 往东走
+            dy = int(rate * udy)
+            cmd = xmlReadCommand("tweak", 1)
+            print("将发送的命令为: ", cmd, dx, dy)
+            send_data(cmd, dx, dy)
         while flag:
             response = recv_data()
             print("等待微调完成的信号, 当前接收:[", response, "]", end='\r')
@@ -198,15 +189,8 @@ def fineTuneRing(threshold: list, loop: int):
             if response == "OKOK":
                 print("****************收到了OKOK*****************")
                 break
-            # else:
-            #     break
-                # print("****************没收到OKOK*****************")
         k+=1
     cap.terminate()
-    # # debug # # # # # # # # # # # # # # # # # #
-    # with open("./logs/debug.txt", "w") as file:
-    #     file.write(str(debug + 1))
-    # # # # # # # # # # # # # # # # # # # # # # #
 
 
 def setItemBySequance(queue:list, mode:int):
