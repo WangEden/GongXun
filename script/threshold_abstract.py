@@ -10,8 +10,8 @@ def callback(event):
 
 
 def precondition(img):
-    # result = cv2.pyrMeanShiftFiltering(img, 15, 20)
-    result = cv2.GaussianBlur(img, (3, 3), 0)
+    result = cv2.pyrMeanShiftFiltering(img, 15, 20)
+    result = cv2.GaussianBlur(result, (3, 3), 0)
     return result
 
 
@@ -22,12 +22,13 @@ def Choose_Color():
     # img = cv2.resize(image0, (640, 480))
     img = cv2.resize(image0, (int(image0.shape[1] / 1), int(image0.shape[0] / 1)))
 
-    # img = precondition(img)
+    img = precondition(img)
 
     cv2.imshow("img_pyr", img)
     cv2.waitKey(0)
 
     img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+    # img = cv2.erode(img, None, iterations=2)
     # img = image0
     '''
     目标：创建滑动条，把滑动条绑定到opencv窗口

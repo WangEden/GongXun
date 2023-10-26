@@ -68,18 +68,18 @@
                 <ceiling>63</ceiling>
             </S>
             <V>
-                <ceiling>255</ceiling>
                 <floor>0</floor>
+                <ceiling>255</ceiling>
             </V>
         </color>
         <color category="green">
             <H>
-                <floor>62</floor>
-                <ceiling>103</ceiling>
+                <floor>68</floor>
+                <ceiling>150</ceiling>
             </H>
             <S>
-                <floor>18</floor>
-                <ceiling>153</ceiling>
+                <floor>14</floor>
+                <ceiling>64</ceiling>
             </S>
             <V>
                 <floor>0</floor>
@@ -88,16 +88,16 @@
         </color>
         <color category="blue">
             <H>
-                <floor>92</floor>
-                <ceiling>117</ceiling>
+                <floor>27</floor>
+                <ceiling>143</ceiling>
             </H>
             <S>
-                <floor>14</floor>
-                <ceiling>141</ceiling>
+                <floor>51</floor>
+                <ceiling>125</ceiling>
             </S>
             <V>
-                <ceiling>255</ceiling>
                 <floor>0</floor>
+                <ceiling>255</ceiling>
             </V>
         </color>
     </threshold>
