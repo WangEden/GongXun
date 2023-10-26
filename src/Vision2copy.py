@@ -95,6 +95,8 @@ def fineTuneRing(threshold: list, loop: int):
         
         # time.sleep(0.3)
 
+
+
         # 找到绿色色环获取roi, 利用roi得到目标点位置
         img_note = img.copy()
 
@@ -109,6 +111,8 @@ def fineTuneRing(threshold: list, loop: int):
         # cv2.dilate(maskGreen, kernel, 3) 
         b_box = mask_find_b_boxs(maskGreen)
         b_box = sorted(b_box, key = lambda box: box[4], reverse=True) # 找到面积最大的框
+        b_box = b_box[:2]
+        b_box = sorted(b_box, key = lambda box: box[0], reverse=True) # 找到面积最大的框
         # 绿色色环box
         box = b_box[0]
         p1 = tuple([box[0], box[1]])
@@ -123,7 +127,13 @@ def fineTuneRing(threshold: list, loop: int):
 
 
         print(box)
-        cv2.rectangle(img_note, p1, p2, (255, 0, 0), 2) 
+        cv2.rectangle(img_note, p1, p2, (255, 0, 0), 2)
+
+        # debug
+        for c in circleAll:
+            x, y = c
+            cv2.circle(img_note, (x, y), 2, (255, 0, 0), 2)
+
         if loop == 1:
             cv2.imwrite("./data/t32ringwt/最后一帧.jpg", img)
             cv2.imwrite(f"./data/t32ringwt/查找的绿色色环mask{k}.jpg", maskGreen)
@@ -136,14 +146,14 @@ def fineTuneRing(threshold: list, loop: int):
 
         circles = []
         # 筛选出在绿色色环内的圆
-        circleAll = sorted(circleAll, key = lambda c: c[0],  reverse=True)
-        # 由于绿色阈值和蓝色阈值相近, 所以增加这一步筛选掉靠左的蓝色圆形, 如果有的话
-        if len(circleAll) > 15:
-            circleAll = circleAll[:15]
+        # circleAll = sorted(circleAll, key = lambda c: c[0],  reverse=True)
+        # # 由于绿色阈值和蓝色阈值相近, 所以增加这一步筛选掉靠左的蓝色圆形, 如果有的话
+        # if len(circleAll) > 15:
+        #     circleAll = circleAll[:15]
 
         for c in circleAll:
             cu, cv = c
-            if cu > box[0] and cu < box[0] + box[2] and cv > box[1] and cv < box[1] + box[3]:
+            if box[0] < cu < box[0] + box[2] and box[1] < cv < box[1] + box[3]:
                 circles.append(c)
         # 获取绿色色环中扫描到出现最多次的圆
         circle = Counter(circles).most_common(1)  # 出现次数最多的圆心
