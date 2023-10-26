@@ -83,7 +83,7 @@ def fineTuneRing(threshold: list, loop: int):
         # camera = VideoCapture("/dev/cameraInc")
         for i in range(15):  # 拍15张获取更准确的圆心
             img = cap.read()
-            img = cv2.GaussianBlur(img, (3, 3), 0)  # 耗时
+            # img = cv2.GaussianBlur(img, (3, 3), 0)  # 耗时
             circleList = getCircleCenter(img)
             if len(circleList) != 0:
                 for c in circleList:

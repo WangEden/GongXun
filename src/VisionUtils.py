@@ -100,14 +100,14 @@ def get_the_most_credible_box(b_box):
             boxs.append(b_box[i])
     if len(boxs) == 0:
         return None
+    b_box = sorted(b_box, key=lambda box: box[4], reverse=True)
+    # print("by area:\n", b_box)
     b_box = sorted(boxs, key=lambda box: abs(box[0] + box[2] / 2 - XCenter))
     # print("by dx:\n", b_box)
     b_box = sorted(b_box, key=lambda box: abs(box[1] + box[3] / 2 - YCenter))
     # print("by dy:\n", b_box)
     b_box = sorted(b_box, key=lambda box: box[1], reverse=True)
     # print("by y:\n", b_box)
-    b_box = sorted(b_box, key=lambda box: box[4], reverse=True)
-    # print("by area:\n", b_box)
     flag = False
     if len(b_box) >= 3:
         b_box = b_box[:2]  # 取前三个面积大的
@@ -153,7 +153,7 @@ def f(mask, box, tag):
 # 获取色环的圆心像素坐标
 def getCircleCenter(img:np.ndarray):
     result = []
-    # img_calc = cv2.GaussianBlur(img, (5, 5), 0)
+    img_calc = cv2.GaussianBlur(img, (5, 5), 0)
     img_calc = img
     img_gray = cv2.cvtColor(img_calc, cv2.COLOR_BGR2GRAY)
     
