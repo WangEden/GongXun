@@ -35,7 +35,11 @@ def xmlReadSize(tag: str) -> int:
     return int(item_node.text)
 
 
-def xmlReadCenter(tag: str) -> tuple:
+def xmlReadCenter() -> tuple:
+    tag = ""
+    with open("/home/pi/color.txt", "r") as file:
+        tag = file.read()
+        # print("color: ", s)
     paraDomTree = ElementTree.parse("./parameter.xml")
     center_node = paraDomTree.find('Center')
     item_node = center_node.find(tag)
@@ -45,8 +49,9 @@ def xmlReadCenter(tag: str) -> tuple:
 
 
 if __name__ == "__main__":
-    threshold = [[], [], []]  # -> [[min, max], [min, max], [min, max]]
-    for i, c in enumerate(["red", "green", "blue"]):
-        xmlReadThreshold("item", c, threshold[i])
-    for i in range(3):
-        print(threshold[i])
+    print(xmlReadCenter())
+    # threshold = [[], [], []]  # -> [[min, max], [min, max], [min, max]]
+    # for i, c in enumerate(["red", "green", "blue"]):
+    #     xmlReadThreshold("item", c, threshold[i])
+    # for i in range(3):
+    #     print(threshold[i])
