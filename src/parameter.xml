@@ -104,12 +104,12 @@
     <threshold tag="item">
         <color category="red">
             <H>
-                <floor>137</floor>
+                <floor>104</floor>
                 <ceiling>212</ceiling>
             </H>
             <S>
-                <floor>100</floor>
-                <ceiling>199</ceiling>
+                <floor>65</floor>
+                <ceiling>226</ceiling>
             </S>
             <V>
                 <floor>0</floor>
