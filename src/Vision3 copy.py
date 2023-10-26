@@ -12,7 +12,7 @@ from collections import Counter
 在暂存区放置物料
 """
 def fineTuneRing2(threshold:list, loop:int):
-    # 1. 最多可能出现六个色环
+    # 1. 最多可能出现六个色环, 通常四个，也会是两个
     # 2. 垛码放置时可能需要另外识别, 绿色色环和物块都要加入识别
     # 因为很可能之前没放绿色物块导致程序卡死, 也可以前面加个防漏取, 
     # # debug # # # # # # # # # # # # # # # # # #
@@ -23,7 +23,7 @@ def fineTuneRing2(threshold:list, loop:int):
     #     print(f"第{debug}次测试")
     # # # # # # # # # # # # # # # # # # # # # # #
 
-    XCenter, YCenter = 320, 240
+    XCenter, YCenter = 320, 220
     # 算两个圆心的距离比例
 
     img = None

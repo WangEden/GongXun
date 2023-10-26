@@ -21,13 +21,13 @@ def fineTuneRing(threshold: list, loop: int):
     #     print(f"第{debug}次测试")
     # # # # # # # # # # # # # # # # # # # # # # #
 
-    XCenter, YCenter = 320, 220
+
     # COLOR = {1: "红色", 2: "绿色", 3: "蓝色"}
 
     # 方法二：用两个圆心算距离比
     # 找到两个色环, 算出距离比例，用于微调
     # 找到绿色色环, 用于确定目标点的roi
-
+    XCenter, YCenter = 320, 220
     img = None
     RingLen = 50
     RingDis = 150
@@ -36,7 +36,7 @@ def fineTuneRing(threshold: list, loop: int):
 
     reflashScreen("正在进行校准")
     cap = VideoCapture("/dev/cameraInc")
-    # 算距离比
+    # 算距离比 # # # # # # # # # # # # # # # # # # # # # # #
     while True:
         # 读取一张照片用于算出距离比例
         # if not capture(0, 'sh', 0): return False
@@ -55,14 +55,12 @@ def fineTuneRing(threshold: list, loop: int):
         if len(circleList) == 0:
             cmd = xmlReadCommand("KBDRing", 1)
             send_data(cmd, 0, 0)
-            # 车太靠前, 没看到色环
             print("没有发现圆环, 重试, 并发送: ", cmd)
             continue
         else:
             if len(circleList) == 1:
                 cmd = xmlReadCommand("KBDRing", 1)
                 send_data(cmd, 0, 0)
-                # 车太靠前且车有点歪, 没看到色环
                 print("只发现一个色环, 重试, 并发送: ", cmd)
                 continue
             circleList = sorted(circleList, key=lambda circle:circle[0], reverse=True)
@@ -81,13 +79,13 @@ def fineTuneRing(threshold: list, loop: int):
         circleAll = circleList
         break
 
-    # 微调
-    circle = None
+    # 微调 # # # # # # # # # # # # # # # # # # # # # # # #
     # 找出绿色色环的位置并进行微调
     # 通信部分
+    # 框出色环的外接矩形最小面积
+    circle = None
     k=0
     flag = True
-    # 框出色环的外接矩形最小面积
     AREA = 7000  # 待定
     while flag:
         circleAll = []
@@ -95,7 +93,7 @@ def fineTuneRing(threshold: list, loop: int):
         # camera = VideoCapture("/dev/cameraInc")
         for i in range(15):  # 拍15张获取更准确的圆心
             img = cap.read()
-            img = precondition(img) # 耗时
+            img = cv2.GaussianBlur(img, (3, 3), 0)  # 耗时
             circleList = getCircleCenter(img)
             if len(circleList) != 0:
                 for c in circleList:
@@ -110,45 +108,40 @@ def fineTuneRing(threshold: list, loop: int):
         # 找到绿色色环获取roi, 利用roi得到目标点位置
         img_note = img.copy()
 
-        img = precondition(img) # 耗时
+        # 平滑处理, 颜色识别
+        img = cv2.pyrMeanShiftFiltering(img, 15, 20)
+        img = cv2.GaussianBlur(img, (3, 3), 0)
         img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
         # img_hsv = cv2.erode(img_hsv, None, iterations=2)
         maskGreen = cv2.inRange(img_hsv, threshold[1][0], threshold[1][1])
         maskGreen = cv2.medianBlur(maskGreen, 3)
-        kernel = np.ones((3, 3), dtype=np.uint8)
-        cv2.dilate(maskGreen, kernel, 3) 
-        
-        if loop == 1:
-            cv2.imwrite("./data/t32ringwt/最后一帧.jpg", img)
-            cv2.imwrite(f"./data/t32ringwt/查找的绿色色环mask{k}.jpg", maskGreen)
-        elif loop == 2:
-            cv2.imwrite("./data/t62ringwt/最后一帧.jpg", img)
-            cv2.imwrite(f"./data/t62ringwt/查找的绿色色环mask{k}.jpg", maskGreen)
-
+        # kernel = np.ones((3, 3), dtype=np.uint8)
+        # cv2.dilate(maskGreen, kernel, 3) 
         b_box = mask_find_b_boxs(maskGreen)
         b_box = sorted(b_box, key = lambda box: box[4], reverse=True) # 找到面积最大的框
-    
-        if len(b_box) == 0:
-            print("没有找到绿色色环")
-            continue
-
         # 绿色色环box
         box = b_box[0]
         p1 = tuple([box[0], box[1]])
         p2 = tuple([box[0] + box[2], box[1] + box[3]])
-    
-        print(box)
-        cv2.rectangle(img_note, p1, p2, (255, 0, 0), 2) 
-
-        if loop == 1:
-            cv2.imwrite(f"./data/t32ringwt/查找的绿色色环{k}.jpg", img_note)
-        elif loop == 2:
-            cv2.imwrite(f"./data/t62ringwt/查找的绿色色环{k}.jpg", img_note)
-
+        if len(b_box) == 0:
+            print("没有找到绿色色环")
+            continue
         if box[2] < RingLen and box[3] < RingLen:
             print("面积太小不符合")
             k+=1
             continue
+
+        print(box)
+        cv2.rectangle(img_note, p1, p2, (255, 0, 0), 2) 
+        if loop == 1:
+            cv2.imwrite("./data/t32ringwt/最后一帧.jpg", img)
+            cv2.imwrite(f"./data/t32ringwt/查找的绿色色环mask{k}.jpg", maskGreen)
+            cv2.imwrite(f"./data/t32ringwt/查找的绿色色环{k}.jpg", img_note)
+        elif loop == 2:
+            cv2.imwrite("./data/t62ringwt/最后一帧.jpg", img)
+            cv2.imwrite(f"./data/t62ringwt/查找的绿色色环mask{k}.jpg", maskGreen)
+            cv2.imwrite(f"./data/t62ringwt/查找的绿色色环{k}.jpg", img_note)
+
 
         circles = []
         # 筛选出在绿色色环内的圆
@@ -205,8 +198,8 @@ def fineTuneRing(threshold: list, loop: int):
             if response == "OKOK":
                 print("****************收到了OKOK*****************")
                 break
-            else:
-                break
+            # else:
+            #     break
                 # print("****************没收到OKOK*****************")
         k+=1
     cap.terminate()
