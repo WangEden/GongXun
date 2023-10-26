@@ -160,24 +160,35 @@ import cv2
 import numpy as np
 
 
-cap = cv2.VideoCapture("/dev/cameraInc")
-cap.set(3, 640)
-cap.set(4, 480)
-cap.set(cv2.CAP_PROP_AUTO_WB, 1)
-cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 1)
-cap.set(6, cv2.VideoWriter.fourcc(*"MJPG"))
+cap = VideoCapture("/dev/cameraInc")
+# cap.set(3, 640)
+# cap.set(4, 480)
+# cap.set(cv2.CAP_PROP_AUTO_WB, 1)
+# cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 1)
+# cap.set(6, cv2.VideoWriter.fourcc(*"MJPG"))
 
 
-
+# 获取三个色环阈值
+threshold = [[], [], []]  # -> [[min, max], [min, max], [min, max]]
+for i, c in enumerate(["red", "green", "blue"]):
+    xmlReadThreshold("ring", c, threshold[i])
 
 try:
     while True:
-        ret, frame = cap.read()
-        if ret:
-            cv2.imshow("look", frame)
-            cv2.waitKey(24)
+        frame = cap.read()
+        # if ret:
+        img = precondition(img) # 耗时
+        img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+        # img_hsv = cv2.erode(img_hsv, None, iterations=2)
+        maskGreen = cv2.inRange(img_hsv, threshold[1][0], threshold[1][1])
+        cv2.imshow("look", maskGreen)
+        cv2.waitKey(24)
 
 except:
-    cap.release()
+    cap.terminate()
 finally:
-    cap.release()
+    cap.terminate()
+
+#################################################################
+
+

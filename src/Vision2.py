@@ -110,7 +110,7 @@ def fineTuneRing(threshold: list, loop: int):
 
         img = precondition(img) # 耗时
         img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-        img_hsv = cv2.erode(img_hsv, None, iterations=2)
+        # img_hsv = cv2.erode(img_hsv, None, iterations=2)
         maskGreen = cv2.inRange(img_hsv, threshold[1][0], threshold[1][1])
         maskGreen = cv2.medianBlur(maskGreen, 3)
         kernel = np.ones((3, 3), dtype=np.uint8)
