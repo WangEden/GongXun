@@ -129,9 +129,9 @@ def fineTuneItemF(threshold: list, category: str, loop: int):
                 cv2.rectangle(img_note, plu, prd, (0, 255, 255), 2)
                 cv2.imwrite(f"/home/pi/GongXun/src/data/t21fineTuneItem/微调{k}.jpg" ,img_note)
                 wt_count += 1
-                if wt_count > 5:
+                if wt_count > 15:
                     cmd = xmlReadCommand("calibrOk", 1)
-                    print("微调次数大于5次, 强制退出")
+                    print("微调次数大于15次, 强制退出")
                     send_data(cmd, 0, 0)
                     break
                 start = time.time()

@@ -175,13 +175,13 @@ for i, c in enumerate(["red", "green", "blue"]):
 
 try:
     while True:
-        frame = cap.read()
+        img = cap.read()
         # if ret:
-        img = precondition(img) # 耗时
-        img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+        # img = precondition(img) # 耗时
+        # img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
         # img_hsv = cv2.erode(img_hsv, None, iterations=2)
-        maskGreen = cv2.inRange(img_hsv, threshold[1][0], threshold[1][1])
-        cv2.imshow("look", maskGreen)
+        # maskGreen = cv2.inRange(img_hsv, threshold[1][0], threshold[1][1])
+        cv2.imshow("look", img)
         cv2.waitKey(24)
 
 except:

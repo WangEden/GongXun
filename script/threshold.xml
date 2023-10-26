@@ -18,12 +18,12 @@
         </color>
         <color category="green">
             <H>
-                <floor>81</floor>
-                <ceiling>102</ceiling>
+                <floor>60</floor>
+                <ceiling>110</ceiling>
             </H>
             <S>
-                <floor>27</floor>
-                <ceiling>82</ceiling>
+                <floor>59</floor>
+                <ceiling>148</ceiling>
             </S>
             <V>
                 <floor>0</floor>
