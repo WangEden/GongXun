@@ -182,7 +182,7 @@ try:
         # img_hsv = cv2.erode(img_hsv, None, iterations=2)
         # maskGreen = cv2.inRange(img_hsv, threshold[1][0], threshold[1][1])
         cv2.line(img, (0, 280), (640, 280), (255, 0, 0), 2)
-        cv2.line(img, (330, 0), (330, 480), (255, 0, 0), 2)
+        cv2.line(img, (275, 0), (275, 480), (255, 0, 0), 2)
         cv2.imshow("look", img)
         cv2.waitKey(24)
 
