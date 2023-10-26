@@ -31,40 +31,40 @@ def fineTuneRing2(threshold:list, loop:int):
         # 读取一张照片用于算出距离比例
         # if not capture(0, 'zc', 0): return False
         # img = cv2.imread(f'./data/zc.jpg')
-        
         img = cap.read()
         if img is None: 
             print("读取色环图片失败, 重试")
             continue
-
+        img_note = img.copy()
         # 获取当前帧中所有的圆
         circleList = getCircleCenter(img)
-
         # 按从右到左排列这些圆, 得到两个色环间的像素距离
         p1, p2 = None, None
         if len(circleList) == 0:
             print("没有发现圆环, 重试")
             continue
         else:
-            # 先按y排序，得到台阶下的圆
-            circleList = sorted(circleList, key=lambda circle:circle[1], reverse=True)
+            if len(circleList) == 4 or len(circleList) == 6:
+                # 先按y排序，得到台阶下的圆
+                circleList = sorted(circleList, key=lambda circle:circle[1], reverse=True)
+                circleList = circleList[:int(len(circleList)/2)]
             # 再按x排序，得到台阶下红色和绿色环的圆
             circleList = sorted(circleList, key=lambda circle:circle[0], reverse=True)
+            # debug
+            for c in circleList:
+                x, y, r = c
+                cv2.circle(img_note, (x, y), 2, (255, 0, 0), -1)
             p1, p2 = circleList[0], circleList[1]
             pixelLen = abs(p1[0] - p2[0])
-
         # 算出当前高度的距离比
         img_note = img.copy()
         cv2.line(img_note, (p1[0], p1[1]), (p2[0], p2[1]), (255, 0, 0), 2)
         rate = RingDis * 10 / pixelLen
         print("pixelLen, rate: ", pixelLen, rate)
-
         if loop == 1:
             cv2.imwrite(f"./data/t41ceju/描绘算距离用的线.jpg", img_note)
         elif loop == 2:
             cv2.imwrite(f"./data/t71ceju/描绘算距离用的线.jpg", img_note)
-
-        circleAll = circleList
         break
 
     # 进行微调对准台阶下的绿色色环
@@ -86,8 +86,6 @@ def fineTuneRing2(threshold:list, loop:int):
             if len(circleList) != 0:
                 for c in circleList:
                     cx, cy, r = c
-                    # 将在绿色色环内的圆筛选出来
-                    # if cx > box[0] and cx < box[0] + box[2] and cy > box[1] and cy < box[1] + box[3]:
                     circleAll.append((cx, cy))
             print("获取15帧图像用于处理, 当前: ", i)
 
@@ -105,6 +103,8 @@ def fineTuneRing2(threshold:list, loop:int):
 
         b_box = mask_find_b_boxs(maskGreen)
         b_box = sorted(b_box, key = lambda box: box[4], reverse=True) # 找到面积最大的框
+        b_box = b_box[:int(len(b_box)/2)]
+        b_box = sorted(b_box, key = lambda box: box[1], reverse=True)
         
         if len(b_box) == 0:
             print("没有找到绿色色环")
@@ -129,7 +129,6 @@ def fineTuneRing2(threshold:list, loop:int):
             cv2.imwrite("./data/t72ringwt/最后一帧.jpg", img)
             cv2.imwrite(f"./data/742ringwt/查找的绿色色环mask{k}.jpg", maskGreen)
             cv2.imwrite(f"./data/t72ringwt/查找的绿色色环{k}.jpg", img_note)
-
 
         circles = []
         # 筛选出在绿色色环内的圆

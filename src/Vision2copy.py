@@ -26,6 +26,7 @@ def fineTuneRing(threshold: list, loop: int):
     reflashScreen("正在进行校准")
     cap = VideoCapture("/dev/cameraInc")
     # 算距离比 # # # # # # # # # # # # # # # # # # # # # # #
+    start = time.time()
     while True:
         # 读取一张照片用于算出距离比例
         # if not capture(0, 'sh', 0): return False
@@ -43,9 +44,12 @@ def fineTuneRing(threshold: list, loop: int):
         # 按从右到左排列这些圆, 得到两个色环间的像素距离
         p1, p2 = None, None
         if len(circleList) == 0:
-            cmd = xmlReadCommand("KBDRing", 1)
-            send_data(cmd, 0, 0)
-            print("没有发现圆环, 重试, 并发送: ", cmd)
+            end = time.time()
+            if end - start > 4:
+                start = end
+                cmd = xmlReadCommand("KBDRing", 1)
+                send_data(cmd, 0, 0)
+                print("没有发现圆环, 重试, 并发送: ", cmd)
             continue
         else:
             if len(circleList) == 1:
