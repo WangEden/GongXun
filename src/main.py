@@ -10,7 +10,7 @@ import subprocess
 
 
 sequence = [2, 1, 3, 2, 3, 1]  # 物块抓取顺序
-
+carColor = ""
 
 # 用于创建日志文件
 def make_print_to_file(path="./"):

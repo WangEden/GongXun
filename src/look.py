@@ -156,41 +156,53 @@ from VisionUtils import *
 # cap.release()
 # cv2.destroyAllWindows()
 
-import cv2
-import numpy as np
-
-
-cap = VideoCapture("/dev/cameraInc")
-# cap.set(3, 640)
-# cap.set(4, 480)
-# cap.set(cv2.CAP_PROP_AUTO_WB, 1)
-# cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 1)
-# cap.set(6, cv2.VideoWriter.fourcc(*"MJPG"))
-
-
-# 获取三个色环阈值
-threshold = [[], [], []]  # -> [[min, max], [min, max], [min, max]]
-for i, c in enumerate(["red", "green", "blue"]):
-    xmlReadThreshold("ring", c, threshold[i])
-
-try:
-    while True:
-        img = cap.read()
-        # if ret:
-        # img = precondition(img) # 耗时
-        # img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-        # img_hsv = cv2.erode(img_hsv, None, iterations=2)
-        # maskGreen = cv2.inRange(img_hsv, threshold[1][0], threshold[1][1])
-        cv2.line(img, (0, 280), (640, 280), (255, 0, 0), 2)
-        cv2.line(img, (275, 0), (275, 480), (255, 0, 0), 2)
-        cv2.imshow("look", img)
-        cv2.waitKey(24)
-
-except:
-    cap.terminate()
-finally:
-    cap.terminate()
-
 #################################################################
 
 
+# import cv2
+# import numpy as np
+
+
+# cap = VideoCapture("/dev/cameraInc")
+# # cap.set(3, 640)
+# # cap.set(4, 480)
+# # cap.set(cv2.CAP_PROP_AUTO_WB, 1)
+# # cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 1)
+# # cap.set(6, cv2.VideoWriter.fourcc(*"MJPG"))
+
+
+# # 获取三个色环阈值
+# threshold = [[], [], []]  # -> [[min, max], [min, max], [min, max]]
+# for i, c in enumerate(["red", "green", "blue"]):
+#     xmlReadThreshold("ring", c, threshold[i])
+
+# try:
+#     while True:
+#         img = cap.read()
+#         # if ret:
+#         # img = precondition(img) # 耗时
+#         # img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+#         # img_hsv = cv2.erode(img_hsv, None, iterations=2)
+#         # maskGreen = cv2.inRange(img_hsv, threshold[1][0], threshold[1][1])
+#         cv2.line(img, (0, 280), (640, 280), (255, 0, 0), 2)
+#         cv2.line(img, (275, 0), (275, 480), (255, 0, 0), 2)
+#         cv2.imshow("look", img)
+#         cv2.waitKey(24)
+
+# except:
+#     cap.terminate()
+# finally:
+#     cap.terminate()
+
+#################################################################
+
+# # debug # # # # # # # # # # # # # # # # # #
+# debug = 0
+with open("/home/pi/color.txt", "r") as file:
+    s = file.read()
+    print("color: ", s)
+# # # # # # # # # # # # # # # # # # # # # # #
+
+
+
+#################################################################
