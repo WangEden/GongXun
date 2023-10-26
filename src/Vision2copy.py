@@ -95,8 +95,6 @@ def fineTuneRing(threshold: list, loop: int):
         
         # time.sleep(0.3)
 
-
-
         # 找到绿色色环获取roi, 利用roi得到目标点位置
         img_note = img.copy()
 
@@ -146,7 +144,7 @@ def fineTuneRing(threshold: list, loop: int):
 
         circles = []
         # 筛选出在绿色色环内的圆
-        # circleAll = sorted(circleAll, key = lambda c: c[0],  reverse=True)
+        # circleAll = sorted(circleAll, key = lambda c: c[0],  reverse=True) # 包括红色 所以不能这样写
         # # 由于绿色阈值和蓝色阈值相近, 所以增加这一步筛选掉靠左的蓝色圆形, 如果有的话
         # if len(circleAll) > 15:
         #     circleAll = circleAll[:15]

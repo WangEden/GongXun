@@ -128,13 +128,13 @@ def task3():
     # 等待小车到达粗加工区域，并伸出机械臂
     # 小车应停在粗加工区绿色色环位置，之后伸出机械臂，视野范围内，必须要有至少两个色环（用于标定距离）
     reflashScreen("第一轮前往粗加工区")
-    while True:
-        response = recv_data()
-        print("等待命令: 到达粗加工区, 目前接受到: [", response, "]", end="\r")
-        if response is not None:
-            if response == xmlReadCommand("arriveCJ", 0):
-                print("开始调整")
-                break
+    # while True:
+    #     response = recv_data()
+    #     print("等待命令: 到达粗加工区, 目前接受到: [", response, "]", end="\r")
+    #     if response is not None:
+    #         if response == xmlReadCommand("arriveCJ", 0):
+    #             print("开始调整")
+    #             break
 
     # 获取三个色环阈值
     threshold = [[], [], []]  # -> [[min, max], [min, max], [min, max]]
@@ -245,10 +245,10 @@ if __name__ == "__main__":
     if not uart.isOpen():
         print("串口没打开")
     
-    task1()  # 扫码
+    # task1()  # 扫码
     cmd = xmlReadCommand("qrComplete", 1)
     send_data(cmd, 0, 0)  # 发送继续前进的命令
-    task2()  # 取原料
+    # task2()  # 取原料
     task3()  # 粗加工
 
     # 截取第二轮顺序
