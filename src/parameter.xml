@@ -152,4 +152,14 @@
         <item tag="yuanzhu">0</item>
         <item tag="yuantai">0</item>
     </size>
+    <Center>
+        <black>
+            <x>330</x>
+            <y>280</y>
+        </black>
+        <white>
+            <x>275</x>
+            <y>280</y>
+        </white>
+    </Center>
 </parameter>
