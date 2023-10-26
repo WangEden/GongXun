@@ -138,8 +138,8 @@ def fineTuneRing(threshold: list, loop: int):
         # 筛选出在绿色色环内的圆
         circleAll = sorted(circleAll, key = lambda c: c[0],  reverse=True)
         # 由于绿色阈值和蓝色阈值相近, 所以增加这一步筛选掉靠左的蓝色圆形, 如果有的话
-        if len(circleAll > 15):
-            circleAll = circleAll[:14]
+        if len(circleAll) > 15:
+            circleAll = circleAll[:15]
 
         for c in circleAll:
             cu, cv = c
