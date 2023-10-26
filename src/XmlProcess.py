@@ -37,7 +37,11 @@ def xmlReadSize(tag: str) -> int:
 
 def xmlReadCenter(tag: str) -> tuple:
     paraDomTree = ElementTree.parse("./parameter.xml")
-    center_node = paraDomTree.find('size')
+    center_node = paraDomTree.find('Center')
+    item_node = center_node.find(tag)
+    x = int(item_node.find("x").text)
+    y = int(item_node.find("y").text)
+    return tuple([x, y])
 
 
 if __name__ == "__main__":
