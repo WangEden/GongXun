@@ -35,12 +35,14 @@ def fineTuneRing(threshold: list, loop: int):
     rate = 1
 
     reflashScreen("正在进行校准")
+    cap = VideoCapture("/dev/cameraInc")
     # 算距离比
     while True:
         # 读取一张照片用于算出距离比例
-        if not capture(0, 'sh', 0): return False
-        time.sleep(0.2)
-        img = cv2.imread(f'./data/sh.jpg')
+        # if not capture(0, 'sh', 0): return False
+        # time.sleep(0.2)
+        # img = cv2.imread(f'./data/sh.jpg')
+        img = cap.read()
         if img is None: 
             print("读取色环图片失败, 重试")
             continue
@@ -51,9 +53,16 @@ def fineTuneRing(threshold: list, loop: int):
         # 按从右到左排列这些圆, 得到两个色环间的像素距离
         p1, p2 = None, None
         if len(circleList) == 0:
-            print("没有发现圆环, 重试")
+            cmd = xmlReadCommand("KBDRing", 1)
+            send_data(cmd, 0, 0)
+            print("没有发现圆环, 重试, 并发送: ", cmd)
             continue
         else:
+            if len(circleList) == 1:
+                cmd = xmlReadCommand("KBDRing", 1)
+                send_data(cmd, 0, 0)
+                print("只发现一个色环, 重试, 并发送: ", cmd)
+                continue
             circleList = sorted(circleList, key=lambda circle:circle[0], reverse=True)
             p1, p2 = circleList[0], circleList[1]
             pixelLen = abs(p1[0] - p2[0])
@@ -81,10 +90,10 @@ def fineTuneRing(threshold: list, loop: int):
     while flag:
         circleAll = []
         # 拍照
-        camera = VideoCapture("/dev/cameraInc")
+        # camera = VideoCapture("/dev/cameraInc")
         for i in range(15):  # 拍15张获取更准确的圆心
-            img = camera.read()
-            # img = precondition(img) # 耗时
+            img = cap.read()
+            img = precondition(img) # 耗时
             circleList = getCircleCenter(img)
             if len(circleList) != 0:
                 for c in circleList:
@@ -103,6 +112,7 @@ def fineTuneRing(threshold: list, loop: int):
         img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
         img_hsv = cv2.erode(img_hsv, None, iterations=2)
         maskGreen = cv2.inRange(img_hsv, threshold[1][0], threshold[1][1])
+        maskGreen = cv2.medianBlur(maskGreen, 3)
         kernel = np.ones((3, 3), dtype=np.uint8)
         cv2.dilate(maskGreen, kernel, 3) 
         
@@ -197,7 +207,7 @@ def fineTuneRing(threshold: list, loop: int):
                 break
                 # print("****************没收到OKOK*****************")
         k+=1
-    camera.terminate()
+    cap.terminate()
     # # debug # # # # # # # # # # # # # # # # # #
     # with open("./logs/debug.txt", "w") as file:
     #     file.write(str(debug + 1))

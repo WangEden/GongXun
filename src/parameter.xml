@@ -50,7 +50,9 @@
         <dstB>dstB</dstB>
         <!-- 色环间切换 -->
         <moveRing>move</moveRing>
-
+        <!-- 冲到前面看不到色环了 -->
+        <KBDRing>kbdh</KBDRing>
+        
         <!-- 光流数据更新 -->
         <update>updt</update>
     </message>
@@ -72,12 +74,12 @@
         </color>
         <color category="green">
             <H>
-                <floor>64</floor>
-                <ceiling>95</ceiling>
+                <floor>62</floor>
+                <ceiling>103</ceiling>
             </H>
             <S>
-                <floor>33</floor>
-                <ceiling>135</ceiling>
+                <floor>18</floor>
+                <ceiling>153</ceiling>
             </S>
             <V>
                 <floor>0</floor>

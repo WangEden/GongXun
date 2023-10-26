@@ -4,7 +4,7 @@ from VisionUtils import *
 
 
 cap = VideoCapture("/dev/cameraInc")
-ring = True
+ring = False
 
 # cap.set(3, 640)
 # cap.set(4, 480)
