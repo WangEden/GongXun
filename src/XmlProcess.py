@@ -36,15 +36,18 @@ def xmlReadSize(tag: str) -> int:
 
 
 def xmlReadCenter() -> tuple:
-    tag = ""
-    with open("/home/pi/color.txt", "r") as file:
-        tag = file.read()
-        # print("color: ", s)
-    paraDomTree = ElementTree.parse("./parameter.xml")
-    center_node = paraDomTree.find('Center')
-    item_node = center_node.find(tag)
-    x = int(item_node.find("x").text)
-    y = int(item_node.find("y").text)
+    with open("/home/pi/color.txt", "r", encoding="utf-8-sig") as file:
+        color = file.read()
+        tag = int(color)
+        paraDomTree = ElementTree.parse("./parameter.xml")
+        center_node = paraDomTree.find('center')
+        if tag == 0:
+            item_node = center_node.find(f'color[@tag="black"]')
+        elif tag == 1:
+            item_node = center_node.find(f'color[@tag="white"]')
+        xy = item_node.text.split('+')
+        x = int(xy[0])
+        y = int(xy[1])
     return tuple([x, y])
 
 
