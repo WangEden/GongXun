@@ -15,7 +15,7 @@ def moving_detect(frame1, frame2) -> bool:
     cv2.imshow("output", frame2)
 
 
-cap = cv2.VideoCapture("test.mp4")
+cap = cv2.VideoCapture("/dev/cameraInc")
 ret, frame1 = cap.read()
 
 img1 = cv2.cvtColor(frame1, cv2.COLOR_BGR2GRAY)  # 将图片转为灰度图，第一个返回值表示是否转换成功，第二个返回值就是灰度图了
