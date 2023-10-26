@@ -8,10 +8,12 @@ from VisionUtils import *
 
 # 获取扫码结果
 def getQRCodeResult(queue: list):
+    cap = VideoCapture("/dev/cameraTop")
     while True:
-        if not capture(1, "qrcode", 0):
-            return False  # 拍照不成功
-        img = cv2.imread("./data/qrcode.jpg")
+        # if not capture(1, "qrcode", 0):
+        #     return False  # 拍照不成功
+        # img = cv2.imread("./data/qrcode.jpg")
+        img = cap.read()
 
         if img is None:
             print("**图片读取失败**")
@@ -24,6 +26,7 @@ def getQRCodeResult(queue: list):
             print("**二维码识别失败**", end='\r')
         else:
             break
+    cap.terminate()
 
     data: str = result[0].data.decode("utf-8")
     print("识别结果: ", data)
