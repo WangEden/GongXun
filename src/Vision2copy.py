@@ -16,7 +16,7 @@ def fineTuneRing(threshold: list, loop: int):
     # 用两个圆心算距离比
     # 找到两个色环, 算出距离比例，用于微调
     # 找到绿色色环, 用于确定目标点的roi
-    XCenter, YCenter = 320, 240
+    XCenter, YCenter = 330, 280
     img = None
     RingLen = 50
     RingDis = 150
