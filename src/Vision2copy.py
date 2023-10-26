@@ -16,7 +16,7 @@ def fineTuneRing(threshold: list, loop: int):
     # 用两个圆心算距离比
     # 找到两个色环, 算出距离比例，用于微调
     # 找到绿色色环, 用于确定目标点的roi
-    XCenter, YCenter = 320, 220
+    XCenter, YCenter = 320, 240
     img = None
     RingLen = 50
     RingDis = 150
@@ -178,7 +178,7 @@ def fineTuneRing(threshold: list, loop: int):
         elif loop == 2:
             cv2.imwrite(f"./data/t62ringwt/查找的色环圆心{k}.jpg", img_note)
         
-        if abs(udx) < 40 and abs(udy) < 40:
+        if abs(udx) < 40 and abs(udy) < 30:
             dx = 0
             dy = 0
             cmd = xmlReadCommand("calibrOk", 1)
