@@ -266,6 +266,25 @@ def setItemBySequance(queue:list, mode:int):
         # 获取将要放置的物块颜色
         targetColor = queue[ptr]
         moveX = (current_color - targetColor) * 1500  # 大于0向东走
+        # # # # # # # # # # # # # # # # # # # # # # # #
+        if ptr == 0:  # 针对一个bug
+            if moveX > 0:  # 第一次为右移
+                cmd = xmlReadCommand("moveRing", 1)
+                send_data(cmd, moveX, 0)
+                print("虚假移动到下一个色环中, 将发送: ", cmd, moveX, 0)
+            while True:
+                response = recv_data()
+                print("等待移动完成的信号, 当前接收:[", response, "]", end='\r')
+                if response == xmlReadCommand("tweakOk", 0):
+                    print("虚假移动完成")
+                    break
+                if response == "OKOK":
+                    print("****************收到了OKOK*****************")
+                    break
+            cmd = xmlReadCommand("moveRingOK", 1)
+            send_data(cmd, 0, 0)
+            print("移动完后认为调准了, 发送: ", cmd, 0, 0)
+        # # # # # # # # # # # # # # # # # # # # # # # #
         if moveX == 0:
             # cmd = xmlReadCommand("tweak", 1)
             cmd = xmlReadCommand("calibrOk", 1)
@@ -273,7 +292,7 @@ def setItemBySequance(queue:list, mode:int):
             print("当前要放置的颜色和下方颜色一致")
         else:
             # 执行移动
-            cmd = xmlReadCommand("tweak", 1)
+            cmd = xmlReadCommand("moveRing", 1)
             send_data(cmd, moveX, 0)
             print("移动到下一个色环中, 将发送: ", cmd, moveX, 0)
             while True:
@@ -285,11 +304,13 @@ def setItemBySequance(queue:list, mode:int):
                 if response == "OKOK":
                     print("****************收到了OKOK*****************")
                     break
-            cmd = xmlReadCommand("calibrOk", 1)
+            cmd = xmlReadCommand("moveRingOK", 1)
             send_data(cmd, 0, 0)
             print("移动完后认为调准了, 发送: ", cmd, 0, 0)
-        time.sleep(1)
+        time.sleep(5)
         # 执行放置
+        # ff = True
+        # while ff:
         if mode == 0:
             cmd = xmlReadCommand(f"set{color[targetColor]}", 1)
             send_data(cmd, 0, 0)
@@ -303,7 +324,11 @@ def setItemBySequance(queue:list, mode:int):
             if response == xmlReadCommand("mngOK", 0):
                 print("放置完成一个, 进行下一步")
                 break
-        current_color = targetColor
+                # if response != "OKOK":
+                #     print("没收到, 再发")
+                #     time.sleep(1)
+                #     continue
+            current_color = targetColor
     if mode == 0:
         print("三个物块都完成放置, 准备进行取回")
     else:
@@ -321,7 +346,7 @@ def retriveBySequence(queue:list):
         moveX = (current_color - targetColor) * 1500  # 大于0向东走
 
         # 执行移动
-        cmd = xmlReadCommand("tweak", 1)
+        cmd = xmlReadCommand("moveRing", 1)
         send_data(cmd, moveX, 0)
         print("移动到下一个色环中")
         while True:
@@ -333,7 +358,7 @@ def retriveBySequence(queue:list):
             if response == "OKOK":
                 print("****************收到了OKOK*****************")
                 break
-        cmd = xmlReadCommand("calibrOk", 1)
+        cmd = xmlReadCommand("moveRingOK", 1)
         send_data(cmd, 0, 0)
         print("移动完后认为调准了, 发送: ", cmd, 0, 0)
         time.sleep(1)

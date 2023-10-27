@@ -11,15 +11,13 @@ from collections import Counter
 任务函数：
 在暂存区放置物料
 """
-def fineTuneRing2(threshold:list, loop:int):
+def getRate2(loop:int):
     # 1. 最多可能出现六个色环, 通常四个，也会是两个
     # 2. 垛码放置时可能需要另外识别, 绿色色环和物块都要加入识别
     # 因为很可能之前没放绿色物块导致程序卡死, 也可以前面加个防漏取, 
 
     # 算两个圆心的距离比例
-    XCenter, YCenter = xmlReadCenter()
     img = None
-    RingLen = 80
     RingDis = 150
     pixelLen = 1
     rate = 1
@@ -44,10 +42,21 @@ def fineTuneRing2(threshold:list, loop:int):
             print("没有发现圆环, 重试")
             continue
         else:
-            if len(circleList) == 4 or len(circleList) == 6:
+            print("len: ", len(circleList))
+            if len(circleList) > 3:
                 # 先按y排序，得到台阶下的圆
-                circleList = sorted(circleList, key=lambda circle:circle[1], reverse=True)
-                circleList = circleList[:int(len(circleList)/2)]
+                averY = 0
+                for circle in circleList:
+                    x, y, r = circle
+                    averY += y
+                averY = averY / len(circleList)
+                for circle in circleList:
+                    x, y, r = circle
+                    if y < averY:
+                        circleList.remove(circle)
+                # 去除平均y以上的圆
+                # circleList = sorted(circleList, key=lambda circle:circle[1], reverse=True)
+                # circleList = circleList[:int(len(circleList)/2)]
             # 再按x排序，得到台阶下红色和绿色环的圆
             circleList = sorted(circleList, key=lambda circle:circle[0], reverse=True)
             # debug
@@ -66,12 +75,19 @@ def fineTuneRing2(threshold:list, loop:int):
         elif loop == 2:
             cv2.imwrite(f"./data/t71ceju/描绘算距离用的线.jpg", img_note)
         break
+    cap.terminate()
+    return rate
 
+
+def fineTuneRing2(threshold:list, rate: float, loop:int):
     # 进行微调对准台阶下的绿色色环
+    XCenter, YCenter = xmlReadCenter()
     circle = None
     # 找出绿色色环的位置并进行微调
     # 通信部分
+    cap = VideoCapture("/dev/cameraInc")
     k=0
+    RingLen = 50
     flag = True
     # 框出色环的外接矩形最小面积
     AREA = 7000  # 待定
@@ -94,21 +110,39 @@ def fineTuneRing2(threshold:list, loop:int):
         # 平滑处理, 颜色识别
         img = cv2.pyrMeanShiftFiltering(img, 15, 20)
         img = cv2.GaussianBlur(img, (3, 3), 0)
+
+        cv2.imwrite(f"./data/t42ringwt/ceshi{k}.jpg", img)
+
         img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
         # img_hsv = cv2.erode(img_hsv, None, iterations=2)
         maskGreen = cv2.inRange(img_hsv, threshold[1][0], threshold[1][1])
         maskGreen = cv2.medianBlur(maskGreen, 3)
-        # kernel = np.ones((3, 3), dtype=np.uint8)
-        # cv2.dilate(maskGreen, kernel, 1)
+        kernel = np.ones((3, 3), dtype=np.uint8)
+        cv2.dilate(maskGreen, kernel, 1)
+
+        cv2.imwrite(f"./data/t42ringwt/查找的绿色色环mask{k}.jpg", maskGreen)
 
         b_box = mask_find_b_boxs(maskGreen)
-        b_box = sorted(b_box, key = lambda box: box[4], reverse=True) # 找到面积最大的框
-        b_box = b_box[:int(len(b_box)/2)]
-        b_box = sorted(b_box, key = lambda box: box[1], reverse=True)
         
-        if len(b_box) == 0:
+
+        boxs = []
+        for i, v in enumerate(b_box):
+            lu, lv, w, h, s = b_box[i]
+            if b_box[i][4] > 800 and max(w, h) / min(w, h) < 1.5:
+                boxs.append(b_box[i])
+
+        print(boxs)
+        if len(boxs) == 0:
             print("没有找到绿色色环")
             continue
+
+        b_box = sorted(boxs, key = lambda box: box[4], reverse=True) # 找到面积最大的框
+        # b_box = b_box[:int(len(b_box)/2)]
+        b_box = sorted(b_box, key = lambda box: box[0], reverse=True)
+
+        # 
+        # 按y筛除
+        # 
 
         # 绿色色环box
         box = b_box[0]
