@@ -16,6 +16,8 @@ def getRate2(loop:int):
     # 2. 垛码放置时可能需要另外识别, 绿色色环和物块都要加入识别
     # 因为很可能之前没放绿色物块导致程序卡死, 也可以前面加个防漏取, 
 
+    # 延迟1s, 等待画面稳定
+    time.sleep(1)
     # 算两个圆心的距离比例
     img = None
     RingDis = 150
@@ -37,8 +39,11 @@ def getRate2(loop:int):
         # 获取当前帧中所有的圆
         circleList = getCircleCenter(img)
         # 按从右到左排列这些圆, 得到两个色环间的像素距离
-        p1, p2 = None, None
         if len(circleList) < 2:
+            print("圆环数量不够, 重试")
+            continue
+        p1, p2 = None, None
+        if len(circleList) == 1:
             print("圆环数量不够, 重试")
             # 
             for cicle in circleList:
@@ -50,7 +55,7 @@ def getRate2(loop:int):
         else:
             print("len: ", len(circleList))
             if len(circleList) > 3:
-                # 先按y排序，得到台阶下的圆
+                # 去除平均y以上的圆
                 averY = 0
                 for circle in circleList:
                     x, y, r = circle
@@ -60,11 +65,14 @@ def getRate2(loop:int):
                     x, y, r = circle
                     if y < averY:
                         circleList.remove(circle)
-                # 去除平均y以上的圆
+                # 先按y排序，得到台阶下的圆
                 # circleList = sorted(circleList, key=lambda circle:circle[1], reverse=True)
                 # circleList = circleList[:int(len(circleList)/2)]
             # 再按x排序，得到台阶下红色和绿色环的圆
             circleList = sorted(circleList, key=lambda circle:circle[0], reverse=True)
+            if len(circleList) < 2:
+                print("圆环数量不够, 重试")
+                continue
             # debug
             for c in circleList:
                 x, y, r = c

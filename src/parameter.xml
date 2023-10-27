@@ -44,9 +44,14 @@
         <Gcatch>gcth</Gcatch>
         <Bcatch>bcth</Bcatch>
         
+        <!-- 暂存区放置 红/绿/蓝 -->
         <dstR>Rset</dstR> 
         <dstG>Gset</dstG>
         <dstB>Bset</dstB>
+        <!-- 码垛放置 红/绿/蓝 -->
+        <ddstR>rset</ddstR> 
+        <ddstG>gset</ddstG>
+        <ddstB>bset</ddstB>
         
         <moveRing>ydsh</moveRing>
         <moveRingOK>shjs</moveRingOK>
