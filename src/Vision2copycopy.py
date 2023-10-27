@@ -283,7 +283,10 @@ def setItemBySequance(queue:list, mode:int):
                     break
             cmd = xmlReadCommand("moveRingOK", 1)
             send_data(cmd, 0, 0)
+            if moveX > 0: 
+                time.sleep(2)
             print("移动完后认为调准了, 发送: ", cmd, 0, 0)
+
         # # # # # # # # # # # # # # # # # # # # # # # #
         if moveX == 0:
             # cmd = xmlReadCommand("tweak", 1)
