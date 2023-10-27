@@ -48,9 +48,12 @@
         <dstG>Gset</dstG>
         <dstB>Bset</dstB>
         
-        <moveRing>move</moveRing>
+        <moveRing>ydsh</moveRing>
+        <moveRingOK>shjs</moveRingOK>
         
         <KBDRing>kbdh</KBDRing>
+
+        
         
         
         <update>updt</update>

@@ -151,7 +151,7 @@ def task3():
 
     # 对准绿色色环微调
     fineTuneRing(threshold, rate, 1)
-    time.sleep(1)
+    time.sleep(5)
 
     # 根据顺序放置三个物块
     setItemBySequance(sequence, 0)
@@ -184,7 +184,11 @@ def task4():
         xmlReadThreshold("ring", c, threshold[i])
 
     # 在暂存区校准
-    fineTuneRing2(threshold, 1)
+    rate = getRate2(1)
+    time.sleep(0.3)
+
+    fineTuneRing2(threshold, rate, 1)
+    time.sleep(5)
 
     # 按顺序放置物块
     setItemBySequance(sequence, 0)

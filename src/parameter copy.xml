@@ -49,12 +49,14 @@
         <dstG>Gset</dstG>
         <dstB>Bset</dstB>
         <!-- 色环间切换 -->
-        <moveRing>move</moveRing>
+        <moveRing>ydsh</moveRing>
+        <moveRingOK>shjs</moveRingOK>
         <!-- 冲到前面看不到色环了 -->
         <KBDRing>kbdh</KBDRing>
         
         <!-- 光流数据更新 -->
         <update>updt</update>
+
     </message>
     <!-- 阈值参数 -->
     <threshold tag="ring">
