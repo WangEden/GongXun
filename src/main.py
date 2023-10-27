@@ -331,7 +331,7 @@ if __name__ == "__main__":
     task1()  # 扫码
     cmd = xmlReadCommand("qrComplete", 1)
     send_data(cmd, 0, 0)  # 发送继续前进的命令
-    task2()  # 取原料
+    # task2()  # 取原料
     task3()  # 粗加工
 
     task4()  # 暂存
