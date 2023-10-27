@@ -31,7 +31,7 @@ def fineTuneItemF(threshold: list, category: str, loop: int):
 	# 再套一层while
     k = 0
     wt_count = 0
-    XCenter, YCenter = 320, 230
+    XCenter, YCenter = xmlReadCenter()
     reflashScreen("进行微调")
     while True:
         # 判断圆盘是否在转动 # # # # # # # # # # # #

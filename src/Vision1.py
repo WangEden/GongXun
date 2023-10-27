@@ -31,7 +31,9 @@ def fineTuneItemF(threshold: list, category: str, loop: int):
 	# 再套一层while
     k = 0
     wt_count = 0
-    XCenter, YCenter = 330, 280
+    XCenter, YCenter = xmlReadCenter()
+    print("Center: ", XCenter, YCenter)
+
     reflashScreen("进行微调")
     while True:
         # 判断圆盘是否在转动 # # # # # # # # # # # #
@@ -171,7 +173,7 @@ def fineTuneItemF(threshold: list, category: str, loop: int):
 def catchItemF(threshold: list, queue: list, loop:int):
     reflashScreen("抓取物块中")
     print("抓取顺序:", queue)
-    XCenter, YCenter = 330, 280
+    XCenter, YCenter = xmlReadCenter()
     ROI = [XCenter - 150, YCenter - 130, 300, 260]  # 待确定
     color = ["红色", "绿色", "蓝色"]
     colorCMD = ["catchR", "catchG", "catchB"]
