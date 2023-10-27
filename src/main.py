@@ -154,7 +154,7 @@ def task3():
     time.sleep(5)
 
     # 根据顺序放置三个物块
-    setItemBySequance(sequence, 0)
+    setItemBySequance(sequence, mode=0, orin=0)
 
     # 按顺序取回物料
     retriveBySequence(sequence)
@@ -191,7 +191,7 @@ def task4():
     time.sleep(5)
 
     # 按顺序放置物块
-    setItemBySequance(sequence, 0)
+    setItemBySequance(sequence, mode=0, orin=1)
 
     cmd = xmlReadCommand("task2OK", 1)  # t2ok
     print("暂存区放置完成，发送:", cmd,"进行下一步")
@@ -265,7 +265,8 @@ def task6():
     time.sleep(1)
 
     # 根据顺序放置三个物块
-    setItemBySequance(sequence, 0)
+    # 按顺序放置物块
+    setItemBySequance(sequence, mode=0, orin=0)
 
     # 按顺序取回物料
     retriveBySequence(sequence)
@@ -296,7 +297,7 @@ def task7():
     fineTuneRing3(threshold, 1)
 
     # 按顺序放置物块
-    setItemBySequance(sequence, 1)
+    setItemBySequance(sequence, mode=1, orin=1)
 
     cmd = xmlReadCommand("task2OK", 1)  # t2ok
     print("暂存区放置完成，发送:", cmd,"进行下一步")
