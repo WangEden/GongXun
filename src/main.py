@@ -11,7 +11,6 @@ import subprocess
 
 
 sequence = [2, 1, 3, 2, 3, 1]  # 物块抓取顺序
-ringRate = 1.0
 
 # 用于创建日志文件
 def make_print_to_file(path="./"):
@@ -124,7 +123,7 @@ def task2():
 # 任务三：在粗加工区放置物块
 # 刚开始会停在第二个色环的位置，伸出机械臂，高度保证视野中有三个色环，ps: 相邻色环之间的距离是固定的
 def task3():
-    global sequence, screen, ringRate
+    global sequence, screen
 
     # 等待小车到达粗加工区域，并伸出机械臂
     # 小车应停在粗加工区绿色色环位置，之后伸出机械臂，视野范围内，必须要有至少两个色环（用于标定距离）
@@ -148,7 +147,6 @@ def task3():
     reflashScreen("正在进行校准")
     # 获取距离比
     rate = getRate(1)
-    ringRate = rate
     time.sleep(0.3)
 
     # 对准绿色色环微调
@@ -167,7 +165,7 @@ def task3():
 
 # 任务四: 在暂存区放物料, 重复任务三部分步骤
 def task4():
-    global sequence, ringRate
+    global sequence
 
     # 等待小车到达暂存区域，并伸出机械臂
     # 小车应停在暂存区绿色色环位置，之后伸出机械臂，视野范围内，必须要有至少两个色环（用于标定距离）
@@ -186,11 +184,10 @@ def task4():
         xmlReadThreshold("ring", c, threshold[i])
 
     # 在暂存区校准
-    # rate = getRate2(1)
+    rate = getRate2(1)
     time.sleep(0.3)
 
-    # fineTuneRing2(threshold, rate, 1)
-    fineTuneRing2(threshold, ringRate, 1)
+    fineTuneRing2(threshold, rate, 1)
     time.sleep(5)
 
     # 按顺序放置物块
@@ -240,7 +237,7 @@ def task5():
 
 # 任务六: 前往粗加工区，放置第二轮物料
 def task6():
-    global sequence, ringRate
+    global sequence
 
     reflashScreen("第二轮前往粗加工区")
     while True:
@@ -260,12 +257,11 @@ def task6():
     orient = 0  # 0: 北, 1: 西
     reflashScreen("正在进行校准")
     # 获取距离比
-    # rate = getRate()
+    rate = getRate()
     time.sleep(0.3)
 
     # 对准绿色色环微调
-    # fineTuneRing(threshold, rate, 1)
-    fineTuneRing(threshold, ringRate, 1)
+    fineTuneRing(threshold, rate, 1)
     time.sleep(1)
 
     # 根据顺序放置三个物块
@@ -281,7 +277,7 @@ def task6():
 
 # 任务七: 前往暂存区，放置第二轮物料
 def task7():
-    global sequence, ringRate
+    global sequence
 
     reflashScreen("第二轮前往暂存区")
     while True:
@@ -298,7 +294,7 @@ def task7():
         xmlReadThreshold("ring", c, threshold[i])
 
     # 在暂存区校准
-    fineTuneRing3(threshold, ringRate)
+    fineTuneRing3(threshold, 1)
 
     # 按顺序放置物块
     setItemBySequance(sequence, mode=1, orin=1)

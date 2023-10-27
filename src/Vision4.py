@@ -11,7 +11,7 @@ from collections import Counter
 任务函数：
 在暂存区垛码放置物料
 """
-def fineTuneRing3(threshold:list, ringRate:float):
+def fineTuneRing3(threshold:list, loop:int):
     # 1. 最多可能出现六个色环, 通常四个，也会是两个
     # 2. 垛码放置时可能需要另外识别, 绿色色环和物块都要加入识别
     # 因为很可能之前没放绿色物块导致程序卡死, 也可以前面加个防漏取, 
@@ -61,10 +61,10 @@ def fineTuneRing3(threshold:list, ringRate:float):
         cv2.line(img_note, (p1[0], p1[1]), (p2[0], p2[1]), (255, 0, 0), 2)
         rate = RingDis * 10 / pixelLen
         print("pixelLen, rate: ", pixelLen, rate)
-        # if loop == 1:
-        #     cv2.imwrite(f"./data/t41ceju/描绘算距离用的线.jpg", img_note)
-        # elif loop == 2:
-        cv2.imwrite(f"./data/t71ceju/描绘算距离用的线.jpg", img_note)
+        if loop == 1:
+            cv2.imwrite(f"./data/t41ceju/描绘算距离用的线.jpg", img_note)
+        elif loop == 2:
+            cv2.imwrite(f"./data/t71ceju/描绘算距离用的线.jpg", img_note)
         break
 
     # 进行微调对准台阶下的绿色色环
@@ -121,14 +121,14 @@ def fineTuneRing3(threshold:list, ringRate:float):
 
         print(box)
         cv2.rectangle(img_note, p1, p2, (255, 0, 0), 2) 
-        # if loop == 1:
-        #     cv2.imwrite("./data/t42ringwt/最后一帧.jpg", img)
-        #     cv2.imwrite(f"./data/t42ringwt/查找的绿色色环mask{k}.jpg", maskGreen)
-        #     cv2.imwrite(f"./data/t42ringwt/查找的绿色色环{k}.jpg", img_note)
-        # elif loop == 2:
-        cv2.imwrite("./data/t72ringwt/最后一帧.jpg", img)
-        cv2.imwrite(f"./data/742ringwt/查找的绿色色环mask{k}.jpg", maskGreen)
-        cv2.imwrite(f"./data/t72ringwt/查找的绿色色环{k}.jpg", img_note)
+        if loop == 1:
+            cv2.imwrite("./data/t42ringwt/最后一帧.jpg", img)
+            cv2.imwrite(f"./data/t42ringwt/查找的绿色色环mask{k}.jpg", maskGreen)
+            cv2.imwrite(f"./data/t42ringwt/查找的绿色色环{k}.jpg", img_note)
+        elif loop == 2:
+            cv2.imwrite("./data/t72ringwt/最后一帧.jpg", img)
+            cv2.imwrite(f"./data/742ringwt/查找的绿色色环mask{k}.jpg", maskGreen)
+            cv2.imwrite(f"./data/t72ringwt/查找的绿色色环{k}.jpg", img_note)
 
         circles = []
         # 筛选出在绿色色环内的圆
@@ -152,10 +152,10 @@ def fineTuneRing3(threshold:list, ringRate:float):
         cv2.circle(img_note, (cx, cy), 5, (255, 0, 0), 2)
         cv2.putText(img_note, f"py({udx}, {udy})", (cx, cy), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (255, 0, 0), 1)
         
-        # if loop == 1:
-        #     cv2.imwrite(f"./data/t42ringwt/查找的色环圆心{k}.jpg", img_note)
-        # elif loop == 2:
-        cv2.imwrite(f"./data/t72ringwt/查找的色环圆心{k}.jpg", img_note)
+        if loop == 1:
+            cv2.imwrite(f"./data/t42ringwt/查找的色环圆心{k}.jpg", img_note)
+        elif loop == 2:
+            cv2.imwrite(f"./data/t72ringwt/查找的色环圆心{k}.jpg", img_note)
         
         if abs(udx) < 40 and abs(udy) < 75:
             dx = 0
