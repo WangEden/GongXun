@@ -96,7 +96,8 @@ def get_the_most_credible_box(b_box):
         return b_box[0]
     boxs = []
     for i, v in enumerate(b_box):
-        if b_box[i][4] > 1000:
+        lu, lv, w, h, s = b_box[i]
+        if b_box[i][4] > 1000 and max(w, h) / min(w, h) < 1.5:
             boxs.append(b_box[i])
     if len(boxs) == 0:
         return None

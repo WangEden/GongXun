@@ -178,7 +178,7 @@ def fineTuneRing(threshold: list, loop: int):
         elif loop == 2:
             cv2.imwrite(f"./data/t62ringwt/查找的色环圆心{k}.jpg", img_note)
         
-        if abs(udx) < 40 and abs(udy) < 30:
+        if abs(udx) < 15 and abs(udy) < 15:
             dx = 0
             dy = 0
             cmd = xmlReadCommand("calibrOk", 1)

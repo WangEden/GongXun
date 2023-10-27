@@ -92,7 +92,6 @@ def fineTuneItemF(threshold: list, category: str, loop: int):
         prd = tuple([lu + w, lv + h])
         pc = tuple([lu + int(w / 2), lv + int(h / 2)])
         udx, udy = pc[0] - XCenter, pc[1] - YCenter
-
         # # 比例啥的不对得重拍，重拍要重新判断有没有在转
         # 面积太小, 离中心太远, 长宽比不对
         img_note = img.copy()

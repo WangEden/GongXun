@@ -45,9 +45,9 @@
         <Gcatch>gcth</Gcatch>
         <Bcatch>bcth</Bcatch>
         <!-- 进行垛码放置 红/绿/蓝 -->
-        <dstR>dstR</dstR> 
-        <dstG>dstG</dstG>
-        <dstB>dstB</dstB>
+        <dstR>Rset</dstR> 
+        <dstG>Gset</dstG>
+        <dstB>Bset</dstB>
         <!-- 色环间切换 -->
         <moveRing>move</moveRing>
         <!-- 冲到前面看不到色环了 -->
