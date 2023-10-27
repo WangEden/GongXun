@@ -5,12 +5,12 @@ from Vision0 import *
 from Vision1 import *
 from Vision2copy import *
 from Vision3copy import *
+from Vision4 import *
 import time
 import subprocess
 
 
 sequence = [2, 1, 3, 2, 3, 1]  # 物块抓取顺序
-
 
 # 用于创建日志文件
 def make_print_to_file(path="./"):
@@ -227,10 +227,65 @@ def task5():
 def task6():
     global sequence
 
+    reflashScreen("第二轮前往粗加工区")
+    while True:
+        response = recv_data()
+        print("等待命令: 到达粗加工区, 目前接受到: [", response, "]", end="\r")
+        if response is not None:
+            if response == xmlReadCommand("arriveCJ", 0):
+                print("开始调整")
+                break
+
+    # 获取三个色环阈值
+    threshold = [[], [], []]  # -> [[min, max], [min, max], [min, max]]
+    for i, c in enumerate(["red", "green", "blue"]):
+        xmlReadThreshold("ring", c, threshold[i])
+
+    # 计算位置, 校准
+    orient = 0  # 0: 北, 1: 西
+    fineTuneRing(threshold, 1)
+
+    # 根据顺序放置三个物块
+    setItemBySequance(sequence, 0)
+
+    # 按顺序取回物料
+    retriveBySequence(sequence)
+
+    # 显示任务信息
+    print("任务6: 第二轮粗加工, 完成")
+
 
 # 任务七: 前往暂存区，放置第二轮物料
 def task7():
     global sequence
+
+    reflashScreen("第二轮前往暂存区")
+    while True:
+        response = recv_data()
+        print("等待命令: 到达暂存区, 目前接受到: [", response, "]", end="\r")
+        if response is not None:
+            if response == xmlReadCommand("arriveZC", 0):
+                print("开始调整")
+                break
+        
+    # 获取三个色环阈值
+    threshold = [[], [], []]  # -> [[min, max], [min, max], [min, max]]
+    for i, c in enumerate(["red", "green", "blue"]):
+        xmlReadThreshold("ring", c, threshold[i])
+
+    # 在暂存区校准
+    fineTuneRing2(threshold, 1)
+
+    # 按顺序放置物块
+    setItemBySequance(sequence, 0)
+
+    cmd = xmlReadCommand("task2OK", 1)  # t2ok
+    print("暂存区放置完成，发送:", cmd,"进行下一步")
+    send_data(cmd, 0, 0)
+
+    # 显示任务信息
+    print("任务4: 第二轮暂存, 完成")
+
 
 
 if __name__ == "__main__":
@@ -255,10 +310,10 @@ if __name__ == "__main__":
     sequence = sequence[3:]
     task4()  # 暂存
 
-    # task5()  # 取第二轮物料
-    # task6()  # 第二轮粗加工
+    task5()  # 取第二轮物料
+    task6()  # 第二轮粗加工
     
-    # task7()  # 垛码放置的暂存
+    task7()  # 垛码放置的暂存
     # 回启停区
 
     # except:

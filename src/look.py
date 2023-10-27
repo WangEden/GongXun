@@ -156,6 +156,9 @@ from VisionUtils import *
 # cap.release()
 # cv2.destroyAllWindows()
 
+#################################################################
+
+
 import cv2
 import numpy as np
 
@@ -181,6 +184,8 @@ try:
         # img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
         # img_hsv = cv2.erode(img_hsv, None, iterations=2)
         # maskGreen = cv2.inRange(img_hsv, threshold[1][0], threshold[1][1])
+        cv2.line(img, (0, 280), (640, 280), (255, 0, 0), 2)
+        cv2.line(img, (275, 0), (275, 480), (255, 0, 0), 2)
         cv2.imshow("look", img)
         cv2.waitKey(24)
 
@@ -191,4 +196,13 @@ finally:
 
 #################################################################
 
+# # debug # # # # # # # # # # # # # # # # # #
+# debug = 0
+# with open("/home/pi/color.txt", "r") as file:
+#     s = file.read()
+#     print("color: ", s)
+# # # # # # # # # # # # # # # # # # # # # # #
 
+
+
+#################################################################

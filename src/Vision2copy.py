@@ -16,7 +16,7 @@ def fineTuneRing(threshold: list, loop: int):
     # 用两个圆心算距离比
     # 找到两个色环, 算出距离比例，用于微调
     # 找到绿色色环, 用于确定目标点的roi
-    XCenter, YCenter = 320, 220
+    XCenter, YCenter = xmlReadCenter()
     img = None
     RingLen = 50
     RingDis = 150
@@ -112,9 +112,32 @@ def fineTuneRing(threshold: list, loop: int):
         # kernel = np.ones((3, 3), dtype=np.uint8)
         # cv2.dilate(maskGreen, kernel, 3) 
         b_box = mask_find_b_boxs(maskGreen)
-        b_box = sorted(b_box, key = lambda box: box[4], reverse=True) # 找到面积最大的框
-        b_box = b_box[:2]
-        b_box = sorted(b_box, key = lambda box: box[0], reverse=True) # 找到面积最大的框
+        boxs = []
+        for i, v in enumerate(b_box):
+            lu, lv, w, h, s = b_box[i]
+            if b_box[i][4] > 1000 and max(w, h) / min(w, h) < 1.5:
+                boxs.append(b_box[i])
+        if len(boxs) == 0:
+            print("不是很好识别的位置, 往旁边走走")
+            cmd = xmlReadCommand("tweak", 1)
+            if k % 4 == 0:
+                send_data(cmd, 95, 95)
+                print("发送命令", cmd, 95, 95)
+            elif k % 4 == 1:
+                send_data(cmd, 95, -95)
+                print("发送命令", cmd, 95, -95)
+            elif k % 4 == 2: 
+                send_data(cmd, -75, 75)
+                print("发送命令", cmd, -75, 75)
+            else:
+                send_data(cmd, -75, -75)
+                print("发送命令", cmd, -75, -75)
+            k+=1
+            continue
+        b_box = sorted(boxs, key = lambda box: box[4], reverse=True) # 找到面积最大的框
+        # if len(b_box) > 1:
+        #     b_box = b_box[:2]
+        # b_box = sorted(b_box, key = lambda box: box[0], reverse=True) # 找到面积最大的框
         # 绿色色环box
         box = b_box[0]
         p1 = tuple([box[0], box[1]])
@@ -178,7 +201,7 @@ def fineTuneRing(threshold: list, loop: int):
         elif loop == 2:
             cv2.imwrite(f"./data/t62ringwt/查找的色环圆心{k}.jpg", img_note)
         
-        if abs(udx) < 40 and abs(udy) < 40:
+        if abs(udx) < 15 and abs(udy) < 15:
             dx = 0
             dy = 0
             cmd = xmlReadCommand("calibrOk", 1)

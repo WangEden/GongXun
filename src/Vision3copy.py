@@ -17,7 +17,7 @@ def fineTuneRing2(threshold:list, loop:int):
     # 因为很可能之前没放绿色物块导致程序卡死, 也可以前面加个防漏取, 
 
     # 算两个圆心的距离比例
-    XCenter, YCenter = 320, 220
+    XCenter, YCenter = xmlReadCenter()
     img = None
     RingLen = 80
     RingDis = 150

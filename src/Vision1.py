@@ -31,7 +31,9 @@ def fineTuneItemF(threshold: list, category: str, loop: int):
 	# 再套一层while
     k = 0
     wt_count = 0
-    XCenter, YCenter = 320, 240
+    XCenter, YCenter = xmlReadCenter()
+    print("Center: ", XCenter, YCenter)
+
     reflashScreen("进行微调")
     while True:
         # 判断圆盘是否在转动 # # # # # # # # # # # #
@@ -90,7 +92,6 @@ def fineTuneItemF(threshold: list, category: str, loop: int):
         prd = tuple([lu + w, lv + h])
         pc = tuple([lu + int(w / 2), lv + int(h / 2)])
         udx, udy = pc[0] - XCenter, pc[1] - YCenter
-
         # # 比例啥的不对得重拍，重拍要重新判断有没有在转
         # 面积太小, 离中心太远, 长宽比不对
         img_note = img.copy()
@@ -171,7 +172,7 @@ def fineTuneItemF(threshold: list, category: str, loop: int):
 def catchItemF(threshold: list, queue: list, loop:int):
     reflashScreen("抓取物块中")
     print("抓取顺序:", queue)
-    XCenter, YCenter = 320, 240
+    XCenter, YCenter = xmlReadCenter()
     ROI = [XCenter - 150, YCenter - 130, 300, 260]  # 待确定
     color = ["红色", "绿色", "蓝色"]
     colorCMD = ["catchR", "catchG", "catchB"]
