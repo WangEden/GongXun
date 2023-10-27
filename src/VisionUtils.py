@@ -1,6 +1,7 @@
 import numpy as np
 import cv2
 import queue, threading
+from XmlProcess import xmlReadCenter
 from PIL import Image, ImageDraw, ImageFont
 
 lastContent = ""
@@ -88,8 +89,41 @@ def mask_find_b_boxs2(_mask):
 
 # 按照面积、位置筛选得到最可信的外接矩形
 def get_the_most_credible_box(b_box):
-    XCenter = 320
-    YCenter = 220
+    XCenter, YCenter = xmlReadCenter()
+    if len(b_box) == 0:
+        return None
+    if len(b_box) == 1:
+        return b_box[0]
+    boxs = []
+    for i, v in enumerate(b_box):
+        lu, lv, w, h, s = b_box[i]
+        if b_box[i][4] > 1000 and max(w, h) / min(w, h) < 1.5 and lv + h < 640:
+            boxs.append(b_box[i])
+    if len(boxs) == 0:
+        return None
+    b_box = sorted(b_box, key=lambda box: box[4], reverse=True)
+    # print("by area:\n", b_box)
+    b_box = sorted(boxs, key=lambda box: abs(box[0] + box[2] / 2 - XCenter))
+    # print("by dx:\n", b_box)
+    b_box = sorted(b_box, key=lambda box: abs(box[1] + box[3] / 2 - YCenter))
+    # print("by dy:\n", b_box)
+    b_box = sorted(b_box, key=lambda box: box[1], reverse=True)
+    # print("by y:\n", b_box)
+    flag = False
+    if len(b_box) >= 3:
+        b_box = b_box[:2]  # 取前三个面积大的
+    elif len(b_box) == 2:
+        print("只有两个")
+
+        flag = True
+    # if flag:
+    #     a = 
+    return b_box[0]
+
+
+# 按照面积、位置筛选得到最可信的外接矩形
+def get_the_most_credible_box2(b_box):  # 用于粗加工区
+    XCenter, YCenter = xmlReadCenter()
     if len(b_box) == 0:
         return None
     if len(b_box) == 1:
@@ -115,7 +149,6 @@ def get_the_most_credible_box(b_box):
     elif len(b_box) == 2:
         print("只有两个")
         flag = True
-
     # if flag:
     #     a = 
     return b_box[0]
