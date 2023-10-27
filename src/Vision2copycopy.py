@@ -269,27 +269,27 @@ def setItemBySequance(queue:list, mode:int, orin: int):
         moveX = (current_color - targetColor) * 1500  # 大于0向东走
         # # # # # # # # # # # # # # # # # # # # # # # #
         if ptr == 0:  # 针对一个bug
-            if moveX > 0:  # 第一次为右移
+            if moveX != 0:  # 第一次为右移
                 cmd = xmlReadCommand("moveRing", 1)
                 if orin == 0: # 北 左右移动
                     send_data(cmd, 1, 0)
                 elif orin == 1: # 西 上下移动
                     send_data(cmd, 0, -1)
                 print("虚假移动到下一个色环中, 将发送: ", 0, -1)
-            while True:
-                response = recv_data()
-                print("等待移动完成的信号, 当前接收:[", response, "]", end='\r')
-                if response == xmlReadCommand("tweakOk", 0):
-                    print("虚假移动完成")
-                    break
-                if response == "OKOK":
-                    print("****************收到了OKOK*****************")
-                    break
-            cmd = xmlReadCommand("moveRingOK", 1)
-            send_data(cmd, 0, 0)
-            if moveX > 0:  # 放置虚假的卡掉真正的, 故延时
+                while True:
+                    response = recv_data()
+                    print("等待移动完成的信号, 当前接收:[", response, "]", end='\r')
+                    if response == xmlReadCommand("tweakOk", 0):
+                        print("虚假移动完成")
+                        break
+                    if response == "OKOK":
+                        print("****************收到了OKOK*****************")
+                        break
+                cmd = xmlReadCommand("moveRingOK", 1)
+                send_data(cmd, 0, 0)
+                print("移动完后认为调准了, 发送: ", cmd, 0, 0)
+            if moveX != 0:  # 放置虚假的卡掉真正的, 故延时
                 time.sleep(2)
-            print("移动完后认为调准了, 发送: ", cmd, 0, 0)
 
         # # # # # # # # # # # # # # # # # # # # # # # #
         if moveX == 0:
