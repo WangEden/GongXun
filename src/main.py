@@ -3,7 +3,7 @@ from XmlProcess import *
 from Vision0 import *
 # from Vision1copy import *
 from Vision1 import *
-from Vision2copy import *
+from Vision2copycopy import *
 from Vision3copy import *
 from Vision4 import *
 import time
@@ -143,7 +143,15 @@ def task3():
 
     # 计算位置, 校准
     orient = 0  # 0: 北, 1: 西
-    fineTuneRing(threshold, 1)
+
+    reflashScreen("正在进行校准")
+    # 获取距离比
+    rate = getRate(1)
+    time.sleep(0.3)
+
+    # 对准绿色色环微调
+    fineTuneRing(threshold, rate, 1)
+    time.sleep(1)
 
     # 根据顺序放置三个物块
     setItemBySequance(sequence, 0)
@@ -243,7 +251,14 @@ def task6():
 
     # 计算位置, 校准
     orient = 0  # 0: 北, 1: 西
-    fineTuneRing(threshold, 1)
+    reflashScreen("正在进行校准")
+    # 获取距离比
+    rate = getRate()
+    time.sleep(0.3)
+
+    # 对准绿色色环微调
+    fineTuneRing(threshold, rate, 1)
+    time.sleep(1)
 
     # 根据顺序放置三个物块
     setItemBySequance(sequence, 0)
@@ -274,10 +289,10 @@ def task7():
         xmlReadThreshold("ring", c, threshold[i])
 
     # 在暂存区校准
-    fineTuneRing2(threshold, 1)
+    fineTuneRing3(threshold, 1)
 
     # 按顺序放置物块
-    setItemBySequance(sequence, 0)
+    setItemBySequance(sequence, 1)
 
     cmd = xmlReadCommand("task2OK", 1)  # t2ok
     print("暂存区放置完成，发送:", cmd,"进行下一步")
@@ -285,7 +300,6 @@ def task7():
 
     # 显示任务信息
     print("任务4: 第二轮暂存, 完成")
-
 
 
 if __name__ == "__main__":
@@ -303,7 +317,7 @@ if __name__ == "__main__":
     task1()  # 扫码
     cmd = xmlReadCommand("qrComplete", 1)
     send_data(cmd, 0, 0)  # 发送继续前进的命令
-    task2()  # 取原料
+    # task2()  # 取原料
     task3()  # 粗加工
 
     # 截取第二轮顺序
