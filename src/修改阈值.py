@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 from VisionUtils import *
 
-
+filename = "./parameter.xml"
 filename = "./parameterCopy.xml"
 img_path = "take.jpg"
 
@@ -31,7 +31,6 @@ def mouseHandler(e, x, y, f, p):
         elif x < 50 and 50 < y < 100:
             flag = False
             change = False
-        
 
 
 # 拍摄图片
