@@ -32,7 +32,7 @@ def send_data(cmd: list, i, f):
 
 
 def recv_data():
-    return uart.read(4).decode("gbk")
+    return uart.read(4).decode("utf-8", 'ignore')
 
 
 if __name__ == "__main__":
