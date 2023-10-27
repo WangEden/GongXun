@@ -60,32 +60,18 @@
         <color category="red">
             <H>
                 <floor>0</floor>
-                <ceiling>0</ceiling>
+                <ceiling>51</ceiling>
             </H>
             <S>
-                <floor>0</floor>
-                <ceiling>0</ceiling>
-            </S>
-            <V>
-                <floor>0</floor>
-                <ceiling>0</ceiling>
-            </V>
-        </color>
-        <color category="green">
-            <H>
-                <floor>67</floor>
-                <ceiling>110</ceiling>
-            </H>
-            <S>
-                <floor>0</floor>
-                <ceiling>175</ceiling>
+                <floor>80</floor>
+                <ceiling>180</ceiling>
             </S>
             <V>
                 <floor>0</floor>
                 <ceiling>255</ceiling>
             </V>
         </color>
-        <color category="blue">
+        <color category="green">
             <H>
                 <floor>50</floor>
                 <ceiling>150</ceiling>
@@ -99,16 +85,30 @@
                 <ceiling>255</ceiling>
             </V>
         </color>
+        <color category="blue">
+            <H>
+                <floor>101</floor>
+                <ceiling>252</ceiling>
+            </H>
+            <S>
+                <floor>114</floor>
+                <ceiling>153</ceiling>
+            </S>
+            <V>
+                <floor>0</floor>
+                <ceiling>255</ceiling>
+            </V>
+        </color>
     </threshold>
     <threshold tag="item">
         <color category="red">
             <H>
-                <floor>104</floor>
-                <ceiling>212</ceiling>
+                <floor>50</floor>
+                <ceiling>150</ceiling>
             </H>
             <S>
-                <floor>65</floor>
-                <ceiling>226</ceiling>
+                <floor>0</floor>
+                <ceiling>255</ceiling>
             </S>
             <V>
                 <floor>0</floor>

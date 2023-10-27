@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 from VisionUtils import *
 
-filename = "./parameter.xml"
+# filename = "./parameter.xml"
 filename = "./parameterCopy.xml"
 img_path = "take.jpg"
 
@@ -16,12 +16,75 @@ category ="ring"
 color = "blue"
 # # # # # # # # # # # # # # # #
 
+flag = True
+change = True
+
+def choose_para1(e, x, y, f, p):
+    global category, flag
+    if e == cv2.EVENT_LBUTTONDOWN:
+        if 50 < x < 150 and 50 < y < 100:
+            category = "ring"
+            flag = False
+        elif 200 < x < 300 and 50 < y < 100:
+            category = "item"
+            flag = False
+
+
+def choose_para2(e, x, y, f, p):
+    global color, flag
+    if e == cv2.EVENT_LBUTTONDOWN:
+        if 50 < x < 150 and 50 < y < 100:
+            color = "red"
+            flag = False
+        elif 200 < x < 300 and 50 < y < 100:
+            color = "green"
+            flag = False
+        elif 350 < x < 450 and 50 < y < 100:
+            color = "blue"
+            flag = False
+
+
+categoryBtn1 = [(50, 50), (150, 100)]
+categoryBtn2 = [(200, 50), (300, 100)]
+
+
+while flag:
+    pad = np.ones((480, 640, 3), np.uint8) * 255
+    cv2.rectangle(pad, categoryBtn1[0], categoryBtn1[1], (255, 0, 0), 1)
+    cv2.rectangle(pad, categoryBtn2[0], categoryBtn2[1], (255, 0, 0), 1)
+    cv2.putText(pad, "ring", (50, 100), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (255, 0, 0), 1)
+    cv2.putText(pad, "item", (200, 100), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (255, 0, 0), 1)
+    cv2.imshow("choose1", pad)
+    cv2.setMouseCallback("choose1", choose_para1)
+    cv2.waitKey(1)
+cv2.destroyAllWindows()
+flag = True
+print(category)
+
+
+colorBtn1 = [(50, 50), (150, 100)]
+colorBtn2 = [(200, 50), (300, 100)]
+colorBtn3 = [(350, 50), (450, 100)]
+
+
+while flag:
+    pad = np.ones((480, 640, 3), np.uint8) * 255
+    cv2.rectangle(pad, colorBtn1[0], colorBtn1[1], (255, 0, 0), 1)
+    cv2.rectangle(pad, colorBtn2[0], colorBtn2[1], (255, 0, 0), 1)
+    cv2.rectangle(pad, colorBtn3[0], colorBtn3[1], (255, 0, 0), 1)
+    cv2.putText(pad, f"red", (50, 100), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (255, 0, 0), 1)
+    cv2.putText(pad, f"green", (200, 100), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (255, 0, 0), 1)
+    cv2.putText(pad, f"blue", (350, 100), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (255, 0, 0), 1)
+    cv2.imshow("choose2", pad)
+    cv2.setMouseCallback("choose2", choose_para2)
+    cv2.waitKey(1)
+cv2.destroyAllWindows()
+flag = True
+print(color)
+
 def callback(event):
     pass
 
-
-flag = True
-change = True
 
 def mouseHandler(e, x, y, f, p):
     global flag, change
@@ -76,6 +139,7 @@ cv2.setMouseCallback("image", mouseHandler)
 cv2.rectangle(img_note, (0, 0), (50, 50), (255, 0, 0), -1)
 cv2.rectangle(img_note, (0, 50), (50, 100), (0, 0, 255), -1)
 
+flag = True
 while flag:
     H_min = cv2.getTrackbarPos("H_min", "image", )
     S_min = cv2.getTrackbarPos("S_min", "image", )
