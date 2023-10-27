@@ -23,5 +23,9 @@ runActionGroup(26, 1);蓝色从载盘上抓取+抬起+放置（暂存区）
 runActionGroup(27, 1);绿色从载盘上抓取+抬起+放置（暂存区）
 runActionGroup(28, 1);红色从载盘上抓取+抬起+放置（暂存区）
 
+runActionGroup(36, 1);蓝色码垛（暂存区）
+runActionGroup(37, 1);绿色码垛（暂存区）	
+runActionGroup(38, 1);红色码垛（暂存区）
+
 
 
