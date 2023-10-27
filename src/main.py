@@ -300,7 +300,7 @@ def task7():
     # 获取三个色环阈值
     threshold2 = [[], [], []]  # -> [[min, max], [min, max], [min, max]]
     for i, c in enumerate(["red", "green", "blue"]):
-        xmlReadThreshold("ring", c, threshold2[i])
+        xmlReadThreshold("item", c, threshold2[i])
 
     # 在暂存区校准
     fineTuneRing3(threshold1, threshold2, ringRate)
