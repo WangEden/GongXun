@@ -151,7 +151,7 @@ def task3():
 
     # 对准绿色色环微调
     fineTuneRing(threshold, rate, 1)
-    # time.sleep(0.3)
+    time.sleep(1)
 
     # 根据顺序放置三个物块
     setItemBySequance(sequence, 0)
@@ -317,7 +317,7 @@ if __name__ == "__main__":
     task1()  # 扫码
     cmd = xmlReadCommand("qrComplete", 1)
     send_data(cmd, 0, 0)  # 发送继续前进的命令
-    task2()  # 取原料
+    # task2()  # 取原料
     task3()  # 粗加工
 
     # 截取第二轮顺序

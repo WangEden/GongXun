@@ -338,7 +338,7 @@ def retriveBySequence(queue:list):
         print("移动完后认为调准了, 发送: ", cmd, 0, 0)
         time.sleep(1)
         # 执行抓取
-        cmd = xmlReadCommand(f"set{color[targetColor]}", 1)
+        cmd = xmlReadCommand(f"{color[targetColor]}catch", 1)
         send_data(cmd, 0, 0)
         print(f"放置{color[targetColor]}, 发送的命令为: ", cmd)
         while True:
