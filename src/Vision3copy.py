@@ -38,8 +38,14 @@ def getRate2(loop:int):
         circleList = getCircleCenter(img)
         # 按从右到左排列这些圆, 得到两个色环间的像素距离
         p1, p2 = None, None
-        if len(circleList) == 0:
-            print("没有发现圆环, 重试")
+        if len(circleList) < 2:
+            print("圆环数量不够, 重试")
+            # 
+            for cicle in circleList:
+                x, y, r = circle
+                cv2.circle(img_note, (x, y), 2, (255, 0, 0), 2)
+                cv2.imwrite("./data/t41ceju/圆环数量不够时")
+            # 
             continue
         else:
             print("len: ", len(circleList))
