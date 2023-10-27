@@ -117,11 +117,13 @@ img = cv2.imread(img_path, 1)
 if category == "ring":
     img = cv2.pyrMeanShiftFiltering(img, 15, 20)
 img = cv2.GaussianBlur(img, (3, 3), 0)
-img = cv2.resize(img, (int(img.shape[1] / 2), int(img.shape[0] / 2)))
 
 img_note = img.copy()
+img_note = cv2.resize(img_note, (int(img.shape[1] / 2), int(img.shape[0] / 2)))
+
 print(img.shape)
 mask = np.ones(img.shape, np.uint8) * 255
+mask = cv2.resize(mask, (int(img.shape[1] / 2), int(img.shape[0] / 2)))
 
 output = np.hstack([img_note, mask])
 cv2.imshow("image", output)
@@ -152,6 +154,7 @@ while flag:
     upper_hsv = np.array([H_max, S_max, V_max])
     mask = cv2.inRange(img, lower_hsv, upper_hsv)
     mask = np.repeat(mask[:, :, np.newaxis], repeats=3, axis=2)
+    mask = cv2.resize(mask, (int(img.shape[1] / 2), int(img.shape[0] / 2)))
     output = np.hstack([img_note, mask])
     
     cv2.imshow("image", output)
