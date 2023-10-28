@@ -39,6 +39,10 @@
         <setR>setR</setR> 
         <setG>setG</setG>
         <setB>setB</setB>
+
+        <sttR>sttr</sttR> 
+        <sttG>sttg</sttG>
+        <sttB>sttb</sttB>
         
         <Rcatch>rcth</Rcatch>
         <Gcatch>gcth</Gcatch>

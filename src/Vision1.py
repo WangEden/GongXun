@@ -233,7 +233,7 @@ def setItemF(threshold: list, queue: list, loop:int):
     XCenter, YCenter = xmlReadCenter()
     ROI = [XCenter - 150, YCenter - 130, 300, 260]  # 待确定
     color = ["红色", "绿色", "蓝色"]
-    colorCMD = ["catchR", "catchG", "catchB"]
+    colorCMD = ["sttR", "sttG", "sttB"]
 
     # 设置相机参数
     cap = VideoCapture("/dev/cameraInc")
@@ -308,14 +308,14 @@ def setItemF(threshold: list, queue: list, loop:int):
         else:  # 可以抓取
             cmd = xmlReadCommand(colorCMD[target_color - 1], 1)         
             send_data(cmd, 0, 0)
-            print("识别到", color[target_color - 1], "颜色正确, 进行抓取")
-            reflashScreen(f"正在抓取{color[target_color - 1]}")
+            print("识别到", color[target_color - 1], "颜色正确, 进行放置")
+            reflashScreen(f"正在放置{color[target_color - 1]}")
             print("将发送的命令为：", cmd)
             # accom_lish.add(target_color)
             n+=1
             while True:
                 response = recv_data()
-                print("等待抓取动作完成, 当前接收命令: [", response, "]", end='\r')
+                print("等待动作完成, 当前接收命令: [", response, "]", end='\r')
                 # print("等待抓取动作完成, 当前接收命令:", response)
                 if response is not None:
                     if response == xmlReadCommand("mngOK", 0):
