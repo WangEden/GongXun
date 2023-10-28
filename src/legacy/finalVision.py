@@ -42,7 +42,7 @@ def getQRCodeResult(queue: list):
 
     img = np.ones((600, 1024), dtype=np.uint8) * 255
     cv2.putText(img, data, (512 - 7 * 25, 50 + 25), cv2.FONT_HERSHEY_SIMPLEX, 2.5, (0, 0, 0), 8)
-    cv2.imwrite("./data/screen_template.jpg", img)
+    cv2.imwrite("../data/screen_template.jpg", img)
     
     reflashScreen(f"扫码结果为:{data}")
 

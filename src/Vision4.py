@@ -11,7 +11,7 @@ from collections import Counter
 任务函数：
 在暂存区垛码放置物料
 """
-def fineTuneRing3(thresholdRing:list, thresholdItem:list, ringRate:float, rank:list):
+def fineTuneRing3(thresholdRing:list, ringRate:float, rank:list):
 
     # 1. 最多可能出现六个色环, 通常四个，也会是两个
     # 2. 垛码放置时可能需要另外识别, 绿色色环和物块都要加入识别

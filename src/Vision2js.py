@@ -37,7 +37,7 @@ def fineTuneRing(threshold: list, rate: float, loop: int):
                     # if cx > box[0] and cx < box[0] + box[2] and cy > box[1] and cy < box[1] + box[3]:
                     circleAll.append((cx, cy))
             print("获取15帧图像用于处理, 当前: ", i)
-        
+
         # time.sleep(0.3)
 
         # 找到绿色色环获取roi, 利用roi得到目标点位置
@@ -54,13 +54,13 @@ def fineTuneRing(threshold: list, rate: float, loop: int):
         maskGreen = cv2.inRange(img_hsv, threshold[1][0], threshold[1][1])
         maskGreen = cv2.medianBlur(maskGreen, 3)
         kernel = np.ones((3, 3), dtype=np.uint8)
-        cv2.dilate(maskGreen, kernel, 3) 
+        cv2.dilate(maskGreen, kernel, 3)
         cv2.imwrite(f"./data/t32ringwt/查找的绿色色环mask{k}.jpg", maskGreen)
 
         b_box = mask_find_b_boxs(maskGreen)
         boxs = []
 
-        
+
         for i, v in enumerate(b_box):
             lu, lv, w, h, s = b_box[i]
             if b_box[i][4] > 800 and max(w, h) / min(w, h) < 1.5:
@@ -117,7 +117,7 @@ def fineTuneRing(threshold: list, rate: float, loop: int):
                 circles.append(c)
         # 获取绿色色环中扫描到出现最多次的圆
         circle = Counter(circles).most_common(1)  # 出现次数最多的圆心
-    
+
         if circle == []:
             print("在绿色色环区域内没有识别到圆形")
             k+=1
@@ -135,7 +135,7 @@ def fineTuneRing(threshold: list, rate: float, loop: int):
             cv2.imwrite(f"./data/t32ringwt/查找的色环圆心{k}.jpg", img_note)
         elif loop == 2:
             cv2.imwrite(f"./data/t62ringwt/查找的色环圆心{k}.jpg", img_note)
-        
+
         if abs(udx) < 20 and abs(udy) < 20:
             dx = 0
             dy = 0
@@ -263,102 +263,102 @@ def setItemBySequance(queue:list, mode:int, orin: int):
         print("三个物块都完成放置, 准备进行取回")
     else:
         print("三个物块都完成放置, 前往原料区")
-
-
-def setItemBySequance1(queue:list, mode:int, orin: int):
-    # mode: 0 普通放置, 1 码垛放置
-    # orin: 0 北边 1 西边
-    reflashScreen("正在进行放置")
-    color = {1: 'R', 2: 'G', 3: 'B'}
-    current_color = 2
-    for ptr in range(3):
-        # 获取将要放置的物块颜色
-        targetColor = queue[ptr]
-        moveX = (current_color - targetColor) * 1500  # 大于0向东走
-        # # # # # # # # # # # # # # # # # # # # # # # #
-        if ptr == 0:  # 针对一个bug
-            if moveX != 0:  # 第一次为右移
-                cmd = xmlReadCommand("moveRing", 1)
-                if orin == 0: # 北 左右移动
-                    send_data(cmd, 1, 0)
-                elif orin == 1: # 西 上下移动
-                    send_data(cmd, 0, -1)
-                print("虚假移动到下一个色环中, 将发送: ", 0, -1)
-                while True:
-                    response = recv_data()
-                    print("等待移动完成的信号, 当前接收:[", response, "]", end='\r')
-                    if response == xmlReadCommand("tweakOk", 0):
-                        print("虚假移动完成")
-                        break
-                    if response == "OKOK":
-                        print("****************收到了OKOK*****************")
-                        break
-                cmd = xmlReadCommand("moveRingOK", 1)
-                send_data(cmd, 0, 0)
-                print("移动完后认为调准了, 发送: ", cmd, 0, 0)
-            if moveX != 0:  # 放置虚假的卡掉真正的, 故延时
-                time.sleep(2)
-
-        # # # # # # # # # # # # # # # # # # # # # # # #
-        if moveX == 0:
-            # cmd = xmlReadCommand("tweak", 1)
-            cmd = xmlReadCommand("calibrOk", 1)
-            # send_data(cmd, 0, 0)
-            print("当前要放置的颜色和下方颜色一致")
-        else:
-            # 执行移动
-            cmd = xmlReadCommand("moveRing", 1)
-            if orin == 0:
-                send_data(cmd, moveX, 0)
-                print("移动到下一个色环中, 将发送: ", cmd, moveX, 0)
-            elif orin == 1:
-                send_data(cmd, 0, -moveX)
-                print("移动到下一个色环中, 将发送: ", cmd, moveX, 0)
-
-            while True:
-                response = recv_data()
-                print("等待移动完成的信号, 当前接收:[", response, "]", end='\r')
-                if response == xmlReadCommand("tweakOk", 0):
-                    print("移动完成完成")
-                    break
-                if response == "OKOK":
-                    print("****************收到了OKOK*****************")
-                    break
-            cmd = xmlReadCommand("moveRingOK", 1)
-            send_data(cmd, 0, 0)
-            print("移动完后认为调准了, 发送: ", cmd, 0, 0)
-        time.sleep(5)
-        # 执行放置
-        # ff = True
-        # while ff:
-        if mode == 0:
-            if orin == 0:  # 方向为北
-                cmd = xmlReadCommand(f"set{color[targetColor]}", 1)
-                send_data(cmd, 0, 0)
-            elif orin == 1:  # 方向为西
-                cmd = xmlReadCommand(f"dst{color[targetColor]}", 1)
-                send_data(cmd, 0, 0)
-        elif mode == 1:
-            cmd = xmlReadCommand(f"ddset{color[targetColor]}", 1)
-            send_data(cmd, 0, 0)
-        print(f"放置{color[targetColor]}, 发送的命令为: ", cmd)
-        while True:
-            response = recv_data()
-            print("等待放置动作完成的信号, 当前接收: ", response, end='\r')
-            if response == xmlReadCommand("mngOK", 0):
-                print("放置完成一个, 进行下一步")
-                break
-                # if response != "OKOK":
-                #     print("没收到, 再发")
-                #     time.sleep(1)
-                #     continue
-            current_color = targetColor
-    if mode == 0:
-        print("三个物块都完成放置, 准备进行取回")
-    else:
-        print("三个物块都完成放置, 前往原料区")
-    
-
+#
+#
+# def setItemBySequance1(queue:list, mode:int, orin: int):
+#     # mode: 0 普通放置, 1 码垛放置
+#     # orin: 0 北边 1 西边
+#     reflashScreen("正在进行放置")
+#     color = {1: 'R', 2: 'G', 3: 'B'}
+#     current_color = 2
+#     for ptr in range(3):
+#         # 获取将要放置的物块颜色
+#         targetColor = queue[ptr]
+#         moveX = (current_color - targetColor) * 1500  # 大于0向东走
+#         # # # # # # # # # # # # # # # # # # # # # # # #
+#         if ptr == 0:  # 针对一个bug
+#             if moveX != 0:  # 第一次为右移
+#                 cmd = xmlReadCommand("moveRing", 1)
+#                 if orin == 0: # 北 左右移动
+#                     send_data(cmd, 1, 0)
+#                 elif orin == 1: # 西 上下移动
+#                     send_data(cmd, 0, -1)
+#                 print("虚假移动到下一个色环中, 将发送: ", 0, -1)
+#                 while True:
+#                     response = recv_data()
+#                     print("等待移动完成的信号, 当前接收:[", response, "]", end='\r')
+#                     if response == xmlReadCommand("tweakOk", 0):
+#                         print("虚假移动完成")
+#                         break
+#                     if response == "OKOK":
+#                         print("****************收到了OKOK*****************")
+#                         break
+#                 cmd = xmlReadCommand("moveRingOK", 1)
+#                 send_data(cmd, 0, 0)
+#                 print("移动完后认为调准了, 发送: ", cmd, 0, 0)
+#             if moveX != 0:  # 放置虚假的卡掉真正的, 故延时
+#                 time.sleep(2)
+#
+#         # # # # # # # # # # # # # # # # # # # # # # # #
+#         if moveX == 0:
+#             # cmd = xmlReadCommand("tweak", 1)
+#             cmd = xmlReadCommand("calibrOk", 1)
+#             # send_data(cmd, 0, 0)
+#             print("当前要放置的颜色和下方颜色一致")
+#         else:
+#             # 执行移动
+#             cmd = xmlReadCommand("moveRing", 1)
+#             if orin == 0:
+#                 send_data(cmd, moveX, 0)
+#                 print("移动到下一个色环中, 将发送: ", cmd, moveX, 0)
+#             elif orin == 1:
+#                 send_data(cmd, 0, -moveX)
+#                 print("移动到下一个色环中, 将发送: ", cmd, moveX, 0)
+#
+#             while True:
+#                 response = recv_data()
+#                 print("等待移动完成的信号, 当前接收:[", response, "]", end='\r')
+#                 if response == xmlReadCommand("tweakOk", 0):
+#                     print("移动完成完成")
+#                     break
+#                 if response == "OKOK":
+#                     print("****************收到了OKOK*****************")
+#                     break
+#             cmd = xmlReadCommand("moveRingOK", 1)
+#             send_data(cmd, 0, 0)
+#             print("移动完后认为调准了, 发送: ", cmd, 0, 0)
+#         time.sleep(5)
+#         # 执行放置
+#         # ff = True
+#         # while ff:
+#         if mode == 0:
+#             if orin == 0:  # 方向为北
+#                 cmd = xmlReadCommand(f"set{color[targetColor]}", 1)
+#                 send_data(cmd, 0, 0)
+#             elif orin == 1:  # 方向为西
+#                 cmd = xmlReadCommand(f"dst{color[targetColor]}", 1)
+#                 send_data(cmd, 0, 0)
+#         elif mode == 1:
+#             cmd = xmlReadCommand(f"ddset{color[targetColor]}", 1)
+#             send_data(cmd, 0, 0)
+#         print(f"放置{color[targetColor]}, 发送的命令为: ", cmd)
+#         while True:
+#             response = recv_data()
+#             print("等待放置动作完成的信号, 当前接收: ", response, end='\r')
+#             if response == xmlReadCommand("mngOK", 0):
+#                 print("放置完成一个, 进行下一步")
+#                 break
+#                 # if response != "OKOK":
+#                 #     print("没收到, 再发")
+#                 #     time.sleep(1)
+#                 #     continue
+#             current_color = targetColor
+#     if mode == 0:
+#         print("三个物块都完成放置, 准备进行取回")
+#     else:
+#         print("三个物块都完成放置, 前往原料区")
+#
+#
 # 精加工区的取回
 def retriveBySequence(queue:list):
     reflashScreen("正在取回物块")

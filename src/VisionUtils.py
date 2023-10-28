@@ -21,7 +21,7 @@ def capture(dev: int, name, mode=0):
     cap.set(3, 640)
     cap.set(4, 480)
     cap.set(cv2.CAP_PROP_AUTO_WB, 1)
-    cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 1)
+    # cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 1)
     cap.set(6, cv2.VideoWriter.fourcc(*"MJPG"))
 
     ret, frame = cap.read()
@@ -87,7 +87,7 @@ def mask_find_b_boxs2(_mask):
     return b_box
 
 
-def get_color_box(b_box):
+# def get_color_box(b_box):
     
 
 
