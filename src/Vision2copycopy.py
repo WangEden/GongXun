@@ -351,7 +351,6 @@ def setItemBySequance(queue:list, mode:int, orin: int):
         print("三个物块都完成放置, 前往原料区")
     
     
-
 def retriveBySequence(queue:list):
     reflashScreen("正在取回物块")
     color = {1: 'R', 2: 'G', 3: 'B'}

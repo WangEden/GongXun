@@ -87,6 +87,10 @@ def mask_find_b_boxs2(_mask):
     return b_box
 
 
+def get_color_box(b_box):
+    
+
+
 # 按照面积、位置筛选得到最可信的外接矩形
 def get_the_most_credible_box(b_box):
     XCenter, YCenter = xmlReadCenter()
@@ -240,7 +244,7 @@ class VideoCapture:
         self.cap.set(3, 640)
         self.cap.set(4, 480)
         self.cap.set(cv2.CAP_PROP_AUTO_WB, 1)
-        self.cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 1)
+        # self.cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 1)
         self.cap.set(6, cv2.VideoWriter.fourcc(*"MJPG"))
         self.q = queue.Queue(maxsize=3)
         self.stop_threads = False    # to gracefully close sub-thread

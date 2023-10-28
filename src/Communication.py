@@ -31,8 +31,12 @@ def send_data(cmd: list, i, f):
     uart.write(data)
 
 
+def recv_dataCode():
+    return uart.read(6).decode("utf-8", 'ignore')
+
+
 def recv_data():
-    return uart.read(4).decode("utf-8", 'ignore')
+    return uart.read().decode("utf-8", 'ignore')
 
 
 if __name__ == "__main__":
