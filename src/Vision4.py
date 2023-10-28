@@ -74,7 +74,7 @@ def fineTuneRing3(threshold:list, threshold2:list, ringRate:float):
     # 通信部分
     k=0
     flag = True
-    RingLen = 80
+    RingLen = 50
     # 框出色环的外接矩形最小面积
     AREA = 7000  # 待定
     while flag:
