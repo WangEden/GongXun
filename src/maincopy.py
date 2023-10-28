@@ -8,6 +8,7 @@ from Vision3copy import *
 from Vision4 import *
 import time
 import subprocess
+import socket
 
 
 sequence = [2, 1, 3, 2, 3, 1]  # 物块抓取顺序
@@ -70,30 +71,46 @@ def task1():
 
     # WIFI接收
     reflashScreen("准备接收任务码")
-    data = ""
-    start = time.time()
-    while True:
-        response = recv_data(6)
-        end = time.time()
-        if end - start > 6:
-            data = sequence
-            break
-        if response is not None:
-            flag = True
-            for r in response:
-                if 0x30 < r < 0x34:
-                    flag = True
-                else:
-                    flag = False
-            if flag:
-                data = response
-                data = data[0:2] + "+" + data[3:5]
-                break
+    
+    udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    local_addr = ("", 9050)
+    udp_socket.bind(local_addr)
+    # while True:
+    recv_data = udp_socket.recvfrom(1024)
+    data = recv_data[0].decode('gbk')
+    
+    # data = ""
+    # start = time.time()
+    # while True:
+    #     response = recv_data(6)
+    #     end = time.time()
+    #     if end - start > 6:
+    #         data = sequence
+    #         break
+    #     if response is not None:
+    #         flag = True
+    #         for r in response:
+    #             if 0x30 < r < 0x34:
+    #                 flag = True
+    #             else:
+    #                 flag = False
+    #         if flag:
+    #             data = response
+    #             data = data[0:2] + "+" + data[3:5]
+    #             break
     
     img = np.ones((600, 1024), dtype=np.uint8) * 255
     cv2.putText(img, data, (512 - 7 * 25, 50 + 25), cv2.FONT_HERSHEY_SIMPLEX, 2.5, (0, 0, 0), 8)
     cv2.imwrite("./data/screen_template.jpg", img)
     print("任务1: 任务码接收, 完成, 结果为: ", sequence)
+
+    sequence.clear()
+    number = data.split("+")
+    # color = {'1': 'r', '2': 'g', '3': 'b'}
+    for i in number:  # number: ['123', '321']
+        l = list(i)  # l : ['1', '2', '3']
+        for j in l:
+            sequence.append(int(j))  # queue: [1, 2,
 
 
 # 任务二：在暂存区拾取物块
