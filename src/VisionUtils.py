@@ -21,7 +21,7 @@ def capture(dev: int, name, mode=0):
     cap.set(3, 640)
     cap.set(4, 480)
     cap.set(cv2.CAP_PROP_AUTO_WB, 1)
-    cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 1)
+    # cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 1)
     cap.set(6, cv2.VideoWriter.fourcc(*"MJPG"))
 
     ret, frame = cap.read()
@@ -85,6 +85,10 @@ def mask_find_b_boxs2(_mask):
         b_box.append(box)
         # cv2.drawContours(img_note, [np.int0(box)], -1, (0, 255, 255), 2)
     return b_box
+
+
+# def get_color_box(b_box):
+    
 
 
 # 按照面积、位置筛选得到最可信的外接矩形
@@ -240,7 +244,7 @@ class VideoCapture:
         self.cap.set(3, 640)
         self.cap.set(4, 480)
         self.cap.set(cv2.CAP_PROP_AUTO_WB, 1)
-        self.cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 1)
+        # self.cap.set(cv2.CAP_PROP_AUTO_EXPOSURE, 1)
         self.cap.set(6, cv2.VideoWriter.fourcc(*"MJPG"))
         self.q = queue.Queue(maxsize=3)
         self.stop_threads = False    # to gracefully close sub-thread
