@@ -39,16 +39,20 @@
         <setR>setR</setR> 
         <setG>setG</setG>
         <setB>setB</setB>
+
+        <sttR>sttr</sttR> 
+        <sttG>sttg</sttG>
+        <sttB>sttb</sttB>
         
         <Rcatch>rcth</Rcatch>
         <Gcatch>gcth</Gcatch>
         <Bcatch>bcth</Bcatch>
         
-        <!-- 暂存区放置 红/绿/蓝 -->
+        
         <dstR>Rset</dstR> 
         <dstG>Gset</dstG>
         <dstB>Bset</dstB>
-        <!-- 码垛放置 红/绿/蓝 -->
+        
         <ddstR>rset</ddstR> 
         <ddstG>gset</ddstG>
         <ddstB>bset</ddstB>
@@ -81,12 +85,12 @@
         </color>
         <color category="green">
             <H>
-                <floor>69</floor>
-                <ceiling>102</ceiling>
+                <floor>47</floor>
+                <ceiling>67</ceiling>
             </H>
             <S>
-                <floor>16</floor>
-                <ceiling>86</ceiling>
+                <floor>34</floor>
+                <ceiling>169</ceiling>
             </S>
             <V>
                 <floor>0</floor>
@@ -111,12 +115,12 @@
     <threshold tag="item">
         <color category="red">
             <H>
-                <floor>104</floor>
-                <ceiling>212</ceiling>
+                <floor>169</floor>
+                <ceiling>216</ceiling>
             </H>
             <S>
-                <floor>65</floor>
-                <ceiling>226</ceiling>
+                <floor>75</floor>
+                <ceiling>197</ceiling>
             </S>
             <V>
                 <floor>0</floor>
@@ -125,12 +129,12 @@
         </color>
         <color category="green">
             <H>
-                <floor>28</floor>
-                <ceiling>92</ceiling>
+                <floor>34</floor>
+                <ceiling>80</ceiling>
             </H>
             <S>
-                <floor>93</floor>
-                <ceiling>202</ceiling>
+                <floor>47</floor>
+                <ceiling>117</ceiling>
             </S>
             <V>
                 <floor>0</floor>
@@ -139,12 +143,12 @@
         </color>
         <color category="blue">
             <H>
-                <floor>48</floor>
-                <ceiling>152</ceiling>
+                <floor>67</floor>
+                <ceiling>125</ceiling>
             </H>
             <S>
-                <floor>124</floor>
-                <ceiling>202</ceiling>
+                <floor>78</floor>
+                <ceiling>186</ceiling>
             </S>
             <V>
                 <floor>0</floor>
