@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="Black">
-    <option name="executionMode" value="BINARY" />
-    <option name="pathToExecutable" value="D:\JumBoKits\anaconda3\Scripts\black.exe" />
-    <option name="sdkUUID" value="abb3d81e-570a-443d-aca0-2703d4e72572" />
-  </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="yolov5env" project-jdk-type="Python SDK" />
-</project>

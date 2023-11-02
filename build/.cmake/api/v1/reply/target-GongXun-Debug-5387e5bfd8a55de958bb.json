@@ -1,0 +1,662 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "GongXun.exe"
+		},
+		{
+			"path" : "GongXun.pdb"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_executable",
+			"target_link_libraries",
+			"include_directories"
+		],
+		"files" : 
+		[
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 13,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 29,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 26,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "-std=c++11 -g"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/build"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/modules/core/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/modules/flann/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/modules/imgproc/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/opencv_contrib/modules/intensity_transform/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/modules/ml/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/opencv_contrib/modules/phase_unwrapping/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/modules/photo/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/opencv_contrib/modules/plot/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/opencv_contrib/modules/quality/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/opencv_contrib/modules/reg/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/opencv_contrib/modules/surface_matching/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/opencv_contrib/modules/xphoto/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/modules/dnn/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/opencv_contrib/modules/dnn_superres/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/modules/features2d/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/opencv_contrib/modules/fuzzy/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/opencv_contrib/modules/hfs/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/opencv_contrib/modules/img_hash/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/modules/imgcodecs/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/opencv_contrib/modules/line_descriptor/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/opencv_contrib/modules/saliency/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/opencv_contrib/modules/text/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/modules/videoio/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/opencv_contrib/modules/wechat_qrcode/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/opencv_contrib/modules/barcode/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/modules/calib3d/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/opencv_contrib/modules/datasets/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/modules/highgui/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/opencv_contrib/modules/mcc/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/modules/objdetect/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/opencv_contrib/modules/rapid/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/opencv_contrib/modules/rgbd/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/opencv_contrib/modules/shape/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/opencv_contrib/modules/structured_light/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/modules/ts/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/modules/video/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/opencv_contrib/modules/videostab/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/opencv_contrib/modules/xfeatures2d/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/opencv_contrib/modules/ximgproc/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/opencv_contrib/modules/xobjdetect/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/opencv_contrib/modules/aruco/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/opencv_contrib/modules/bgsegm/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/opencv_contrib/modules/bioinspired/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/opencv_contrib/modules/ccalib/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/opencv_contrib/modules/dnn_objdetect/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/opencv_contrib/modules/dpm/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/opencv_contrib/modules/face/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/modules/gapi/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/opencv_contrib/modules/optflow/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/modules/stitching/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/opencv_contrib/modules/superres/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/opencv_contrib/modules/tracking/include"
+				},
+				{
+					"backtrace" : 3,
+					"isSystem" : true,
+					"path" : "D:/JumBoKits/OpenCV454/opencv_contrib/modules/stereo/include"
+				}
+			],
+			"language" : "CXX",
+			"sourceIndexes" : 
+			[
+				1
+			]
+		}
+	],
+	"id" : "GongXun::@6890427a1f51a3e7e1df",
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "-std=c++11 -g",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_gapi454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_stitching454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_aruco454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_barcode454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_bgsegm454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_bioinspired454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_ccalib454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_dnn_objdetect454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_dnn_superres454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_dpm454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_face454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_fuzzy454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_hfs454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_img_hash454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_intensity_transform454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_line_descriptor454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_mcc454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_quality454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_rapid454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_reg454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_rgbd454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_saliency454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_stereo454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_structured_light454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_superres454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_surface_matching454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_tracking454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_videostab454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_wechat_qrcode454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_xfeatures2d454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_xobjdetect454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_xphoto454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_shape454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_highgui454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_datasets454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_plot454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_text454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_ml454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_phase_unwrapping454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_optflow454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_ximgproc454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_video454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_videoio454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_imgcodecs454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_objdetect454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_calib3d454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_dnn454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_features2d454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_flann454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_photo454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_imgproc454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "D:\\JumBoKits\\OpenCV454\\build\\lib\\libopencv_core454.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32",
+				"role" : "libraries"
+			}
+		],
+		"language" : "CXX"
+	},
+	"name" : "GongXun",
+	"nameOnDisk" : "GongXun.exe",
+	"paths" : 
+	{
+		"build" : ".",
+		"source" : "."
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Header Files",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				1
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"path" : "src/Inc/main_program.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/main.cpp",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "EXECUTABLE"
+}

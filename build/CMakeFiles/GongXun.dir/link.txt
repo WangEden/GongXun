@@ -1,0 +1,3 @@
+"C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\GongXun.dir/objects.a
+C:\Applications\Qt\Tools\mingw810_64\bin\ar.exe qc CMakeFiles\GongXun.dir/objects.a @CMakeFiles\GongXun.dir\objects1.rsp
+C:\Applications\Qt\Tools\mingw810_64\bin\g++.exe -std=c++11 -g -Wl,--whole-archive CMakeFiles\GongXun.dir/objects.a -Wl,--no-whole-archive -o GongXun.exe -Wl,--out-implib,libGongXun.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\GongXun.dir\linkLibs.rsp
