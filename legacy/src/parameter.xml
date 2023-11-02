@@ -1,73 +1,70 @@
 <parameter>
-    
+
     <message>
-        
-        
+
+
         <arriveQR>OK--</arriveQR>
-        
+
         <arriveYL>wait</arriveYL>
-        
+
         <arriveCJ>cjgq</arriveCJ>
-        
+
         <arriveZC>dzcq</arriveZC>
-        
+
         <tweakOk>wtok</tweakOk>
-        
+
         <mngOK>mnok</mngOK>
-        
+
         <arriveSH>ddsh</arriveSH>
 
-        
-        
+
         <qrComplete>QROK</qrComplete>
-        
+
         <tweak>kstz</tweak>
-        
+
         <calibrOk>cbok</calibrOk>
-        
+
         <task2OK>t2OK</task2OK>
-        
-        
+
+
         <set3OK>stOK</set3OK>
-        
+
         <task3OK>t3OK</task3OK>
-        
+
         <catchR>cthr</catchR>
         <catchG>cthg</catchG>
         <catchB>cthb</catchB>
-        
-        <setR>setR</setR> 
+
+        <setR>setR</setR>
         <setG>setG</setG>
         <setB>setB</setB>
 
-        <sttR>sttr</sttR> 
+        <sttR>sttr</sttR>
         <sttG>sttg</sttG>
         <sttB>sttb</sttB>
-        
+
         <Rcatch>rcth</Rcatch>
         <Gcatch>gcth</Gcatch>
         <Bcatch>bcth</Bcatch>
-        
-        
-        <dstR>Rset</dstR> 
+
+
+        <dstR>Rset</dstR>
         <dstG>Gset</dstG>
         <dstB>Bset</dstB>
-        
-        <ddstR>rset</ddstR> 
+
+        <ddstR>rset</ddstR>
         <ddstG>gset</ddstG>
         <ddstB>bset</ddstB>
-        
+
         <moveRing>ydsh</moveRing>
         <moveRingOK>shjs</moveRingOK>
-        
+
         <KBDRing>kbdh</KBDRing>
 
-        
-        
-        
+
         <update>updt</update>
     </message>
-    
+
     <threshold tag="ring">
         <color category="red">
             <H>
@@ -156,14 +153,14 @@
             </V>
         </color>
     </threshold>
-    
+
     <size>
         <item tag="normal">50</item>
         <item tag="ring">150</item>
         <item tag="yuanzhu">0</item>
         <item tag="yuantai">0</item>
     </size>
-    
+
     <center>
         <color tag="black">330+280</color>
         <color tag="white">275+280</color>

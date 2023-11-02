@@ -1,0 +1,135 @@
+parameter: 
+  message: # 收
+    arriveQR: "OK--"
+    arriveYL: wait
+    arriveCJ: cjgq
+    arriveZC: dzcq
+    tweakOk: wtok
+    mngOK: mnok
+    arriveSH: ddsh
+    qrComplete: QROK
+    tweak: kstz
+    calibrOk: cbok
+    task2OK: t2OK
+    set3OK: stOK
+    task3OK: t3OK
+    catchR: cthr
+    catchG: cthg
+    catchB: cthb
+    setR: setR
+    setG: setG
+    setB: setB
+    sttR: sttr
+    sttG: sttg
+    sttB: sttb
+    Rcatch: rcth
+    Gcatch: gcth
+    Bcatch: bcth
+    dstR: Rset
+    dstG: Gset
+    dstB: Bset
+    ddstR: rset
+    ddstG: gset
+    ddstB: bset
+    moveRing: ydsh
+    moveRingOK: shjs
+    KBDRing: kbdh
+    update: updt
+  threshold: 
+    color: 
+      H: 
+        floor: 110
+        ceiling: 222
+      S:  
+        floor: 0
+        ceiling: 79
+      V: 
+        floor: 0
+        ceiling: 255
+     _category: red
+   H: 
+      floor: 47
+      ceiling: 67
+     S: 
+      floor: 34
+      ceiling: 169
+     V: 
+      floor: 0
+      ceiling: 255
+     _category: green
+    - 
+   H: 
+      floor: 91
+      ceiling: 138
+     S: 
+      floor: 31
+      ceiling: 65
+     V: 
+      floor: 140
+      ceiling: 188
+     _category: blue
+   _tag: ring
+  - 
+   color: 
+    - 
+   H: 
+      floor: 169
+      ceiling: 216
+     S: 
+      floor: 75
+      ceiling: 197
+     V: 
+      floor: 0
+      ceiling: 255
+     _category: red
+    - 
+   H: 
+      floor: 34
+      ceiling: 80
+     S: 
+      floor: 47
+      ceiling: 117
+     V: 
+      floor: 0
+      ceiling: 255
+     _category: green
+    - 
+   H: 
+      floor: 67
+      ceiling: 125
+     S: 
+      floor: 78
+      ceiling: 186
+     V: 
+      floor: 0
+      ceiling: 255
+     _category: blue
+   _tag: item
+ size: 
+  item: 
+   - 
+   _tag: normal
+    __text: 50
+    toString: 
+   - 
+   _tag: ring
+    __text: 150
+    toString: 
+   - 
+   _tag: yuanzhu
+    __text: 0
+    toString: 
+   - 
+   _tag: yuantai
+    __text: 0
+    toString: 
+ center: 
+  color: 
+   - 
+   _tag: black
+    __text: "330+280"
+    toString: 
+   - 
+   _tag: white
+    __text: "275+280"
+    toString: 
