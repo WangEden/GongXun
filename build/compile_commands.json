@@ -1,8 +1,0 @@
-[
-{
-  "directory": "F:/ARM/GongXun/build",
-  "command": "C:\\Applications\\Qt\\Tools\\mingw810_64\\bin\\g++.exe  @CMakeFiles/GongXun.dir/includes_CXX.rsp -std=c++11 -g -o CMakeFiles\\GongXun.dir\\src\\main.cpp.obj -c F:\\ARM\\GongXun\\src\\main.cpp",
-  "file": "F:/ARM/GongXun/src/main.cpp",
-  "output": "CMakeFiles/GongXun.dir/src/main.cpp.obj"
-}
-]
