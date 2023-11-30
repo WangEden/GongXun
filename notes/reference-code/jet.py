@@ -46,7 +46,6 @@ blob2_high=np.array([hsv2[0][0][0]+10,255,255],dtype=np.uint8)
 #蓝色色环上下限_
 blob3_low=np.array([105,150,50],dtype=np.uint8)
 blob3_high=np.array([115,190,255],dtype=np.uint8)
-
 #红色上下限，
 hsv1_low=np.array([hsv1[0][0][0]-12,80,45],dtype=np.uint8)
 hsv1_high=np.array([hsv1[0][0][0]+12,255,255],dtype=np.uint8)

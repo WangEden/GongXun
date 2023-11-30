@@ -103,14 +103,12 @@ img = cap.read()
 cv2.imwrite("take.jpg", img)
 cap.terminate()
 
-
 # 找到结点
 paraDomTree = ElementTree.parse(filename)
 threshold_node = paraDomTree.find(f'threshold[@tag="{category}"]')
 color_node = threshold_node.find(f'color[@category="{color}"]')
 floors = color_node.findall('./*/floor')
 ceilings = color_node.findall('./*/ceiling')
-
 
 # 读取图片获取阈值
 img = cv2.imread(img_path, 1)
