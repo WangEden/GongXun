@@ -44,7 +44,7 @@ def fineTuneItemF(threshold: list, category: str, loop: int):
             if end_time - start_time > 0.3:
                 start_time = time.time()
                 last_frame = cap.read()
-            
+
             current_frame = cap.read()
             # 圆盘没在移动时退出
             is_plate_move = moving_detect(last_frame, current_frame)
@@ -59,7 +59,7 @@ def fineTuneItemF(threshold: list, category: str, loop: int):
         # 计算距离比例 # # # # # # # # # # # # # # #
         #  物料像素长宽要大于100
         frame = cap.read()
-        
+
         # 匹配颜色
         img = cv2.GaussianBlur(frame, (3, 3), 0)
         img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
@@ -74,7 +74,7 @@ def fineTuneItemF(threshold: list, category: str, loop: int):
         mask = mask1 + mask2 + mask3
         kernel = np.ones((3, 3), np.uint8)
         mask = cv2.dilate(mask, kernel, iterations=3)
-        
+
         # 底部区域清空，需要点一下坐标看看,455以下不要 (没写)
         # 
 
@@ -148,7 +148,7 @@ def fineTuneItemF(threshold: list, category: str, loop: int):
     cap.terminate()
     # time.sleep(0.2)
     # 微调完取个roi用于抓物块时判断
-            
+
 
     # # debug # # # # # # # # # # # # # # # # # #
     # with open("./logs/debug.txt", "w") as file:
