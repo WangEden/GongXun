@@ -179,7 +179,7 @@ def task4():
             if response == xmlReadCommand("arriveZC", 0):
                 print("开始调整")
                 break
-        
+
     # 获取三个色环阈值
     threshold = [[], [], []]  # -> [[min, max], [min, max], [min, max]]
     for i, c in enumerate(["red", "green", "blue"]):
